@@ -79,11 +79,15 @@ namespace GameOfLife {
 
         private void StartGame() {
             DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = new TimeSpan(320000);
-            timer.Tick += (s, e) => {
-                DoIt();
-            };
+            timer.Interval = new TimeSpan(240000);
+            timer.Tick += (s, e) => { DoIt(); };
             timer.Start();
+        }
+
+        private void DoIt() {
+            var cells = _cellUniverse.NewGeneration(_cells);
+            _cells = cells;
+            AddRectangles(cells);
         }
 
         private Thickness GetMargin(int row, int column) {
@@ -113,10 +117,6 @@ namespace GameOfLife {
             }
         }
 
-        private void DoIt() {
-            var cells = _cellUniverse.NewGeneration(_cells);
-            _cells = cells;
-            AddRectangles(cells);
-        }
+        
     }
 }

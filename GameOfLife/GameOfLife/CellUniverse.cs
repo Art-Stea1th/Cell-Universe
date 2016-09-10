@@ -15,6 +15,7 @@ namespace GameOfLife {
 
             for (int x = 0; x < cells.GetLength(0); x++) {
                 for (int y = 0; y < cells.GetLength(1); y++) {
+
                     int neighbours = CountNeighbours(cells, x, y);
 
                     if ((neighbours == 2 || neighbours == 3) && cells[x, y])
@@ -34,26 +35,30 @@ namespace GameOfLife {
 
             int counter = 0;
 
-            int xFactor = x == 0 ? 0 : 1;
-            int xFactorEnd = x == cells.GetLength(0)-1 ? 0 : 1;
-            int yFactor = y == 0 ? 0 : 1;
-            int yFactorEnd = y == cells.GetLength(1)-1 ? 0 : 1;
-
-            for (int i = x - xFactor; i <= x + xFactorEnd; i++) {
-                for (int n = y - yFactor; n <= y + yFactorEnd; n++) {
-                    if (i == x && n == y)
+            for (int i = x - 1; i < x + 2; i++) {
+                for (int j = y - 1; j < y + 2; j++) {
+                    if (i == x && j == y)
                         continue;
 
-                    if (IsAlive(cells, i, n))
+                    int px = i;
+                    int py = j;
+
+                    if (px == -1) px = cells.GetLength(0) - 1;
+                    else if (px == cells.GetLength(0)) px = 0;
+
+                    if (py == -1) py = cells.GetLength(1) - 1;
+                    else if (py == cells.GetLength(1)) py = 0;
+
+                    if (IsAlive(cells, px, py))
                         counter++;
                 }
             }
             return counter;
         }
 
-        private static bool IsAlive(bool[,] cells, int i, int n) {
+        private static bool IsAlive(bool[,] cells, int i, int j) {
             try {
-                if (cells[i, n])
+                if (cells[i, j])
                     return true;
             }
             catch {
