@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,18 +56,32 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="View\Controls\CellUniversePanel.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\ControlsPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Windows\GameOfLifeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BitmapOps.cs" />
     <Compile Include="CellUniverse.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
+    <Compile Include="View\Controls\CellUniversePanel.xaml.cs">
+      <DependentUpon>CellUniversePanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\ControlsPanel.xaml.cs">
+      <DependentUpon>ControlsPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Windows\GameOfLifeWindow.xaml.cs">
+      <DependentUpon>GameOfLifeWindow.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

@@ -14,62 +14,24 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace GameOfLife {
-
-    public partial class MainWindow : Window {
-
+namespace GameOfLife.View.Controls {
+    /// <summary>
+    /// Interaction logic for CellUniverseView.xaml
+    /// </summary>
+    public partial class CellUniversePanel : UserControl {
         private CellUniverse _cellUniverse;
+
         private bool[,] _cells;
 
-        public MainWindow() {
+        public CellUniversePanel() {
 
             InitializeComponent();
 
             _cellUniverse = new CellUniverse();
 
-            var myCells = new bool[100, 100];
+            System.Drawing.Bitmap source = new System.Drawing.Bitmap("convay.png");
 
-            //for (int i = 0; i < myCells.GetLength(0); i++) {
-            //    for (int j = 0; j < myCells.GetLength(1); j++) {
-            //        myCells[i, j] = true;
-            //    }
-            //}
-
-            myCells[5, 5] = true;
-            myCells[6, 4] = true;
-            myCells[6, 5] = true;
-            myCells[6, 6] = true;
-            myCells[7, 6] = true;
-
-            myCells[9, 9] = true;
-            myCells[10, 8] = true;
-            myCells[10, 9] = true;
-            myCells[10, 10] = true;
-            myCells[11, 10] = true;
-
-            myCells[25, 25] = true;
-            myCells[26, 24] = true;
-            myCells[26, 25] = true;
-            myCells[26, 26] = true;
-            myCells[27, 26] = true;
-
-            myCells[35, 35] = true;
-            myCells[36, 34] = true;
-            myCells[36, 35] = true;
-            myCells[36, 36] = true;
-            myCells[37, 36] = true;
-
-            myCells[39, 39] = true;
-            myCells[40, 38] = true;
-            myCells[40, 39] = true;
-            myCells[40, 40] = true;
-            myCells[41, 40] = true;
-
-            myCells[55, 55] = true;
-            myCells[56, 54] = true;
-            myCells[56, 55] = true;
-            myCells[56, 56] = true;
-            myCells[57, 56] = true;
+            var myCells = BitmapOps.ToBoolArray(BitmapOps.DownScale(source, 2), 1);
 
             AddRectangles(myCells);
             _cells = myCells;
@@ -79,7 +41,7 @@ namespace GameOfLife {
 
         private void StartGame() {
             DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = new TimeSpan(240000);
+            timer.Interval = new TimeSpan(640000);
             timer.Tick += (s, e) => { DoIt(); };
             timer.Start();
         }
@@ -91,6 +53,8 @@ namespace GameOfLife {
         }
 
         private Thickness GetMargin(int row, int column) {
+            //cellUniverseContainer.Width;
+            //cellUniverseContainer.Height;
             return new Thickness(column * 5, row * 5, 0, 0);
         }
 
@@ -116,7 +80,5 @@ namespace GameOfLife {
                 }
             }
         }
-
-        
     }
 }
