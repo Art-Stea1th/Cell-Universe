@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 
 
-namespace GameOfLife {
+namespace GameOfLife.Model {
 
     public class CellUniverse {
 

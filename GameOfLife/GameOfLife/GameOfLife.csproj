@@ -33,11 +33,11 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -64,7 +64,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Windows\GameOfLifeWindow.xaml">
+    <Page Include="View\Windows\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -72,16 +72,19 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BitmapOps.cs" />
-    <Compile Include="CellUniverse.cs" />
+    <Compile Include="Model\CellUniverse.cs" />
+    <Compile Include="Infrastructure\RelayCommand.cs" />
+    <Compile Include="ViewModel\CellUniverseViewModel.cs" />
+    <Compile Include="ViewModel\ControlsPanelViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\Controls\CellUniversePanel.xaml.cs">
       <DependentUpon>CellUniversePanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\ControlsPanel.xaml.cs">
       <DependentUpon>ControlsPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Windows\GameOfLifeWindow.xaml.cs">
-      <DependentUpon>GameOfLifeWindow.xaml</DependentUpon>
+    <Compile Include="View\Windows\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -113,6 +116,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

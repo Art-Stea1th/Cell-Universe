@@ -13,11 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace GameOfLife.View.Windows {
-    /// <summary>
-    /// Interaction logic for GameOfLifeWindow.xaml
-    /// </summary>
-    public partial class GameOfLifeWindow : Window {
-        public GameOfLifeWindow() {
+
+    public partial class MainWindow : Window {
+        public MainWindow() {
             InitializeComponent();
         }
     }
