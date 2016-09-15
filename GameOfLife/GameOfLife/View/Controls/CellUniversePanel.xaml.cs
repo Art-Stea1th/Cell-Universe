@@ -24,6 +24,12 @@ namespace GameOfLife.View.Controls {
         private WriteableBitmap _writeableBitmap;
         private Image _image;
 
+        private int _backgroundColor;
+        private int _foregroundColor;
+
+        private int _width  = 160;
+        private int _height = 102;
+
         private int _surfaceWidth  = 0;
         private int _surfaceHeight = 0;
 
@@ -47,19 +53,20 @@ namespace GameOfLife.View.Controls {
 
             cellUniverseSurface.Children.Add(_image);
 
+            _backgroundColor = GetIntColor(0, 0, 0);
+            _foregroundColor = GetIntColor(0, 122, 204);
+
+            _cells = new bool[_height, _width];
+
+            Random random = new Random();
+
+            for (int y = 0; y < _cells.GetLength(0); y++) {
+                for (int x = 0; x < _cells.GetLength(1); x++) {
+                    _cells[y, x] = random.Next(2) == 1;
+                }
+            }
+
             _cellUniverse = new CellUniverse();
-        }
-
-        private void StartGame() {
-            DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = new TimeSpan(2000);
-            timer.Tick += (s, e) => { Redraw(); };
-            timer.Start();
-        }
-
-        private void Redraw() {
-            LazyInitialization();
-            DrawRect(_writeableBitmap, 0, 0, _surfaceHeight, _surfaceWidth, GetIntColor(0, 128, 255));
         }
 
         private int GetIntColor(byte red, byte green, byte blue) {
@@ -67,6 +74,24 @@ namespace GameOfLife.View.Controls {
             result |= green << 8;
             result |= blue << 0;
             return result;
+        }
+
+        private void StartGame() {
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromMilliseconds(1);
+            timer.Tick += (s, e) => { DoIt(); };
+            timer.Start();
+        }
+
+        private void DoIt() {
+
+            LazyInitialization();
+
+            var cells = _cellUniverse.NewGeneration(_cells);
+            var difference = GetDifference(_cells, cells);
+            Redraw(cells, difference);
+            //AddRectangles(cells);
+            _cells = cells;
         }
 
         private void LazyInitialization() {
@@ -82,22 +107,73 @@ namespace GameOfLife.View.Controls {
             }
         }
 
-        private void DrawRect(WriteableBitmap bitmap, int posX, int posY, int rows, int columns, int color) {
+        private bool[,] GetDifference(bool[,] oldArr, bool[,] newArr) {
+
+            if (oldArr.GetLength(0) != newArr.GetLongLength(0) || oldArr.GetLength(1) != newArr.GetLongLength(1)) {
+                throw new InvalidOperationException();
+            }
+
+            bool[,] result = new bool [oldArr.GetLength(0), oldArr.GetLength(1)];
+
+            for (int y = 0; y < oldArr.GetLength(0); ++y) {
+                for (int x = 0; x < oldArr.GetLength(1); ++x) {
+                    if (oldArr[y, x] != newArr[y, x]) {
+                        result[y, x] = true;
+                    }
+                }
+            }
+            return result;
+        }
+
+        private void Redraw(bool[,] cells, bool[,] difference) {
+
+            int cellSize = GetCellSize();
+            int offsetX = ((int)ActualWidth - (cells.GetLength(1) * cellSize + cells.GetLength(1))) / 2;
+            int offsetY = ((int)ActualHeight - (cells.GetLength(0) * cellSize + cells.GetLength(0))) / 2;
 
             Random random = new Random();
 
-            // Compute the pixel's color.
-            int color_data = random.Next(256) << 16; // R
-            color_data |= random.Next(256) << 8;   // G
-            color_data |= random.Next(256) << 0;   // B
+            for (int y = 0; y < cells.GetLength(0); ++y) {
+                for (int x = 0; x < cells.GetLength(1); ++x) {
 
-            color = color_data;
+                    if (cells[y, x] && difference[y, x]) {
+                        DrawRect(
+                            _writeableBitmap,
+                            offsetX + x * cellSize + x, offsetY + y * cellSize + y, cellSize, cellSize,
+                            _foregroundColor
+                            //GetIntColor((byte)random.Next(256), (byte)random.Next(256), (byte)random.Next(256))
+                            //GetIntColor(50, 160, 250)
+                            //GetIntColor((byte)(255 - x), (byte)(255 - x), (byte)(255 - y))
+                            );
+                    }
+                    if (!cells[y, x] && difference[y, x]) {
+                        DrawRect(
+                            _writeableBitmap,
+                            offsetX + x * cellSize + x, offsetY + y * cellSize + y, cellSize, cellSize,
+                            _backgroundColor
+                            );
+                    }
+                }
+            }
+        }
+
+        private int GetCellSize() {
+            int horizontalRatio = (_surfaceWidth - _width) / _width;
+            int verticalRatio = (_surfaceHeight - _height) / _height;
+            return verticalRatio < horizontalRatio ? verticalRatio : horizontalRatio;
+        }
+
+        private void DrawRect(WriteableBitmap bitmap, int posX, int posY, int width, int height, int color) {
+
+            if (posX + width > _surfaceWidth || posY + height > _surfaceHeight) {
+                return;
+            }
 
             bitmap.Lock();
             unsafe
             {
-                for (int y = posY; y < posY + rows; ++y) {
-                    for (int x = posX; x < posX + columns; ++x) {
+                for (int y = posY; y < posY + height; ++y) {
+                    for (int x = posX; x < posX + width; ++x) {
 
                         int pBackBuffer = (int)_writeableBitmap.BackBuffer;
 
@@ -107,83 +183,36 @@ namespace GameOfLife.View.Controls {
                         *((int*)pBackBuffer) = color;
                     }
                 }
-                bitmap.AddDirtyRect(new Int32Rect(posX, posY, columns, rows));
+                bitmap.AddDirtyRect(new Int32Rect(posX, posY, width, height));
             }
             bitmap.Unlock();
         }
 
-        private void DrawPixel() {
+        //private void AddRectangles(bool[,] cells) {
 
-            LazyInitialization();
+        //    cellUniverseSurface.Children.Clear();
 
-            Random rand = new Random();
+        //    for (int x = 0; x < cells.GetLength(0); x++) {
+        //        for (int y = 0; y < cells.GetLength(1); y++) {
+        //            if (!cells[x, y])
+        //                continue;
 
+        //            Rectangle rectangle = new Rectangle();
+        //            rectangle.Height = 4;
+        //            rectangle.Width = 4;
+        //            rectangle.Fill = new SolidColorBrush(Color.FromRgb(0, 127, 192));
+        //            rectangle.VerticalAlignment = VerticalAlignment.Top;
+        //            rectangle.HorizontalAlignment = HorizontalAlignment.Left;
 
-            // --------------------
+        //            rectangle.Margin = GetMargin(x, y);
 
-            int column = rand.Next(_surfaceWidth);
-            int row = rand.Next(_surfaceHeight);
+        //            cellUniverseSurface.Children.Add(rectangle);
+        //        }
+        //    }
+        //}
 
-            // Reserve the back buffer for updates.
-            _writeableBitmap.Lock();
-
-
-            // Get a pointer to the back buffer.
-            int pBackBuffer = (int)_writeableBitmap.BackBuffer;
-
-            // Find the address of the pixel to draw.
-            pBackBuffer += row * _writeableBitmap.BackBufferStride;
-            pBackBuffer += column * 4;
-
-            // Compute the pixel's color.
-            int color_data = 0 << 16; // R
-            color_data |= 128 << 8;   // G
-            color_data |= 255 << 0;   // B
-
-            unsafe
-            {
-                // Assign the color data to the pixel.
-                *((int*)pBackBuffer) = color_data;
-            }
-
-            // Specify the area of the bitmap that changed.
-            _writeableBitmap.AddDirtyRect(new Int32Rect(column, row, 1, 1));
-
-            // Release the back buffer and make it available for display.
-            _writeableBitmap.Unlock();
-        }
-
-        private void DoIt() {
-            var cells = _cellUniverse.NewGeneration(_cells);
-            _cells = cells;
-            AddRectangles(cells);
-        }
-
-        private void AddRectangles(bool[,] cells) {
-
-            cellUniverseSurface.Children.Clear();
-
-            for (int x = 0; x < cells.GetLength(0); x++) {
-                for (int y = 0; y < cells.GetLength(1); y++) {
-                    if (!cells[x, y])
-                        continue;
-
-                    Rectangle rectangle = new Rectangle();
-                    rectangle.Height = 4;
-                    rectangle.Width = 4;
-                    rectangle.Fill = new SolidColorBrush(Color.FromRgb(0, 127, 192));
-                    rectangle.VerticalAlignment = VerticalAlignment.Top;
-                    rectangle.HorizontalAlignment = HorizontalAlignment.Left;
-
-                    rectangle.Margin = GetMargin(x, y);
-
-                    cellUniverseSurface.Children.Add(rectangle);
-                }
-            }
-        }
-
-        private Thickness GetMargin(int row, int column) {
-            return new Thickness(column * 5, row * 5, 0, 0);
-        }
+        //private Thickness GetMargin(int row, int column) {
+        //    return new Thickness(column * 5, row * 5, 0, 0);
+        //}
     }
 }

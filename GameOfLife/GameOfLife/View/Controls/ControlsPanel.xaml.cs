@@ -14,10 +14,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace GameOfLife.View.Controls {
-    /// <summary>
-    /// Interaction logic for ControlsPanel.xaml
-    /// </summary>
+
     public partial class ControlsPanel : UserControl {
+
         public ControlsPanel() {
             InitializeComponent();
         }

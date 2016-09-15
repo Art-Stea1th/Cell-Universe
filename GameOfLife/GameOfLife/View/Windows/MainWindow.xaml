@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:GameOfLife.View.Windows"
         xmlns:controls="clr-namespace:GameOfLife.View.Controls"
         mc:Ignorable="d"
-        Title="The Game Of Life" Width="960" Height="540" ResizeMode="CanResize">
+        Title="The Game Of Life"
+        Width="800" Height="450"
+        MinWidth="480" MinHeight="260"
+        ResizeMode="CanResize">
     
     <Grid Name="mainGrid">
         <Grid.ColumnDefinitions>

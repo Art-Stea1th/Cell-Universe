@@ -6,5 +6,5 @@
              xmlns:local="clr-namespace:GameOfLife.View.Controls"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
-    <Canvas Name="cellUniverseSurface" Background="Black"/>
+    <Grid Name="cellUniverseSurface"/>
 </UserControl>

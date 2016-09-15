@@ -1,9 +1,16 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq.Expressions;
 
 namespace GameOfLife.ViewModel {
 
     public abstract class ViewModelBase : INotifyPropertyChanged, IDisposable {
+
+        protected string GetMemberName<T, TValue>(Expression<Func<T, TValue>> memberAccess) {
+            return ((MemberExpression)memberAccess.Body).Member.Name;
+        }
+
+        #region impl. INotifyPropertyChanged
 
         protected ViewModelBase() { }
 
@@ -16,10 +23,16 @@ namespace GameOfLife.ViewModel {
             }
         }
 
+        #endregion
+
+        #region impl. IDisposable
+
         public void Dispose() {
             this.OnDispose();
         }
 
         protected virtual void OnDispose() { }
+
+        #endregion
     }
 }
