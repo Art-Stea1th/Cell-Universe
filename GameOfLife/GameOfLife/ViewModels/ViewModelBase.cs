@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Linq.Expressions;
 
-namespace GameOfLife.ViewModel {
+namespace GameOfLife.ViewModels {
 
     public abstract class ViewModelBase : INotifyPropertyChanged, IDisposable {
 

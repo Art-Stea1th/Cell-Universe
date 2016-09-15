@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 
 
-namespace GameOfLife.ViewModel {
+namespace GameOfLife.ViewModels {
 
     public class ControlsPanelViewModel : ViewModelBase {
 
         private int _currentSpeed;
+
 
         public int MinSpeed { get; } = 1;
         public int MaxSpeed { get; } = 100;
