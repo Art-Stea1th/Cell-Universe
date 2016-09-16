@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GameOfLife.Properties {
+namespace CellUniverse.Properties {
 
 
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

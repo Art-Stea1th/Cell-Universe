@@ -1,25 +1,19 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 
+namespace CellUniverse.Models {
 
-namespace GameOfLife.Models {
-
-    public delegate void OnCellChangedRoutedEvent(Tuple<int, int, bool> newState);
-
-    public class CellUniverseModel {
-
-        public event OnCellChangedRoutedEvent OnCellChanged;
+    public class BinaryModel {
 
         private bool[,] _currentGeneration;
 
-        public CellUniverseModel(int width, int height) {
+        public event OnCellChangedRoutedEvent OnCellChanged;
+
+        public BinaryModel(int width, int height) {
             Initialize(width, height);
         }
 
-        public void Initialize(int width, int height) {
+        private void Initialize(int width, int height) {
 
             _currentGeneration = new bool[height, width];
 
@@ -40,10 +34,18 @@ namespace GameOfLife.Models {
             _currentGeneration = nextGeneration;
         }
 
-        public IEnumerable<Tuple<int, int, bool>> GetDifference(bool[,] currentGeneration, bool[,] nextGeneration) {
+        public void SimulateChangedAll() {
+            for (int y = 0; y < _currentGeneration.GetLength(0); ++y) {
+                for (int x = 0; x < _currentGeneration.GetLength(1); ++x) {
+                    OnCellChanged?.Invoke(new Tuple<int, int, bool>(x, y, _currentGeneration[y, x]));
+                }
+            }
+        }
 
-            if (currentGeneration.GetLength(0) != nextGeneration.GetLongLength(0)
-                || currentGeneration.GetLength(1) != nextGeneration.GetLongLength(1)) {
+        private IEnumerable<Tuple<int, int, bool>> GetDifference(bool[,] currentGeneration, bool[,] nextGeneration) {
+
+            if (currentGeneration.GetLength(0) != nextGeneration.GetLength(0)
+                || currentGeneration.GetLength(1) != nextGeneration.GetLength(1)) {
                 throw new InvalidOperationException();
             }
 
@@ -56,11 +58,11 @@ namespace GameOfLife.Models {
             }
         }
 
-        public bool[,] NextGeneration() {
+        private bool[,] NextGeneration() {
             return NextGenerationFromSource(_currentGeneration);
         }
 
-        public bool[,] NextGenerationFromSource(bool[,] source) {
+        private bool[,] NextGenerationFromSource(bool[,] source) {
 
             var nextGeneration = new bool[source.GetLength(0), source.GetLength(1)];
 
@@ -106,7 +108,7 @@ namespace GameOfLife.Models {
             return counter;
         }
 
-        private static bool IsAlive(bool[,] generation, int posX, int posY) {
+        private bool IsAlive(bool[,] generation, int posX, int posY) {
             return generation[posY, posX] ? true : false;
         }
     }

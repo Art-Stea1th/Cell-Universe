@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace GameOfLife.Infrastructure {
+namespace CellUniverse.Infrastructure {
 
     class RelayCommand : ICommand {
 
