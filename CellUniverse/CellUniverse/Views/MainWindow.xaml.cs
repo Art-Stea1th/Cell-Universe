@@ -11,7 +11,7 @@ namespace CellUniverse.Views {
 
         public MainWindow() {
             InitializeComponent();
-            _mainWindowViewModel = new MainWindowViewModel(cellUniverseSurface);
+            _mainWindowViewModel = new MainWindowViewModel(cellUniverseViewport);
             DataContext = _mainWindowViewModel;
         }
 

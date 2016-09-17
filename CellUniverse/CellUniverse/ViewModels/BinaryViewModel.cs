@@ -8,6 +8,7 @@ using System.Windows.Media.Imaging;
 namespace CellUniverse.ViewModels {
     
     using Models;
+    using Infrastructure;
 
     public class BinaryViewModel : ViewModelBase {
 

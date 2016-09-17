@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 namespace CellUniverse.Models {
 
+    using Infrastructure;
+
     public class BinaryModel {
 
         private bool[,] _currentGeneration;

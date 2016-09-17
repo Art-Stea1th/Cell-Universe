@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace CellUniverse.Models {
+namespace CellUniverse.Infrastructure {
 
 
     public delegate void OnCellChangedRoutedEvent(Tuple<int, int, bool> newState);

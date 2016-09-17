@@ -10,8 +10,8 @@ namespace CellUniverse.ViewModels {
 
         private BinaryViewModel _binaryViewModel;
 
-        public MainWindowViewModel(Canvas cellUniverseSurface) {
-            _binaryViewModel = new BinaryViewModel(cellUniverseSurface);
+        public MainWindowViewModel(Canvas cellUniverseViewport) {
+            _binaryViewModel = new BinaryViewModel(cellUniverseViewport);
             Speed = 10;
             StartPauseResumeButtonText = "Start";
             StopResetButtonText = ". . .";

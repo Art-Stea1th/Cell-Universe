@@ -19,10 +19,11 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <Canvas Name="cellUniverseSurface" Grid.Column="0" SizeChanged="CellUniverseSurfaceSizeChanged">
-            <Image
-                RenderOptions.BitmapScalingMode="NearestNeighbor"
-                RenderOptions.EdgeMode="Aliased"/>
+        <Canvas Name="cellUniverseViewport" Grid.Column="0"
+                SizeChanged="CellUniverseSurfaceSizeChanged">
+            <Image Name="cellUniverseSurface"
+                   RenderOptions.BitmapScalingMode="NearestNeighbor"
+                   RenderOptions.EdgeMode="Aliased"/>
         </Canvas>
 
         <Grid Name="controlsContainer" Grid.Column="1" Margin="8" MinWidth="128">
@@ -68,12 +69,12 @@
             </StackPanel>
 
             <StackPanel Orientation="Vertical" Grid.Row="1">
-                
+
                 <Button Name="startPauseResume"
                         Padding="4" Margin="0,2"
                         Content="{Binding Path=StartPauseResumeButtonText, UpdateSourceTrigger=PropertyChanged}"
                         Command="{Binding StartPauseResumeSimulation}"/>
-                
+
                 <Button Name="stopReset"
                         Padding="4" Margin="0,2,0,0"
                         Content="{Binding Path=StopResetButtonText, UpdateSourceTrigger=PropertyChanged}"
