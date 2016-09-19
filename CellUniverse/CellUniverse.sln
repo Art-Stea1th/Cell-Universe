@@ -5,6 +5,10 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CellUniverse", "CellUniverse\CellUniverse.csproj", "{A64D0D95-A56F-42C7-8422-CF45A06A201C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RCVL", "RCVL\RCVL.csproj", "{A252222D-AFAB-42C8-B6DE-D459F892914E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RCVL.IntegrationTests", "RCVL.IntegrationTests\RCVL.IntegrationTests.csproj", "{4266DB6A-0A81-4E09-9B6B-BD84C1E39765}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{A64D0D95-A56F-42C7-8422-CF45A06A201C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A64D0D95-A56F-42C7-8422-CF45A06A201C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A64D0D95-A56F-42C7-8422-CF45A06A201C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A252222D-AFAB-42C8-B6DE-D459F892914E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A252222D-AFAB-42C8-B6DE-D459F892914E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A252222D-AFAB-42C8-B6DE-D459F892914E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A252222D-AFAB-42C8-B6DE-D459F892914E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4266DB6A-0A81-4E09-9B6B-BD84C1E39765}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4266DB6A-0A81-4E09-9B6B-BD84C1E39765}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4266DB6A-0A81-4E09-9B6B-BD84C1E39765}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4266DB6A-0A81-4E09-9B6B-BD84C1E39765}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
