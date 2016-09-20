@@ -14,15 +14,16 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="Auto"/>
+            <!--<RowDefinition Height="Auto"/>-->
         </Grid.RowDefinitions>
 
         <rcvl:CellularViewport
-            CellularData="{Binding Path=LayeredData}" Name="cellularViewport"
+            CellularData="{Binding Path=CellularData}"
+            Name="cellularViewport"
             Grid.Row="0" Grid.Column="0"/>
 
-        <TextBlock
+        <!--<TextBlock
             Text="{Binding ElementName=cellularViewport, Path=CellularData}"
-            Grid.Row="1" Grid.Column="0"/>
+            Grid.Row="1" Grid.Column="0"/>-->
     </Grid>
 </Window>
