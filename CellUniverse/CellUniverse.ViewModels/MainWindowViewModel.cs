@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Controls;
 using System.Windows.Threading;
 
 namespace CellUniverse.ViewModels {
@@ -9,14 +8,78 @@ namespace CellUniverse.ViewModels {
     using Infrastructure;
     using Infrastructure.Interfaces;
     using Models;
-    
+    using Models.Algorithms;
+
     public class MainWindowViewModel : ViewModelBase {
 
-        private ICellUniverse multiverse;
-        private DispatcherTimer timer;
-        private CellUniverseState currentState { get; set; } = CellUniverseState.Stopped;
+        private int width, height, layersCount;
+        private int currentSpeed;
 
+        private DispatcherTimer timer;
+        private CellUniverseState currentState;
+
+        private ICellUniverse multiverse;
         private Color[,] cellularData;
+
+        private string startPauseButtonText = "Start";
+        private string stopResetButtonText  = ". . .";
+
+        public int MinSpeed { get; } = 10;
+        public int MaxSpeed { get; } = 500;
+
+        public MainWindowViewModel() {
+            Initialize();
+        }
+
+        private void Initialize() {
+            width = 266; height = 166; layersCount = 3;
+            Speed = 10;
+            Stop();
+        }
+
+        private void Start() {
+            timer.Start();
+            currentState = CellUniverseState.Started;
+        }
+
+        private void Pause() {
+            timer.Stop();
+            currentState = CellUniverseState.Paused;
+        }
+
+        private void Stop() {
+            timer.Stop();
+            currentState = CellUniverseState.Stopped;
+            ConstructUniverse(width, height, layersCount);
+        }
+
+        private void ConstructUniverse(int width, int height, int layersCount) {
+            multiverse   = new Multiverse(width, height, layersCount, new TheGameOfLifeClassic());
+            CellularData = new Color[height, width];
+        }
+
+        public int Speed {
+            get {
+                return currentSpeed = IntValueLimiter(currentSpeed, MinSpeed, MaxSpeed);
+            }
+            set {
+                currentSpeed = IntValueLimiter(value, MinSpeed, MaxSpeed);
+                SetTimerInterval(TimeSpan.FromMilliseconds(value));
+                OnPropertyChanged(GetMemberName((MainWindowViewModel c) => c.Speed));
+            }
+        }
+
+        private void SetTimerInterval(TimeSpan interval) {
+            if (timer == null) {
+                timer = new DispatcherTimer();
+                timer.Tick += (s, e) => { Update(); };
+            }
+            timer.Interval = interval;
+        }
+
+        private void Update() {
+            CellularData = multiverse.GetNext();
+        }
 
         public Color[,] CellularData {
             get {
@@ -28,86 +91,22 @@ namespace CellUniverse.ViewModels {
             }
         }
 
-        public MainWindowViewModel() {
-            Initialize();
-        }
-
-        private void Initialize() {
-            currentState = CellUniverseState.Stopped;
-            Speed = 10;
-            StartPauseResumeButtonText = "Start";
-            StopResetButtonText = ". . .";
-            multiverse = new Multiverse(266, 166, 3);
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(Speed);
-            timer.Tick += (s, e) => { Update(); };
-            cellularData = new Color[166, 266];
-        }
-
-        internal void Start() {
-            timer.Start();
-            currentState = CellUniverseState.Started;
-        }
-
-        internal void Pause() {
-            timer.Stop();
-            currentState = CellUniverseState.Paused;
-        }
-
-        internal void Stop() {
-            timer.Stop();
-            currentState = CellUniverseState.Stopped;
-            multiverse = new Multiverse(266, 166, 3);
-            CellularData = new Color[166, 266];
-        }
-
-        internal void SetTimerInterval(TimeSpan interval) {
-            timer.Interval = interval;
-        }
-
-        private void Update() {
-            CellularData = multiverse.GetNext();
-        }
-
-        #region impl. ControlsViewModel
-
-        private int _currentSpeed;
-
-        private string _startPauseButtonText;
-        private string _stopResetButtonText;
-
-        public int MinSpeed { get; } = 10;
-        public int MaxSpeed { get; } = 500;
-
-        public int Speed {
-            get {
-                return _currentSpeed = IntValueLimiter(_currentSpeed, MinSpeed, MaxSpeed);
-            }
-            set {
-                _currentSpeed = IntValueLimiter(value, MinSpeed, MaxSpeed);
-                if (timer != null) {
-                    timer.Interval = TimeSpan.FromMilliseconds(value);
-                }                
-                OnPropertyChanged(GetMemberName((MainWindowViewModel c) => c.Speed));
-            }
-        }
-
         public string StartPauseResumeButtonText {
             get {
-                return _startPauseButtonText;
+                return startPauseButtonText;
             }
             set {
-                _startPauseButtonText = value;
+                startPauseButtonText = value;
                 OnPropertyChanged(GetMemberName((MainWindowViewModel c) => c.StartPauseResumeButtonText));
             }
         }
 
         public string StopResetButtonText {
             get {
-                return _stopResetButtonText;
+                return stopResetButtonText;
             }
             set {
-                _stopResetButtonText = value;
+                stopResetButtonText = value;
                 OnPropertyChanged(GetMemberName((MainWindowViewModel c) => c.StopResetButtonText));
             }
         }
@@ -119,7 +118,7 @@ namespace CellUniverse.ViewModels {
         }
 
         private RelayCommand _startPauseResumeSimulationCommand;
-        private RelayCommand _stopResetSimulationCommand;        
+        private RelayCommand _stopResetSimulationCommand;
 
         public ICommand StartPauseResumeSimulation {
             get {
@@ -128,18 +127,6 @@ namespace CellUniverse.ViewModels {
                     (_startPauseResumeSimulationCommand =
                     new RelayCommand(ExecuteStartPauseResumeSimulationCommand, null));
             }
-        }
-
-        public void ExecuteStartPauseResumeSimulationCommand(object parameter) {
-            if (currentState == CellUniverseState.Started) {
-                StartPauseResumeButtonText = "Resume";
-                StopResetButtonText = "Reset";
-                Pause();
-                return;
-            }
-            StartPauseResumeButtonText = "Pause";
-            StopResetButtonText = "Stop";
-            Start();
         }
 
         public ICommand StopResetSimulation {
@@ -151,18 +138,28 @@ namespace CellUniverse.ViewModels {
             }
         }
 
+        public void ExecuteStartPauseResumeSimulationCommand(object parameter) {
+            if (currentState == CellUniverseState.Started) {
+                StartPauseResumeButtonText = "Resume";
+                StopResetButtonText        = "Reset";
+                Pause();
+                return;
+            }
+            StartPauseResumeButtonText = "Pause";
+            StopResetButtonText        = "Stop";
+            Start();
+        }
+
         public void ExecuteStopResetSimulationCommand(object parameter) {
             StartPauseResumeButtonText = "Start";
-            StopResetButtonText = ". . .";
-            Stop();            
+            StopResetButtonText        = ". . .";
+            Stop();
         }
 
         public bool CanExecuteStopResetSimulationCommand(object parameter) {
             return
                 currentState == CellUniverseState.Started ||
                 currentState == CellUniverseState.Paused ? true : false;
-        }
-
-        #endregion
+        }        
     }
 }

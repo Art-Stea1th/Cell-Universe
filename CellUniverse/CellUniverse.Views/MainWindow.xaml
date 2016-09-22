@@ -7,11 +7,11 @@
         xmlns:customcontrols="clr-namespace:CellUniverse.CustomControls;assembly=customcontrols"
         xmlns:viewmodels="clr-namespace:CellUniverse.ViewModels;assembly=viewmodels"
         mc:Ignorable="d"
+        Icon="Resources/MainIcon.ico"
         Title="CellUniverse: Space of the Cellular Machines"
-        Width="960" Height="540"
-        MinWidth="560" MinHeight="290"
+        Width="960" Height="540" MinWidth="694" MinHeight="372"
         ResizeMode="CanResize"
-        WindowStartupLocation="CenterScreen" Icon="Resources/MainIcon.ico">
+        WindowStartupLocation="CenterScreen">
     
     <Window.DataContext>
         <viewmodels:MainWindowViewModel/>
@@ -23,8 +23,9 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <customcontrols:RapidCellularViewport Name="cellUniverseViewport" Grid.Column="0"
-                               CellularData="{Binding CellularData}"/>
+        <customcontrols:RapidCellularViewport
+            Name="cellUniverseViewport" Grid.Column="0"
+            CellularData="{Binding CellularData}"/>
 
         <Grid Name="controlsContainer" Grid.Column="1" Margin="8" MinWidth="128">
             <Grid.RowDefinitions>
@@ -70,15 +71,17 @@
 
             <StackPanel Orientation="Vertical" Grid.Row="1">
 
-                <Button Name="startPauseResume"
-                        Padding="4" Margin="0,2"
-                        Content="{Binding Path=StartPauseResumeButtonText, UpdateSourceTrigger=PropertyChanged}"
-                        Command="{Binding StartPauseResumeSimulation}"/>
+                <Button
+                    Name="startPauseResume"
+                    Padding="4" Margin="0,2"
+                    Content="{Binding Path=StartPauseResumeButtonText, UpdateSourceTrigger=PropertyChanged}"
+                    Command="{Binding StartPauseResumeSimulation}"/>
 
-                <Button Name="stopReset"
-                        Padding="4" Margin="0,2,0,0"
-                        Content="{Binding Path=StopResetButtonText, UpdateSourceTrigger=PropertyChanged}"
-                        Command="{Binding StopResetSimulation}"/>
+                <Button
+                    Name="stopReset"
+                    Padding="4" Margin="0,2,0,0"
+                    Content="{Binding Path=StopResetButtonText, UpdateSourceTrigger=PropertyChanged}"
+                    Command="{Binding StopResetSimulation}"/>
             </StackPanel>
         </Grid>
     </Grid>

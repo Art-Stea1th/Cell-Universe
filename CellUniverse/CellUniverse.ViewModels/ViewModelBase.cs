@@ -17,7 +17,7 @@ namespace CellUniverse.ViewModels {
         public event PropertyChangedEventHandler PropertyChanged;
 
         public virtual void OnPropertyChanged(string propertyName) {
-            PropertyChangedEventHandler handler = this.PropertyChanged;
+            PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null) {
                 handler.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
@@ -28,7 +28,7 @@ namespace CellUniverse.ViewModels {
         #region impl. IDisposable
 
         public void Dispose() {
-            this.OnDispose();
+            OnDispose();
         }
 
         protected virtual void OnDispose() { }

@@ -36,34 +36,34 @@
             this.cellsVertical   = cellsVertical;
             SpacingBetweenCells  = spacingBetweenCells;
 
-            CellSize = GetActualCellSize(
+            CellSize = CalculateActualCellSize(
                 cellsHorizontal, cellsVertical, surfaceWidth, surfaceHeight, spacingBetweenCells);
 
-            OffsetX = GetActualOffsetToCenter(
-                surfaceWidth, GetTotalInternalVectorLength(cellsHorizontal, CellSize, spacingBetweenCells));
+            OffsetX = CalculateActualOffsetToCenter(
+                surfaceWidth, CalculateTotalInternalVectorLength(cellsHorizontal, CellSize, spacingBetweenCells));
 
-            OffsetY = GetActualOffsetToCenter(
-                surfaceHeight, GetTotalInternalVectorLength(cellsVertical, CellSize, spacingBetweenCells));
+            OffsetY = CalculateActualOffsetToCenter(
+                surfaceHeight, CalculateTotalInternalVectorLength(cellsVertical, CellSize, spacingBetweenCells));
 
         }
 
-        private int GetActualCellSize(
+        private int CalculateActualCellSize(
             int cellsHorizontal, int cellsVertical, int surfaceWidth, int surfaceHeight, int spacingBetweenCells) {
-            int maxCellWidth  = GetMaxLengthOfSegmentsInAVector(cellsHorizontal, surfaceWidth,  spacingBetweenCells);
-            int maxCellHeight = GetMaxLengthOfSegmentsInAVector(cellsVertical,   surfaceHeight, spacingBetweenCells);
+            int maxCellWidth  = CelculateMaxLengthOfSegmentsInAVector(cellsHorizontal, surfaceWidth,  spacingBetweenCells);
+            int maxCellHeight = CelculateMaxLengthOfSegmentsInAVector(cellsVertical,   surfaceHeight, spacingBetweenCells);
             return maxCellHeight < maxCellWidth ? maxCellHeight : maxCellWidth;
         }
 
-        private int GetMaxLengthOfSegmentsInAVector(int segmentsCount, int vectorLength, int spacingBetweenSegments) {
+        private int CelculateMaxLengthOfSegmentsInAVector(int segmentsCount, int vectorLength, int spacingBetweenSegments) {
             int totalSpacing = (segmentsCount + 1) * spacingBetweenSegments;
             return (vectorLength - totalSpacing) / segmentsCount;
         }
 
-        private int GetActualOffsetToCenter(int externalVectorLenght, int internalVectorLength) {
+        private int CalculateActualOffsetToCenter(int externalVectorLenght, int internalVectorLength) {
             return (externalVectorLenght - internalVectorLength) / 2;
         }
 
-        private int GetTotalInternalVectorLength(int segmentsCount, int segmentLength, int spacingBetweenSegments) {
+        private int CalculateTotalInternalVectorLength(int segmentsCount, int segmentLength, int spacingBetweenSegments) {
             int totalSegmentsLength = segmentsCount * segmentLength;
             int totalSpacing = (segmentsCount + 1) * spacingBetweenSegments;
             return totalSegmentsLength + totalSpacing;
