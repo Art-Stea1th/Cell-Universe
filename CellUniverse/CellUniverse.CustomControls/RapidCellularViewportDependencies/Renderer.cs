@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -10,26 +12,28 @@ namespace CellUniverse.CustomControls.RapidCellularViewportDependencies {
     internal sealed class Renderer {
 
         private Settings settings;
-        private WriteableBitmap   surface;
+        private WriteableBitmap surface;
+        private bool InvalidateView = false;
 
         internal Renderer(Settings settings) {
             this.settings = settings;
         }
 
         internal void Update(
-            int surfaceWidth, int surfaceHeight, int cellsHorizontal, int cellsVertical, int spacingBetweenCells = 1) {
+            int surfaceWidth, int surfaceHeight, int cellsHorizontal, int cellsVertical, int spacingBetweenCells) {
             if (NeedRecalculateView(surfaceWidth, surfaceHeight, cellsHorizontal, cellsVertical, spacingBetweenCells)) {
                 settings.Recalculate(surfaceWidth, surfaceHeight, cellsHorizontal, cellsVertical, spacingBetweenCells);
                 surface = new WriteableBitmap(surfaceWidth, surfaceHeight, 96, 96, PixelFormats.Bgr32, null);
+                InvalidateView = true;
 
-                // ------- WriteableBitmap Memory Leak? ------->
-                GC.Collect(); // GC.WaitForPendingFinalizers();
-                // <--------------------------------------------
+                // ------- WriteableBitmap Memory Leak? ----------
+                // GC.Collect(); // GC.WaitForPendingFinalizers();
+                // -----------------------------------------------
             }
         }
 
         private bool NeedRecalculateView(
-            int surfaceWidth, int surfaceHeight, int cellsHorizontal, int cellsVertical, int spacingBetweenCells = 1) {
+            int surfaceWidth, int surfaceHeight, int cellsHorizontal, int cellsVertical, int spacingBetweenCells) {
             return
                 settings.SizeChanged(surfaceWidth, surfaceHeight) ||
                 settings.CellsCountChanged(cellsHorizontal, cellsVertical) ||
@@ -57,21 +61,23 @@ namespace CellUniverse.CustomControls.RapidCellularViewportDependencies {
 
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
-                    if (newCellularData[y, x] != oldCellularData[y, x]) {
-                        yield return new Tuple<int, int, Color>(x, y, newCellularData[y, x]);
+                    if (newCellularData[y, x] == oldCellularData[y, x] && !InvalidateView) {
+                        continue;
                     }
+                    yield return new Tuple<int, int, Color>(x, y, newCellularData[y, x]);
                 }
             }
+            InvalidateView = false;
         }
 
-        private void DrawRect(Tuple<int, int, Color> newState) {
+        private void DrawRect(Tuple<int, int, Color> nextRect) {
 
-            int cellIndexX = newState.Item1;
-            int cellIndexY = newState.Item2;
-            int cellIColor = GetIntColor(newState.Item3.R, newState.Item3.G, newState.Item3.B);
+            int cellIndexX = nextRect.Item1;
+            int cellIndexY = nextRect.Item2;
+            int cellIColor = GetIntColor(nextRect.Item3.R, nextRect.Item3.G, nextRect.Item3.B);
 
-            int startPosX  = settings.OffsetX + cellIndexX * settings.CellSize + cellIndexX;
-            int startPosY  = settings.OffsetY + cellIndexY * settings.CellSize + cellIndexY;
+            int startPosX  = settings.OffsetX + cellIndexX * (settings.CellSize + settings.SpacingBetweenCells);
+            int startPosY  = settings.OffsetY + cellIndexY * (settings.CellSize + settings.SpacingBetweenCells);
 
             DrawRect(startPosX, startPosY, settings.CellSize, settings.CellSize, cellIColor);
         }

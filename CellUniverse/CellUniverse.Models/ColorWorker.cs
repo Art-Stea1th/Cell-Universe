@@ -7,7 +7,7 @@ namespace CellUniverse.Models {
 
     internal sealed class ColorWorker {
 
-        private const byte darkPoint = 0, lightPoint = 252;
+        private const byte darkPoint = 32, lightPoint = 252;
         private const byte channelWidth = lightPoint - darkPoint;
 
         private Random random;
@@ -19,10 +19,6 @@ namespace CellUniverse.Models {
         internal List<Color> GetTintsFromColor(Color color, int tintsCount) {
 
             int colorWidth = GetColorWidth(color);
-
-            if (tintsCount <= 1 || tintsCount > channelWidth) {
-                return new List<Color> { color };
-            }
 
             List<Color> fullSequence = GenerateFullSequenceFromColor(color);
             List<Color> result = new List<Color>(tintsCount);
@@ -78,7 +74,3 @@ namespace CellUniverse.Models {
         }
     }
 }
-
-//Color.FromRgb(138, 198, 233)
-//Color.FromRgb(0, 125, 168)
-//Color.FromRgb(0, 49, 71)

@@ -1,21 +1,26 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+
 
 namespace CellUniverse.ViewModels {
 
     using Infrastructure;
     using Infrastructure.Interfaces;
     using Models;
-    using Models.Algorithms;
-
+    
     public class MainWindowViewModel : ViewModelBase {
 
         private int width, height, layersCount;
-        private int currentSpeed;
+        private int delay, nextGenerationsTime;
+        private int generationsPerSecond, framesPerSecond;
+        private int totalGenerations;
 
         private DispatcherTimer timer;
+        private Stopwatch stopwatch, totalStopwatch;
+        private TimeSpan totalTime;
         private CellUniverseState currentState;
 
         private ICellUniverse multiverse;
@@ -24,7 +29,7 @@ namespace CellUniverse.ViewModels {
         private string startPauseButtonText = "Start";
         private string stopResetButtonText  = ". . .";
 
-        public int MinSpeed { get; } = 10;
+        public int MinSpeed { get; } = 0;
         public int MaxSpeed { get; } = 500;
 
         public MainWindowViewModel() {
@@ -32,53 +37,152 @@ namespace CellUniverse.ViewModels {
         }
 
         private void Initialize() {
-            width = 266; height = 166; layersCount = 3;
-            Speed = 10;
+            width = 320; height = 180; layersCount = 3;
+            Delay = 0;
+
+            timer = new DispatcherTimer();
+            timer.Tick += (s, e) => { Update(); };
+            timer.Interval = TimeSpan.FromMilliseconds(Delay);
+
+            stopwatch = new Stopwatch();
+            totalStopwatch = new Stopwatch();
+
             Stop();
         }
 
         private void Start() {
+            totalStopwatch.Start();
             timer.Start();
             currentState = CellUniverseState.Started;
         }
 
         private void Pause() {
+            totalStopwatch.Stop();
+            stopwatch.Stop();
             timer.Stop();
-            currentState = CellUniverseState.Paused;
+            currentState = CellUniverseState.Paused;            
         }
 
         private void Stop() {
+            totalStopwatch.Stop();
             timer.Stop();
             currentState = CellUniverseState.Stopped;
             ConstructUniverse(width, height, layersCount);
+            ResetCounters();
         }
 
         private void ConstructUniverse(int width, int height, int layersCount) {
-            multiverse   = new Multiverse(width, height, layersCount, new TheGameOfLifeClassic());
+            multiverse   = new Multiverse(width, height, layersCount);
             CellularData = new Color[height, width];
         }
 
-        public int Speed {
-            get {
-                return currentSpeed = IntValueLimiter(currentSpeed, MinSpeed, MaxSpeed);
-            }
-            set {
-                currentSpeed = IntValueLimiter(value, MinSpeed, MaxSpeed);
-                SetTimerInterval(TimeSpan.FromMilliseconds(value));
-                OnPropertyChanged(GetMemberName((MainWindowViewModel c) => c.Speed));
-            }
-        }
-
         private void SetTimerInterval(TimeSpan interval) {
-            if (timer == null) {
-                timer = new DispatcherTimer();
-                timer.Tick += (s, e) => { Update(); };
-            }
-            timer.Interval = interval;
+            if (timer != null) {
+                timer.Interval = interval;
+            }            
         }
 
         private void Update() {
-            CellularData = multiverse.GetNext();
+            foreach (var layer in multiverse.GetNext()) {
+                CellularData = layer;
+            }            
+            UpdateCounters();
+            stopwatch.Restart();
+        }
+
+        private void UpdateCounters() {
+
+            //if (totalStopwatch.Elapsed >= TimeSpan.FromSeconds(30)) { // <--- !! for speed-test
+            //    startPauseResumeSimulationCommand.Execute(null);
+            //}
+
+            TotalTime = totalStopwatch.Elapsed;
+            TotalGenerations += layersCount;
+            NextGenerationsTime = (int)stopwatch.ElapsedMilliseconds > 0 ? (int)stopwatch.ElapsedMilliseconds : 1;
+            FramesPerSecond = (1000 / NextGenerationsTime);
+            GenerationsPerSecond = FramesPerSecond * layersCount;            
+        }
+
+        private void ResetCounters() {
+            TotalTime = TimeSpan.Zero;
+            TotalGenerations = 0;
+            FramesPerSecond = 0;
+            GenerationsPerSecond = 0;
+            NextGenerationsTime = 0;
+
+            stopwatch.Reset();
+            totalStopwatch.Reset();
+        }
+
+        public TimeSpan TotalTime {
+            get {
+                return totalTime;
+            }
+            set {
+                totalTime = value;
+                OnPropertyChanged(GetMemberName((MainWindowViewModel c) => c.TotalTime));
+            }
+        }
+
+        public int TotalGenerations {
+            get {
+                return totalGenerations;
+            }
+            set {
+                totalGenerations = value;
+                OnPropertyChanged(GetMemberName((MainWindowViewModel c) => c.TotalGenerations));
+            }
+        }
+
+        public int FramesPerSecond {
+            get {
+                return framesPerSecond;
+            }
+            set {
+                framesPerSecond = value;
+                OnPropertyChanged(GetMemberName((MainWindowViewModel c) => c.FramesPerSecond));
+            }
+        }
+
+        public int GenerationsPerSecond {
+            get {
+                return generationsPerSecond;
+            }
+            set {
+                generationsPerSecond = value;
+                OnPropertyChanged(GetMemberName((MainWindowViewModel c) => c.GenerationsPerSecond));
+            }
+        }
+
+        public int LayersCount {
+            get {
+                return layersCount;
+            }
+            set {
+                layersCount = value;
+                OnPropertyChanged(GetMemberName((MainWindowViewModel c) => c.LayersCount));
+            }
+        }
+
+        public int NextGenerationsTime {
+            get {
+                return nextGenerationsTime;
+            }
+            set {
+                nextGenerationsTime = value;
+                OnPropertyChanged(GetMemberName((MainWindowViewModel c) => c.NextGenerationsTime));
+            }
+        }
+
+        public int Delay {
+            get {
+                return delay = IntValueLimiter(delay, MinSpeed, MaxSpeed);
+            }
+            set {
+                delay = IntValueLimiter(value, MinSpeed, MaxSpeed);
+                SetTimerInterval(TimeSpan.FromMilliseconds(value));
+                OnPropertyChanged(GetMemberName((MainWindowViewModel c) => c.Delay));
+            }
         }
 
         public Color[,] CellularData {
@@ -117,14 +221,14 @@ namespace CellUniverse.ViewModels {
             return value;
         }
 
-        private RelayCommand _startPauseResumeSimulationCommand;
-        private RelayCommand _stopResetSimulationCommand;
+        private RelayCommand startPauseResumeSimulationCommand;
+        private RelayCommand stopResetSimulationCommand;
 
         public ICommand StartPauseResumeSimulation {
             get {
                 return
-                    (_startPauseResumeSimulationCommand) ??
-                    (_startPauseResumeSimulationCommand =
+                    (startPauseResumeSimulationCommand) ??
+                    (startPauseResumeSimulationCommand =
                     new RelayCommand(ExecuteStartPauseResumeSimulationCommand, null));
             }
         }
@@ -132,8 +236,8 @@ namespace CellUniverse.ViewModels {
         public ICommand StopResetSimulation {
             get {
                 return
-                    (_stopResetSimulationCommand) ??
-                    (_stopResetSimulationCommand =
+                    (stopResetSimulationCommand) ??
+                    (stopResetSimulationCommand =
                     new RelayCommand(ExecuteStopResetSimulationCommand, CanExecuteStopResetSimulationCommand));
             }
         }

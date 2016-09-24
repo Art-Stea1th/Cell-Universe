@@ -5,8 +5,8 @@ namespace CellUniverse.Infrastructure {
 
     public class RelayCommand : ICommand {
 
-        readonly Action<object> _execute;
-        readonly Predicate<object> _canExecute;
+        readonly Action<object> execute;
+        readonly Predicate<object> canExecute;
 
         public RelayCommand(Action<object> execute)
             : this(execute, null) {
@@ -16,12 +16,12 @@ namespace CellUniverse.Infrastructure {
             if (execute == null) {
                 throw new ArgumentNullException("execute");
             }
-            _execute = execute;
-            _canExecute = canExecute;
+            this.execute = execute;
+            this.canExecute = canExecute;
         }
 
         public bool CanExecute(object parameter) {
-            return _canExecute == null ? true : _canExecute.Invoke(parameter);
+            return canExecute == null ? true : canExecute.Invoke(parameter);
         }
 
         public event EventHandler CanExecuteChanged {
@@ -34,7 +34,7 @@ namespace CellUniverse.Infrastructure {
         }
 
         public void Execute(object parameter) {
-            _execute.Invoke(parameter);
+            execute.Invoke(parameter);
         }
     }
 }

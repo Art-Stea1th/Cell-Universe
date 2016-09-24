@@ -58,6 +58,8 @@ namespace CellUniverse.CustomControls {
         private Settings settings;
         private Renderer renderer;
 
+        private int spacingBetweenCells = 1;
+
         public override void OnApplyTemplate() {
 
             cellSurfaceControl = GetTemplateChild(CellSurfaceControl) as Image;
@@ -83,7 +85,7 @@ namespace CellUniverse.CustomControls {
             int cellsHorizontal = GetNonZeroGuaranteed(CellularData.GetLength(1));
             int cellsVertical   = GetNonZeroGuaranteed(CellularData.GetLength(0));
 
-            renderer.Update(surfaceWidth, surfaceHeight, cellsHorizontal, cellsVertical);
+            renderer.Update(surfaceWidth, surfaceHeight, cellsHorizontal, cellsVertical, spacingBetweenCells);
             cellSurfaceControl.Source = renderer.Render(oldCellularData, CellularData);
         }
 

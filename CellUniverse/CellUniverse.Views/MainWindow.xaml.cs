@@ -1,5 +1,5 @@
-﻿using System.Windows;
-
+﻿using System.Threading;
+using System.Windows;
 
 namespace CellUniverse.Views {
 

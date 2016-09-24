@@ -27,7 +27,7 @@
         }
 
         internal void Recalculate(
-            int surfaceWidth, int surfaceHeight, int cellsHorizontal, int cellsVertical, int spacingBetweenCells = 1) {
+            int surfaceWidth, int surfaceHeight, int cellsHorizontal, int cellsVertical, int spacingBetweenCells) {
 
             SurfaceWidth = surfaceWidth;
             SurfaceHeight = surfaceHeight;
@@ -55,7 +55,7 @@
         }
 
         private int CelculateMaxLengthOfSegmentsInAVector(int segmentsCount, int vectorLength, int spacingBetweenSegments) {
-            int totalSpacing = (segmentsCount + 1) * spacingBetweenSegments;
+            int totalSpacing = (segmentsCount - 1) * spacingBetweenSegments;
             return (vectorLength - totalSpacing) / segmentsCount;
         }
 

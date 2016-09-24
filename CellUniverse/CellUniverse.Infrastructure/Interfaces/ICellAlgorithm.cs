@@ -1,8 +1,11 @@
-﻿namespace CellUniverse.Infrastructure.Interfaces {
+﻿using System;
+using System.Collections.Generic;
 
+namespace CellUniverse.Infrastructure.Interfaces {
 
     public interface ICellAlgorithm {
 
-        bool[,] NextGeneration(bool[,] prevGeneration);
+        IEnumerable<Tuple<short, short, bool>> NextGeneration();
+        bool IsIdentical(bool[,] layer);
     }
 }

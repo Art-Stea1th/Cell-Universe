@@ -1,77 +1,80 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Media;
-
 
 namespace CellUniverse.Models {
 
     using Infrastructure.Interfaces;
+    using Algorithms;
 
     public sealed class Multiverse : ICellUniverse {
 
-        private List<bool[,]> layers;
-        private List<Color>   colors;
-        private ICellAlgorithm algorithm;
+        private short width, height;
+
+        private List<ICellAlgorithm> layers;
+        private List<Color> colors;
 
         private Random random = new Random();
+        private ColorWorker cworker = new ColorWorker();        
 
-        public Multiverse(int width, int height, int layersCount, ICellAlgorithm algorithm) {
-            Initialize(width, height, layersCount, algorithm);
+        public Multiverse(int width, int height, int layersCount) {
+            Initialize(width, height, layersCount);
         }
 
-        private void Initialize(int width, int height, int layersCount, ICellAlgorithm algorithm) {
-            layers = GetRandomData(width, height, layersCount);
-            //colors = new ColorWorker().GetTintsFromColor(Color.FromRgb(0, 125, 168), layersCount);
-            colors = new ColorWorker().GetTintsFromColor(
+        private void Initialize(int width, int height, int layersCount) {
+
+            this.width = (short)width;
+            this.height = (short)height;
+
+            GenerateNotIdenticalLayers(this.width, this.height, (byte)layersCount);
+
+            colors = cworker.GetTintsFromColor(
                 Color.FromRgb((byte)random.Next(255), (byte)random.Next(255), (byte)random.Next(255)), layersCount);
-            this.algorithm = algorithm;
         }
 
-        private List<bool[,]> GetRandomData(int width, int height, int layersCount) {
+        private void GenerateNotIdenticalLayers(short width, short height, byte layersCount) {
 
-            var result = new List<bool[,]>(layersCount);
+            layers = new List<ICellAlgorithm>(layersCount);
 
-            for (int i = 0; i < layersCount; i++) {
-                result.Add(new bool[height, width]);
+            for (short i = 0; i < layersCount; i++) {
 
-                for (int y = 0; y < height; y++) {
-                    for (int x = 0; x < width; x++) {
-                        result[i][y, x] = random.Next(2) == 1;
+                bool[,] newLayer = GetRandomLayer(width, height);
+                bool IdenticalGeneration = true;
+
+                while (IdenticalGeneration && i > 1) {
+                    newLayer = GetRandomLayer(width, height);
+                    foreach (var layer in layers) {
+                        IdenticalGeneration = layer.IsIdentical(newLayer);
                     }
                 }
+                layers.Add(new TheGameOfLifeThreadPool(newLayer));
             }
-            return result;
         }
 
-        Color[,] ICellUniverse.GetNext() {
+        private bool[,] GetRandomLayer(short width, short height) {
+            bool[,] layer = new bool[width, height];
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    layer[x, y] = random.Next(2) == 1;
+                }
+            }
+            return layer;
+        }
 
-            int width  = layers[0].GetLength(1);
-            int height = layers[0].GetLength(0);
+        IEnumerable<Color[,]> ICellUniverse.GetNext() {
 
-            layers = GetNext(layers);
             Color[,] result = new Color[height, width];
 
             for (int i = 0; i < layers.Count; i++) {
-
-                for (int y = 0; y < height; y++) {
-                    for (int x = 0; x < width; x++) {
-                        if (layers[i][y, x]) {
-                            result[y, x] += colors[i];
-                        }
-                    }
+                foreach (var nextCell in layers[i].NextGeneration()) {
+                    if (result[nextCell.Item2, nextCell.Item1] == Color.FromArgb(0, 0, 0, 0)) {
+                        result[nextCell.Item2, nextCell.Item1] = colors[i];
+                    }                    
                 }
+                yield return result;
             }
-            return result;
-        }
-
-        private List<bool[,]> GetNext(List<bool[,]> prevLayers) {
-
-            List<bool[,]> result = new List<bool[,]>(prevLayers.Count);
-
-            for (int i = 0; i < prevLayers.Count; i++) {
-                result.Add(algorithm.NextGeneration(prevLayers[i]));
-            }
-            return result;
         }
     }
 }
