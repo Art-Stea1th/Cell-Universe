@@ -49,7 +49,7 @@ namespace CellUniverse.Models {
                         IdenticalGeneration = layer.IsIdentical(newLayer);
                     }
                 }
-                layers.Add(new TheGameOfLifeThreadPool(newLayer));
+                layers.Add(new TheGameOfLife(newLayer));
             }
         }
 
@@ -71,7 +71,7 @@ namespace CellUniverse.Models {
                 foreach (var nextCell in layers[i].NextGeneration()) {
                     if (result[nextCell.Item2, nextCell.Item1] == Color.FromArgb(0, 0, 0, 0)) {
                         result[nextCell.Item2, nextCell.Item1] = colors[i];
-                    }                    
+                    }
                 }
                 yield return result;
             }

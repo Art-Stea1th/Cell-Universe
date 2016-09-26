@@ -7,8 +7,8 @@
         internal int SurfaceHeight       { get; private set; }
         internal int SpacingBetweenCells { get; private set; }
 
-        private int cellsHorizontal;
-        private int cellsVertical;
+        internal int CellsHorizontal { get; private set; }
+        internal int CellsVertical   { get; private set; }
 
         internal int CellSize { get; private set; }
         internal int OffsetX  { get; private set; }
@@ -22,7 +22,7 @@
 
         internal bool CellsCountChanged(int newCellsHorizontal, int newCellsVertical) {
             return
-                newCellsHorizontal == cellsHorizontal && newCellsVertical == cellsVertical
+                newCellsHorizontal == CellsHorizontal && newCellsVertical == CellsVertical
                 ? false : true;
         }
 
@@ -32,8 +32,8 @@
             SurfaceWidth = surfaceWidth;
             SurfaceHeight = surfaceHeight;
 
-            this.cellsHorizontal = cellsHorizontal;
-            this.cellsVertical   = cellsVertical;
+            this.CellsHorizontal = cellsHorizontal;
+            this.CellsVertical   = cellsVertical;
             SpacingBetweenCells  = spacingBetweenCells;
 
             CellSize = CalculateActualCellSize(

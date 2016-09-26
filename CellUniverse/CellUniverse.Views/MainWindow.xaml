@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         Icon="Resources/MainIcon.ico"
         Title="CellUniverse: Space of the Cellular Machines"
-        Width="1183" Height="578" MinWidth="864" MinHeight="398" ResizeMode="CanResize">
+        Width="1186" Height="580" MinWidth="864" MinHeight="398" ResizeMode="CanResize">
 
     <Window.DataContext>
         <viewmodels:MainWindowViewModel/>

@@ -37,6 +37,7 @@ namespace CellUniverse.ViewModels {
         }
 
         private void Initialize() {
+            //width = 960; height = 540; layersCount = 8;
             width = 320; height = 180; layersCount = 3;
             Delay = 0;
 
@@ -85,7 +86,7 @@ namespace CellUniverse.ViewModels {
         private void Update() {
             foreach (var layer in multiverse.GetNext()) {
                 CellularData = layer;
-            }            
+            }
             UpdateCounters();
             stopwatch.Restart();
         }

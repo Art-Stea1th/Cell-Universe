@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -9,7 +7,7 @@ using System.Windows.Media.Imaging;
 
 namespace CellUniverse.CustomControls.RapidCellularViewportDependencies {
 
-    internal sealed class Renderer {
+    internal sealed class Renderer { // InverseLogic [Once lock() \ unlock() per frame]
 
         private Settings settings;
         private WriteableBitmap surface;
@@ -40,14 +38,53 @@ namespace CellUniverse.CustomControls.RapidCellularViewportDependencies {
                 settings.SpacingBetweenCells != spacingBetweenCells;
         }
 
-        internal WriteableBitmap Render(Color[,] oldCellularData, Color[,] newCellularData) {
+        internal unsafe WriteableBitmap Render(Color[,] oldCellularData, Color[,] newCellularData) {
+
+            var s = settings;
+
+            int startX = s.OffsetX;
+            int startY = s.OffsetY;
+            int width  = (s.CellSize + s.SpacingBetweenCells) * s.CellsHorizontal;
+            int height = (s.CellSize + s.SpacingBetweenCells) * s.CellsVertical;
+
+            surface.Lock();
+
+            foreach (var pixel in NextPixel(oldCellularData, newCellularData)) {
+
+                int pBackBuffer = (int)surface.BackBuffer;
+
+                pBackBuffer += pixel.Item2 * surface.BackBufferStride;
+                pBackBuffer += pixel.Item1 * 4;
+
+                *((int*)pBackBuffer) = pixel.Item3;
+            }
+
+            surface.AddDirtyRect(new Int32Rect(startX, startY, width, height));
+            surface.Unlock();
+
+            return surface;
+        }
+
+        private IEnumerable<Tuple<int, int, int>> NextPixel(Color[,] oldCellularData, Color[,] newCellularData) {
 
             if (IsValidData(oldCellularData, newCellularData)) {
+
                 foreach (var cell in GetDifference(oldCellularData, newCellularData)) {
-                    DrawRect(cell);
+
+                    int cellIndexX = cell.Item1;
+                    int cellIndexY = cell.Item2;
+                    int cellIColor = GetIntColor(cell.Item3.R, cell.Item3.G, cell.Item3.B);
+
+                    int startPosX  = settings.OffsetX + cellIndexX * (settings.CellSize + settings.SpacingBetweenCells);
+                    int startPosY  = settings.OffsetY + cellIndexY * (settings.CellSize + settings.SpacingBetweenCells);
+
+                    for (int y = startPosY; y < startPosY + settings.CellSize; ++y) {
+                        for (int x = startPosX; x < startPosX + settings.CellSize; ++x) {
+                            yield return new Tuple<int, int, int>(x, y, cellIColor);
+                        }
+                    }
                 }
             }
-            return surface;
         }
 
         private bool IsValidData(Color[,] oldCellularData, Color[,] newCellularData) {
@@ -70,47 +107,11 @@ namespace CellUniverse.CustomControls.RapidCellularViewportDependencies {
             InvalidateView = false;
         }
 
-        private void DrawRect(Tuple<int, int, Color> nextRect) {
-
-            int cellIndexX = nextRect.Item1;
-            int cellIndexY = nextRect.Item2;
-            int cellIColor = GetIntColor(nextRect.Item3.R, nextRect.Item3.G, nextRect.Item3.B);
-
-            int startPosX  = settings.OffsetX + cellIndexX * (settings.CellSize + settings.SpacingBetweenCells);
-            int startPosY  = settings.OffsetY + cellIndexY * (settings.CellSize + settings.SpacingBetweenCells);
-
-            DrawRect(startPosX, startPosY, settings.CellSize, settings.CellSize, cellIColor);
-        }
-
         private int GetIntColor(byte red, byte green, byte blue) {
             int result = red << 16;
             result |= green << 8;
             result |= blue << 0;
             return result;
-        }
-
-        private void DrawRect(int startPosX, int startPosY, int width, int height, int color) {
-
-            if (IsValidData(startPosX, startPosY, width, height)) {
-
-                surface.Lock();
-                unsafe
-                {
-                    for (int y = startPosY; y < startPosY + height; ++y) {
-                        for (int x = startPosX; x < startPosX + width; ++x) {
-
-                            int pBackBuffer = (int)surface.BackBuffer;
-
-                            pBackBuffer += y * surface.BackBufferStride;
-                            pBackBuffer += x * 4;
-
-                            *((int*)pBackBuffer) = color;
-                        }
-                    }
-                    surface.AddDirtyRect(new Int32Rect(startPosX, startPosY, width, height));
-                }
-                surface.Unlock();
-            }
         }
 
         private bool IsValidData(int startPosX, int startPosY, int width, int height) {

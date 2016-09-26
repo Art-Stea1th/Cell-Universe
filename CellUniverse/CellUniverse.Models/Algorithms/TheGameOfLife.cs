@@ -9,7 +9,7 @@ namespace CellUniverse.Models.Algorithms {
 
     using Infrastructure.Interfaces;
 
-    public sealed class TheGameOfLifeThreadPool : ICellAlgorithm {
+    public sealed class TheGameOfLife : ICellAlgorithm {
 
         private short width, height;
 
@@ -23,14 +23,14 @@ namespace CellUniverse.Models.Algorithms {
 
         private bool allColumnsBypassed;
 
-        public TheGameOfLifeThreadPool(short width, short height) {
+        public TheGameOfLife(short width, short height) {
             generation = new bool[width, height];
             buffer2d = new bool[width, height];
             Initialize();
             FillRandom();
         }
 
-        public TheGameOfLifeThreadPool(bool[,] generation) {
+        public TheGameOfLife(bool[,] generation) {
             this.generation = generation;
             width = (short)generation.GetLength(0);
             height = (short)generation.GetLength(1);
@@ -91,7 +91,6 @@ namespace CellUniverse.Models.Algorithms {
         }
 
         private void Swap() {
-            //Buffer.BlockCopy(buffer2d, 0, generation, 0, width * height);
             generation = buffer2d;
             buffer2d = new bool[width, height];
         }
@@ -102,18 +101,15 @@ namespace CellUniverse.Models.Algorithms {
 
             for (short row = 0; row < height; row++) {
 
-                short x = col, y = row;
+                int neighboursCount = CountNeighbours(col, row);
 
-                int neighboursCount = CountNeighbours(x, y);
-
-                if ((neighboursCount == 2 || neighboursCount == 3) && generation[x, y]) {
-                    buffer.Enqueue(new Tuple<short, short, bool>(x, y, buffer2d[x, y] = true));
+                if ((neighboursCount == 2 || neighboursCount == 3) && generation[col, row]) {
+                    buffer.Enqueue(new Tuple<short, short, bool>(col, row, true));
+                    buffer2d[col, row] = true;
                 }
-                if ((neighboursCount < 2 || neighboursCount > 3) && generation[x, y]) {
-                    buffer.Enqueue(new Tuple<short, short, bool>(x, y, buffer2d[x, y] = false));
-                }
-                if (neighboursCount == 3 && !generation[x, y]) {
-                    buffer.Enqueue(new Tuple<short, short, bool>(x, y, buffer2d[x, y] = true));
+                if (neighboursCount == 3 && !generation[col, row]) {
+                    buffer.Enqueue(new Tuple<short, short, bool>(col, row, true));
+                    buffer2d[col, row] = true;
                 }
             }
             Interlocked.Decrement(ref totalOfColumnsCalculate);

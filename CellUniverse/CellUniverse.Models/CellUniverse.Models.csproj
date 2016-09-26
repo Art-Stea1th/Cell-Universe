@@ -66,8 +66,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algorithms\TheGameOfLifeSync.cs" />
-    <Compile Include="Algorithms\TheGameOfLifeThreadPool.cs" />
+    <Compile Include="Algorithms\TheGameOfLife.cs" />
     <Compile Include="ColorWorker.cs" />
     <Compile Include="Multiverse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
