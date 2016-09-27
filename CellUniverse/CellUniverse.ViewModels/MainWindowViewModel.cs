@@ -32,13 +32,15 @@ namespace CellUniverse.ViewModels {
         public int MinSpeed { get; } = 0;
         public int MaxSpeed { get; } = 500;
 
+        public int SpacingBetweenCells { get; set; }
+
         public MainWindowViewModel() {
             Initialize();
         }
 
         private void Initialize() {
-            //width = 960; height = 540; layersCount = 8;
-            width = 320; height = 180; layersCount = 3;
+            //width = 960; height = 540; layersCount = 3; SpacingBetweenCells = 1;
+            width = 320; height = 180; layersCount = 3; SpacingBetweenCells = 1;
             Delay = 0;
 
             timer = new DispatcherTimer();

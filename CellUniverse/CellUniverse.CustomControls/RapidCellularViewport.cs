@@ -13,10 +13,16 @@ namespace CellUniverse.CustomControls {
         #region DependencyProperties
 
         public static readonly DependencyProperty CellularDataProperty;
+        public static readonly DependencyProperty SpacingBetweenCellsProperty;
 
         public Color[,] CellularData {
             get { return (Color[,])GetValue(CellularDataProperty); }
             set { SetValue(CellularDataProperty, value); }
+        }
+
+        public int SpacingBetweenCells {
+            get { return (int)GetValue(SpacingBetweenCellsProperty); }
+            set { SetValue(SpacingBetweenCellsProperty, value); }
         }
 
         static RapidCellularViewport() {
@@ -25,16 +31,23 @@ namespace CellUniverse.CustomControls {
                 typeof(RapidCellularViewport), new FrameworkPropertyMetadata(typeof(RapidCellularViewport)));
 
             var cellularDataPropertyMetadata = new FrameworkPropertyMetadata();
-
             cellularDataPropertyMetadata.DefaultValue = null;
             cellularDataPropertyMetadata.BindsTwoWayByDefault = true;
             cellularDataPropertyMetadata.AffectsRender = true;
+            cellularDataPropertyMetadata.PropertyChangedCallback = OnCellularDataChangedCallback;            
 
-            cellularDataPropertyMetadata.PropertyChangedCallback = OnCellularDataChangedCallback;
+            var spacingBetweenCellsPropertyMetadata = new FrameworkPropertyMetadata();
+            spacingBetweenCellsPropertyMetadata.DefaultValue = 0;
+            spacingBetweenCellsPropertyMetadata.BindsTwoWayByDefault = true;
+            spacingBetweenCellsPropertyMetadata.AffectsRender = true;
 
             CellularDataProperty =
                 DependencyProperty.Register(
                     "CellularData", typeof(Color[,]), typeof(RapidCellularViewport), cellularDataPropertyMetadata);
+
+            SpacingBetweenCellsProperty =
+                DependencyProperty.Register(
+                    "SpacingBetweenCells", typeof(int), typeof(RapidCellularViewport), spacingBetweenCellsPropertyMetadata);
         }
 
         private static void OnCellularDataChangedCallback(DependencyObject sender, DependencyPropertyChangedEventArgs e) {
@@ -57,8 +70,6 @@ namespace CellUniverse.CustomControls {
 
         private Settings settings;
         private Renderer renderer;
-
-        private int spacingBetweenCells = 1;
 
         public override void OnApplyTemplate() {
 
@@ -85,7 +96,7 @@ namespace CellUniverse.CustomControls {
             int cellsHorizontal = GetNonZeroGuaranteed(CellularData.GetLength(1));
             int cellsVertical   = GetNonZeroGuaranteed(CellularData.GetLength(0));
 
-            renderer.Update(surfaceWidth, surfaceHeight, cellsHorizontal, cellsVertical, spacingBetweenCells);
+            renderer.Update(surfaceWidth, surfaceHeight, cellsHorizontal, cellsVertical, SpacingBetweenCells);
             cellSurfaceControl.Source = renderer.Render(oldCellularData, CellularData);
         }
 

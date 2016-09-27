@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithms\TheGameOfLife.cs" />
+    <Compile Include="Algorithms\TheGameOfLifeSzArrays.cs" />
     <Compile Include="ColorWorker.cs" />
     <Compile Include="Multiverse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

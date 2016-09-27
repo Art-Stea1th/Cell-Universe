@@ -9,12 +9,12 @@ namespace CellUniverse.Models.Algorithms {
 
     using Infrastructure.Interfaces;
 
-    public sealed class TheGameOfLife : ICellAlgorithm {
+    public sealed class TheGameOfLifeSzArrays : ICellAlgorithm {
 
-        private int width, height;
+        private static int width, height;
 
-        private bool[,] generation;
-        private bool[,] buffer2d;
+        private bool[][] generation; // SZARRAYS[][] - faster than - MDARRAYS[,] // is a critical
+        private bool[][] buffer2d;   // http://www.codeproject.com/Articles/3467/Arrays-UNDOCUMENTED
 
         private Random random;
 
@@ -23,19 +23,34 @@ namespace CellUniverse.Models.Algorithms {
 
         private bool allColumnsBypassed;
 
-        public TheGameOfLife(int width, int height) {
-            generation = new bool[width, height];
-            buffer2d = new bool[width, height];
+        public TheGameOfLifeSzArrays(int width, int height) {
+            generation = NewSzArray2d(width, height);
+            buffer2d = NewSzArray2d(width, height);            
             Initialize();
             FillRandom();
         }
 
-        public TheGameOfLife(bool[,] generation) {
-            this.generation = generation;
+        public TheGameOfLifeSzArrays(bool[,] generation) {
             width = generation.GetLength(0);
             height = generation.GetLength(1);
-            buffer2d = new bool[width, height];
+            this.generation = NewSzArray2d(width, height);
+
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    this.generation[x][y] = generation[x, y];
+                }
+            }
+
+            buffer2d = NewSzArray2d(width, height);
             Initialize();
+        }
+
+        private bool[][] NewSzArray2d(int width, int height) {
+            bool[][] result = new bool[width][];
+            for (int i = 0; i < width; ++i) {
+                result[i] = new bool[height];
+            }
+            return result;
         }
 
         private void Initialize() {
@@ -46,7 +61,7 @@ namespace CellUniverse.Models.Algorithms {
         private void FillRandom() {
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
-                    generation[x, y] = random.Next(2) == 1;
+                    generation[x][y] = random.Next(2) == 1;
                 }
             }
         }
@@ -81,7 +96,7 @@ namespace CellUniverse.Models.Algorithms {
 
         private void Swap() {
             generation = buffer2d;
-            buffer2d = new bool[width, height];
+            buffer2d = NewSzArray2d(width, height);
         }
 
         private void CalculateColumn(object column) {
@@ -92,13 +107,13 @@ namespace CellUniverse.Models.Algorithms {
 
                 int neighboursCount = CountNeighbours(col, row);
 
-                if ((neighboursCount == 2 || neighboursCount == 3) && generation[col, row]) {
+                if ((neighboursCount == 2 || neighboursCount == 3) && generation[col][row]) {
                     buffer.Enqueue(new Tuple<int, int, bool>(col, row, true));
-                    buffer2d[col, row] = true;
+                    buffer2d[col][row] = true;
                 }
-                if (neighboursCount == 3 && !generation[col, row]) {
+                if (neighboursCount == 3 && !generation[col][row]) {
                     buffer.Enqueue(new Tuple<int, int, bool>(col, row, true));
-                    buffer2d[col, row] = true;
+                    buffer2d[col][row] = true;
                 }
             }
             Interlocked.Decrement(ref totalOfColumnsCalculate);
@@ -123,7 +138,7 @@ namespace CellUniverse.Models.Algorithms {
                     if (py == -1) py = height - 1;
                     else if (py == height) py = 0;
 
-                    if (generation[px, py])
+                    if (generation[px][py])
                         counter++;
                 }
             }

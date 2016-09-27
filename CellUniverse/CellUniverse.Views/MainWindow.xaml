@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         Icon="Resources/MainIcon.ico"
         Title="CellUniverse: Space of the Cellular Machines"
-        Width="1186" Height="580" MinWidth="864" MinHeight="398" ResizeMode="CanResize">
+        Width="1187" Height="582" MinWidth="868" MinHeight="402" ResizeMode="CanResize">
 
     <Window.DataContext>
         <viewmodels:MainWindowViewModel/>
@@ -23,7 +23,8 @@
 
         <customcontrols:RapidCellularViewport
             Name="cellUniverseViewport" Grid.Column="0"
-            CellularData="{Binding CellularData}"/>
+            CellularData="{Binding CellularData}"
+            SpacingBetweenCells="{Binding SpacingBetweenCells}"/>
 
         <Grid Name="controlsContainer" Grid.Column="1" Margin="8" MinWidth="192">
             <Grid.RowDefinitions>

@@ -5,7 +5,6 @@ namespace CellUniverse.Infrastructure.Interfaces {
 
     public interface ICellAlgorithm {
 
-        IEnumerable<Tuple<short, short, bool>> NextGeneration();
-        bool IsIdentical(bool[,] layer);
+        IEnumerable<Tuple<int, int, bool>> NextGeneration();
     }
 }
