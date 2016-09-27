@@ -1,0 +1,194 @@
+﻿<Window x:Class="CellUniverse.Managed.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CellUniverse.Managed.Views"
+        xmlns:customcontrols="clr-namespace:CellUniverse.Managed.CustomControls;assembly=customcontrols"
+        xmlns:viewmodels="clr-namespace:CellUniverse.Managed.ViewModels;assembly=viewmodels"
+        mc:Ignorable="d"
+        Icon="Resources/MainIcon.ico"
+        Title="CellUniverse: Space of the Cellular Machines"
+        Width="1187" Height="582" MinWidth="868" MinHeight="402" ResizeMode="CanResize">
+
+    <Window.DataContext>
+        <viewmodels:MainWindowViewModel/>
+    </Window.DataContext>
+
+    <Grid Name="mainGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <customcontrols:RapidCellularViewport
+            Name="cellUniverseViewport" Grid.Column="0"
+            CellularData="{Binding CellularData}"
+            SpacingBetweenCells="{Binding SpacingBetweenCells}"/>
+
+        <Grid Name="controlsContainer" Grid.Column="1" Margin="8" MinWidth="192">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Vertical" Grid.Row="0">
+
+                <Grid Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Label
+                        Name="totalTimeLabel"
+                        Grid.Row="0" Grid.Column="0"
+                        Content="Total Time:"/>
+
+                    <TextBlock
+                        Name="totalTimeTextBox"
+                        Grid.Row="0" Grid.Column="1"
+                        Padding="4" HorizontalAlignment="Right"
+                        IsEnabled="False">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0:00;00}:{1:00;00}:{2:000;000}">
+                                <Binding Path="TotalTime.Minutes"/>
+                                <Binding Path="TotalTime.Seconds"/>
+                                <Binding Path="TotalTime.Milliseconds"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+
+                    <Label
+                        Name="totalGenerationsLabel"
+                        Grid.Row="1" Grid.Column="0"
+                        Content="Total Generations:"/>
+
+                    <TextBlock
+                        Name="totalGenerationsTextBox"
+                        Grid.Row="1" Grid.Column="1"
+                        Padding="4" HorizontalAlignment="Right"
+                        Text="{Binding Path=TotalGenerations, UpdateSourceTrigger=PropertyChanged}"
+                        IsEnabled="False"/>                    
+                </Grid>
+
+                <Grid Margin="0,24,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Label
+                        Name="framesPerSecondLabel"
+                        Grid.Row="0" Grid.Column="0"
+                        Content="Frames per Second:"/>
+
+                    <TextBlock
+                        Name="framesPerSecondTextBox"
+                        Grid.Row="0" Grid.Column="1"
+                        Padding="4" HorizontalAlignment="Right"
+                        Text="{Binding Path=FramesPerSecond, UpdateSourceTrigger=PropertyChanged}"
+                        IsEnabled="False"/>
+
+                    <Label
+                        Name="generationsPerSecondLabel"
+                        Grid.Row="1" Grid.Column="0"
+                        Content="Generations per Second:"/>
+
+                    <TextBlock
+                        Name="generationsPerSecondTextBox"
+                        Grid.Row="1" Grid.Column="1"
+                        Padding="4" HorizontalAlignment="Right"
+                        Text="{Binding Path=GenerationsPerSecond, UpdateSourceTrigger=PropertyChanged}"
+                        IsEnabled="False"/>
+
+                    <Label
+                        Name="layersCountLabel"
+                        Grid.Row="2" Grid.Column="0"
+                        Content="Layers Count:"/>
+
+                    <TextBlock
+                        Name="layersCountTextBox"
+                        Grid.Row="2" Grid.Column="1"
+                        Padding="4" HorizontalAlignment="Right"
+                        Text="{Binding Path=LayersCount, UpdateSourceTrigger=PropertyChanged}"
+                        IsEnabled="False"/>
+
+                    <Label
+                        Name="nextGenerationsTimeLabel"
+                        Grid.Row="3" Grid.Column="0"
+                        Content="Next Generations Time:"/>
+
+                    <TextBlock
+                        Name="nextGenerationsTimeTextBox"
+                        Grid.Row="3" Grid.Column="1"
+                        Padding="4" HorizontalAlignment="Right"
+                        Text="{Binding Path=NextGenerationsTime, UpdateSourceTrigger=PropertyChanged}"
+                        IsEnabled="False"/>
+                </Grid>
+                
+                <Grid Margin="0,24,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Label
+                        Name="delayLabel"
+                        Grid.Row="0" Grid.Column="0"
+                        Content="Delay:"/>
+
+                    <TextBlock
+                        Name="delayTextBox"
+                        Grid.Row="0" Grid.Column="1"
+                        Padding="4" HorizontalAlignment="Right"
+                        Text="{Binding Path=Delay, UpdateSourceTrigger=PropertyChanged}"
+                        IsEnabled="True"/>
+
+                    <Slider
+                        Name="delaySlider"
+                        Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                        Padding="4"
+                        IsSnapToTickEnabled="True"
+                        Value="{Binding Path=Delay, UpdateSourceTrigger=PropertyChanged}"
+                        Minimum="{Binding Path=MinSpeed}"
+                        Maximum="{Binding Path=MaxSpeed}"/>
+                </Grid>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Grid.Row="1">
+
+                <Button
+                    Name="startPauseResume"
+                    Padding="4" Margin="0,2"
+                    Content="{Binding Path=StartPauseResumeButtonText, UpdateSourceTrigger=PropertyChanged}"
+                    Command="{Binding StartPauseResumeSimulation}"/>
+
+                <Button
+                    Name="stopReset"
+                    Padding="4" Margin="0,2,0,0"
+                    Content="{Binding Path=StopResetButtonText, UpdateSourceTrigger=PropertyChanged}"
+                    Command="{Binding StopResetSimulation}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
