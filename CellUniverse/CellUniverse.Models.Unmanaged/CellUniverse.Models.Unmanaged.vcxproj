@@ -154,6 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CellInfo.h" />
     <ClInclude Include="TheGameOfLifeNative.h" />
   </ItemGroup>
   <ItemGroup>

@@ -36,25 +36,25 @@ namespace CellUniverse.Models {
 
         private void GenerateNotIdenticalLayers(int width, int height, byte layersCount) {
 
-            List<bool[,]> layersData = new List<bool[,]>(layersCount);
+            //List<bool[,]> layersData = new List<bool[,]>(layersCount);
 
-            for (int i = 0; i < layersCount; i++) {
+            //for (int i = 0; i < layersCount; i++) {
 
-                bool[,] newLayer = GetRandomLayer(width, height);
-                bool IdenticalGeneration = true;
+            //    bool[,] newLayer = GetRandomLayer(width, height);
+            //    bool IdenticalGeneration = true;
 
-                while (IdenticalGeneration && i > 1) {
-                    newLayer = GetRandomLayer(width, height);
-                    foreach (var layer in layersData) {
-                        IdenticalGeneration = IsIdentical(layer, newLayer);
-                    }
-                }
-                layersData.Add(newLayer);
-            }
+            //    while (IdenticalGeneration && i > 1) {
+            //        newLayer = GetRandomLayer(width, height);
+            //        foreach (var layer in layersData) {
+            //            IdenticalGeneration = IsIdentical(layer, newLayer);
+            //        }
+            //    }
+            //    layersData.Add(newLayer);
+            //}
             layers = new List<ICellAlgorithm>(layersCount);
             for (int i = 0; i < layersCount; i++) {
-                layers.Add(new TheGameOfLife(layersData[i]));
-                //layers.Add(new TheGameOfLifeN(width, height));
+                //layers.Add(new TheGameOfLife(layersData[i]));
+                layers.Add(new TheGameOfLifeN(width, height));
             }
         }
 
@@ -86,7 +86,7 @@ namespace CellUniverse.Models {
             for (int i = 0; i < layers.Count; i++) {
                 foreach (var nextCell in layers[i].NextGeneration()) {
                     if (result[nextCell.Item2, nextCell.Item1] == Color.FromArgb(0, 0, 0, 0)) {
-                        result[nextCell.Item2, nextCell.Item1] += colors[i];
+                        result[nextCell.Item2, nextCell.Item1] = colors[i];
                     }
                 }
                 yield return result;

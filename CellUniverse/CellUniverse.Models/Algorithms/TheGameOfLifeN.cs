@@ -13,7 +13,7 @@ namespace CellUniverse.Models.Algorithms {
 
         public TheGameOfLifeN(int width, int height) {
             nativeModel = new CTheGameOfLifeWrapper(this.width = width, this.height = height);
-        }        
+        }
 
         IEnumerable<Tuple<int, int, bool>> ICellAlgorithm.NextGeneration() {
 
@@ -21,7 +21,9 @@ namespace CellUniverse.Models.Algorithms {
 
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
-                    yield return new Tuple<int, int, bool>(x, y, false);
+                    if (next[x, y]) {
+                        yield return new Tuple<int, int, bool>(x, y, false);
+                    }                    
                 }
             }
         }
