@@ -9,16 +9,17 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TheGameOfLife.h">
+    <ClInclude Include="TheGameOfLife.cuh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TheGameOfLifeCUDA.cuh">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TheGameOfLife.cpp">
+    <CudaCompile Include="TheGameOfLife.cu">
       <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
+    </CudaCompile>
     <CudaCompile Include="TheGameOfLifeCUDA.cu">
       <Filter>Source Files</Filter>
     </CudaCompile>

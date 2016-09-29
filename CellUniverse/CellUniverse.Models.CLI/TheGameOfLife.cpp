@@ -1,5 +1,5 @@
 #include "TheGameOfLife.h"
-#include"..\CellUniverse.Models.CUDA\TheGameOfLife.h"
+#include"..\CellUniverse.Models.CUDA\TheGameOfLife.cuh"
 
 using namespace CellUniverse::Models::CLI;
 

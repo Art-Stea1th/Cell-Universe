@@ -39,7 +39,7 @@ namespace CellUniverse.ViewModels {
         }
 
         private void Initialize() {
-            //width = 960; height = 540; layersCount = 3; SpacingBetweenCells = 0;
+            //width = 960; height = 540; layersCount = 1; SpacingBetweenCells = 0;
             width = 320; height = 180; layersCount = 3; SpacingBetweenCells = 1;
             Delay = 0;
 

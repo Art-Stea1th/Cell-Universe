@@ -1,5 +1,5 @@
 #pragma once
-
+#define CLI_MODEL
 
 namespace CellUniverse {
 	namespace Models {

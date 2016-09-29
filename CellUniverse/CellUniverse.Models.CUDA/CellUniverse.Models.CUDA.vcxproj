@@ -19,12 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TheGameOfLife.h" />
+    <ClInclude Include="TheGameOfLife.cuh" />
+    <ClInclude Include="TheGameOfLifeCUDA.cuh" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TheGameOfLife.cpp" />
-  </ItemGroup>
-  <ItemGroup>
+    <CudaCompile Include="TheGameOfLife.cu" />
     <CudaCompile Include="TheGameOfLifeCUDA.cu" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
