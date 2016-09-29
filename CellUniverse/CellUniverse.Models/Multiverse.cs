@@ -54,7 +54,7 @@ namespace CellUniverse.Models {
             layers = new List<ICellAlgorithm>(layersCount);
             for (int i = 0; i < layersCount; i++) {
                 //layers.Add(new TheGameOfLife(layersData[i]));
-                layers.Add(new TheGameOfLifeN(width, height));
+                layers.Add(new TheGameOfLifeNativeWrapper(width, height));
             }
         }
 

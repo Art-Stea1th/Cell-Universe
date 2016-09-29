@@ -19,10 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{05D03DA8-DCFE-4E11-B97B-C38E75080C00}</ProjectGuid>
+    <ProjectGuid>{DE2C9FEF-5623-4144-9E77-CB50474CEAE6}</ProjectGuid>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <Keyword>ManagedCProj</Keyword>
-    <RootNamespace>CellUniverseModelsUnmanagedWrappers</RootNamespace>
+    <RootNamespace>CellUniverseModelsCLI</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -74,23 +74,27 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <TargetName>modelsuw</TargetName>
     <OutDir>..\CellUniverse.Views\bin\Debug</OutDir>
+    <IntDir>..\CellUniverse.Views\obj\Debug\Intermediate</IntDir>
+    <TargetName>modelscli</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <TargetName>modelsuw</TargetName>
     <OutDir>..\CellUniverse.Views\bin\Debug</OutDir>
+    <IntDir>..\CellUniverse.Views\obj\Debug\Intermediate</IntDir>
+    <TargetName>modelscli</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <TargetName>modelsuw</TargetName>
     <OutDir>..\CellUniverse.Views\bin\Release</OutDir>
+    <IntDir>..\CellUniverse.Views\obj\Release\Intermediate</IntDir>
+    <TargetName>modelscli</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <TargetName>modelsuw</TargetName>
     <OutDir>..\CellUniverse.Views\bin\Release</OutDir>
+    <IntDir>..\CellUniverse.Views\obj\Release\Intermediate</IntDir>
+    <TargetName>modelscli</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -131,14 +135,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="TheGameOfLifeWrapper.h" />
+    <ClInclude Include="TheGameOfLife.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TheGameOfLifeWrapper.cpp" />
+    <ClCompile Include="TheGameOfLife.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CellUniverse.Models.Unmanaged\CellUniverse.Models.Unmanaged.vcxproj">
-      <Project>{49312c0d-e63f-4ebf-9446-19f5f1e9de36}</Project>
+    <ProjectReference Include="..\CellUniverse.Models.CUDA\CellUniverse.Models.CUDA.vcxproj">
+      <Project>{82490a06-287c-4eda-89fc-e6babb9d7de2}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

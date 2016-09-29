@@ -31,6 +31,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -68,7 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithms\TheGameOfLife.cs" />
-    <Compile Include="Algorithms\TheGameOfLifeN.cs" />
+    <Compile Include="Algorithms\TheGameOfLifeNativeWrapper.cs" />
     <Compile Include="ColorWorker.cs" />
     <Compile Include="Multiverse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -99,9 +100,9 @@
       <Project>{e39f291b-0e29-46b4-a757-9ffc5a3bd738}</Project>
       <Name>CellUniverse.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CellUniverse.Models.Unmanaged.Wrappers\CellUniverse.Models.Unmanaged.Wrappers.vcxproj">
-      <Project>{05d03da8-dcfe-4e11-b97b-c38e75080c00}</Project>
-      <Name>CellUniverse.Models.Unmanaged.Wrappers</Name>
+    <ProjectReference Include="..\CellUniverse.Models.CLI\CellUniverse.Models.CLI.vcxproj">
+      <Project>{de2c9fef-5623-4144-9e77-cb50474ceae6}</Project>
+      <Name>CellUniverse.Models.CLI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
