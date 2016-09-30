@@ -3,55 +3,69 @@
 
 namespace CellUniverse {
 	namespace Models {
-		namespace CUDA {			
-
-			// --- SHARED ------------
+		namespace CUDA {
 
 			int _width;
 			int _height;
-
-			// --- DEVICE ------------
+			size_t _size;
 
 			dim3 _blocks_grid;
 
-			bool* _dev_generation;
+			bool* _dev_matrix;
 			bool* _dev_buffer;
 
 
-			// --- SHARED ----------------------------------------------------------------------------------------------
+			void InitializeDevice(bool** &matrix, int width, int height) {
 
-			void Initialize(bool** &matrix, const int &width, const int &height) {
+				ConfigureDevice(width, height);
 
-				_width = width; _height = height;				
-
-				AllocateLinearMatrixOnHost(matrix, width, height);				
-				FillRandomLinearMatrixOnHost(matrix, width, height);				
-
-				Configure(width, height);
-
-				AllocateLinearMatrixOnDevice(_dev_generation, width, height);
+				AllocateLinearMatrixOnDevice(_dev_matrix, width, height);
 				AllocateLinearMatrixOnDevice(_dev_buffer, width, height);
 
-				cudaMemcpy(_dev_generation, matrix[0], width * height * sizeof(bool), cudaMemcpyHostToDevice);
+				cudaMemcpy(_dev_matrix, matrix[0], _size, cudaMemcpyHostToDevice);
 			}
-			
+
+			void ConfigureDevice(int width, int height) {
+				_width = width; _height = height;
+				_size = width * height * sizeof(bool);
+				cudaSetDevice(0);
+				_blocks_grid = dim3(_width, _height);				
+			}
+
+			void AllocateLinearMatrixOnDevice(bool* &matrix, int width, int height) {
+
+				cudaMalloc((void**)&matrix, _size);
+				InitializeLinearMatrixOnDevice<<<_blocks_grid, 1>>>(matrix);
+			}
+
+			GLOBAL void InitializeLinearMatrixOnDevice(bool* matrix) {
+
+				int width = gridDim.x;
+				int x = blockIdx.x;
+				int y = blockIdx.y;
+
+				int index1D = width * y + x;
+
+				matrix[index1D] = false;
+			}
+
 			void CalculateNextGeneration(bool** &matrix) {
-				DoNextStep<<<_blocks_grid, 1>>>(_dev_generation, _dev_buffer);
-				SwapValues<<<_blocks_grid, 1>>>(_dev_generation, _dev_buffer);
+				DoNextStep<<<_blocks_grid, 1>>>(_dev_matrix, _dev_buffer);
+				SwapValues<<<_blocks_grid, 1>>>(_dev_matrix, _dev_buffer);
 				InitializeLinearMatrixOnDevice<<<_blocks_grid, 1>>>(_dev_buffer);
-				cudaMemcpy(matrix[0], _dev_generation, _width * _height * sizeof(bool), cudaMemcpyDeviceToHost);
+				cudaMemcpy(matrix[0], _dev_matrix, _size, cudaMemcpyDeviceToHost);
 			}
 
 			GLOBAL void DoNextStep(bool* dev_matrix, bool* dev_buffer) {
 
 				int width = gridDim.x;
 				int height = gridDim.y;
-				int col = blockIdx.x;
-				int row = blockIdx.y;
+				int x = blockIdx.x;
+				int y = blockIdx.y;
 
-				int index1D = width * row + col;
+				int index1D = width * y + x;
 
-				int neighboursCount = CountNeighbours(dev_matrix, width, height, col, row);
+				int neighboursCount = CountNeighbours(dev_matrix, width, height, x, y);
 
 				if ((neighboursCount == 2 || neighboursCount == 3) && dev_matrix[index1D]) {
 					dev_buffer[index1D] = true;
@@ -62,20 +76,7 @@ namespace CellUniverse {
 				if (neighboursCount == 3 && !dev_matrix[index1D]) {
 					dev_buffer[index1D] = true;
 				}
-			}
-
-			GLOBAL void SwapValues(bool* dev_matrix, bool* dev_buffer) {
-
-				int width = gridDim.x;
-				int col = blockIdx.x;
-				int row = blockIdx.y;
-
-				int index1D = width * row + col;
-
-				bool tmp = dev_matrix[index1D];
-				dev_matrix[index1D] = dev_buffer[index1D];
-				dev_buffer[index1D] = tmp;
-			}
+			}			
 
 			DEVICE int CountNeighbours(bool* &dev_matrix, int width, int height, int posX, int posY) {
 
@@ -106,78 +107,27 @@ namespace CellUniverse {
 				return counter;
 			}
 
-			void Destroy(bool** &matrix) {
-				
-				DestroyLinearMatrixOnDevice(_dev_buffer);
-				DestroyLinearMatrixOnDevice(_dev_generation);
-
-				DestroyLinearMatrixOnHost(matrix);
-			}
-
-			// --- HOST ------------------------------------------------------------------------------------------------						
-
-			void AllocateLinearMatrixOnHost(bool** &matrix, const int &width, const int &height) {
-
-				matrix = new bool*[height];
-				matrix[0] = new bool[height * width];
-
-				for (int i(1); i < height; ++i) {
-					matrix[i] = matrix[i - 1] + width;
-				}
-				InitializeLinearMatrixOnHost(matrix, width, height);
-			}
-
-			void InitializeLinearMatrixOnHost(bool** &matrix, const int &width, const int &height) {
-
-				int index = width * height;
-
-				while (index--) {
-					matrix[0][index] = false;
-				}
-			}
-
-			void FillRandomLinearMatrixOnHost(bool** &matrix, const int &width, const int &height) {
-
-				int index = width * height; std::random_device random;
-
-				while (index--) {
-					matrix[0][index] = static_cast<bool>(random() % 2);
-				}
-			}
-
-			void DestroyLinearMatrixOnHost(bool** &matrix) {
-				delete[] matrix[0];
-				matrix[0] = nullptr;
-				delete[] matrix;
-				matrix = nullptr;
-			}
-
-			// --- DEVICE ----------------------------------------------------------------------------------------------			
-
-			void Configure(const int &width, const int &height) {
-				_blocks_grid = dim3(width, height);
-				cudaSetDevice(0);
-			}
-
-			void AllocateLinearMatrixOnDevice(bool* &matrix, const int &width, const int &height) {
-
-				cudaMalloc((void**)&matrix, width * height * sizeof(bool));				
-				InitializeLinearMatrixOnDevice<<<_blocks_grid, 1>>>(matrix);
-			}
-
-			GLOBAL void InitializeLinearMatrixOnDevice(bool* matrix) {
+			GLOBAL void SwapValues(bool* dev_matrix, bool* dev_buffer) {
 
 				int width = gridDim.x;
-				int col = blockIdx.x;
-				int row = blockIdx.y;
+				int x = blockIdx.x;
+				int y = blockIdx.y;
 
-				int index1D = width * row + col;
-				
-				matrix[index1D] = false;
+				int index1D = width * y + x;
+
+				bool tmp = dev_matrix[index1D];
+				dev_matrix[index1D] = dev_buffer[index1D];
+				dev_buffer[index1D] = tmp;				
 			}
 
-			void DestroyLinearMatrixOnDevice(bool* &matrix) {
-				cudaFree(matrix);
+			void FreeDevice() {
+				DestroyLinearMatrixOnDevice(_dev_buffer);
+				DestroyLinearMatrixOnDevice(_dev_matrix);
+			}
+
+			void DestroyLinearMatrixOnDevice(bool* matrix) {
+				cudaFree(&matrix);
+				matrix = nullptr;
 			}
 		}
 	}

@@ -9,7 +9,12 @@ namespace CellUniverse {
 
 			private:
 
-				bool** next_result;
+				bool** matrix;
+
+				void AllocateLinearMatrix(const int &width, const int &height);
+				void InitializeLinearMatrix(const int &width, const int &height);
+				void FillRandomLinearMatrix(const int &width, const int &height);
+				void DestroyLinearMatrix();
 
 			public:
 
