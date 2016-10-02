@@ -1,23 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Media;
+using System.Collections.Generic;
 
 namespace CellUniverse.Models {
 
     using Infrastructure.Interfaces;
-    using Algorithms;
+    using TheGameOfLife;
+    using TheGameOfLife.CLI;
 
-    public sealed class Multiverse : ICellUniverse {
+    public sealed class Multiverse : IUniverseModelColored {
 
         private int width, height;
 
-        private List<ICellAlgorithm> layers;
+        private List<IUniverseModel> layers;
         private List<Color> colors;
 
         private Random random = new Random();
-        private ColorWorker cworker = new ColorWorker();        
+        private ColorWorker cworker = new ColorWorker();
+
+        IEnumerable<Color[,]> IUniverseModelColored.NextScreen {
+            get {
+                Color[,] result = new Color[height, width];
+
+                for (int i = 0; i < layers.Count; i++) {
+                    foreach (var nextCell in layers[i].NextGeneration) {
+                        if (result[nextCell.Item2, nextCell.Item1] == Color.FromArgb(0, 0, 0, 0)) {
+                            result[nextCell.Item2, nextCell.Item1] = colors[i];
+                        }
+                    }
+                    yield return result;
+                }
+            }
+        }
 
         public Multiverse(int width, int height, int layersCount) {
             Initialize(width, height, layersCount);
@@ -36,26 +50,26 @@ namespace CellUniverse.Models {
 
         private void GenerateNotIdenticalLayers(int width, int height, byte layersCount) {
 
-            //List<bool[,]> layersData = new List<bool[,]>(layersCount);
+            List<bool[,]> layersData = new List<bool[,]>(layersCount);
 
-            //for (int i = 0; i < layersCount; i++) {
-
-            //    bool[,] newLayer = GetRandomLayer(width, height);
-            //    bool IdenticalGeneration = true;
-
-            //    while (IdenticalGeneration && i > 1) {
-            //        newLayer = GetRandomLayer(width, height);
-            //        foreach (var layer in layersData) {
-            //            IdenticalGeneration = IsIdentical(layer, newLayer);
-            //        }
-            //    }
-            //    layersData.Add(newLayer);
-            //}
-            layers = new List<ICellAlgorithm>(layersCount);
             for (int i = 0; i < layersCount; i++) {
-                //layers.Add(new TheGameOfLife(layersData[i]));
-                layers.Add(new TheGameOfLifeNativeWrapper(width, height));
+
+                bool[,] newLayer = GetRandomLayer(width, height);
+                bool IdenticalGeneration = true;
+
+                while (IdenticalGeneration && i > 1) {
+                    newLayer = GetRandomLayer(width, height);
+                    foreach (var layer in layersData) {
+                        IdenticalGeneration = IsIdentical(layer, newLayer);
+                    }
+                }
+                layersData.Add(newLayer);
             }
+            layers = new List<IUniverseModel>(layersCount);
+            for (int i = 0; i < layersCount; i++) {
+                layers.Add(new Universe(layersData[i]));
+            }
+            //layers.Add(new NativeWrapperModel(width, height));
         }
 
         private bool[,] GetRandomLayer(int width, int height) {
@@ -77,20 +91,6 @@ namespace CellUniverse.Models {
                 }
             }
             return true;
-        }
-
-        IEnumerable<Color[,]> ICellUniverse.GetNext() {
-
-            Color[,] result = new Color[height, width];
-
-            for (int i = 0; i < layers.Count; i++) {
-                foreach (var nextCell in layers[i].NextGeneration()) {
-                    if (result[nextCell.Item2, nextCell.Item1] == Color.FromArgb(0, 0, 0, 0)) {
-                        result[nextCell.Item2, nextCell.Item1] = colors[i];
-                    }
-                }
-                yield return result;
-            }
         }
     }
 }

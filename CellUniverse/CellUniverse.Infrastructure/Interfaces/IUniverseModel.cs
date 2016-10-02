@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace CellUniverse.Infrastructure.Interfaces {
 
-    public interface ICellAlgorithm {
+    public interface IUniverseModel {
 
-        IEnumerable<Tuple<int, int, bool>> NextGeneration();
+        IEnumerable<Tuple<int, int, bool>> NextGeneration { get; }
     }
 }

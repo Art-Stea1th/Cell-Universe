@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Media;
+using System.Collections.Generic;
 
 
 namespace CellUniverse.Models {

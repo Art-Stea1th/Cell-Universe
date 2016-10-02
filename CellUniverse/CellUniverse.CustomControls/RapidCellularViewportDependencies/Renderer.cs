@@ -25,7 +25,7 @@ namespace CellUniverse.CustomControls.RapidCellularViewportDependencies {
                 InvalidateView = true;
 
                 // ------- WriteableBitmap Memory Leak? ----------
-                // GC.Collect(); // GC.WaitForPendingFinalizers();
+                GC.Collect(); // GC.WaitForPendingFinalizers();
                 // -----------------------------------------------
             }
         }

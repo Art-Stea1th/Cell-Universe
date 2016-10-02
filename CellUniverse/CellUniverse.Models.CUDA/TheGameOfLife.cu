@@ -33,10 +33,13 @@ void CTheGameOfLife::FillRandomLinearMatrix(const int &width, const int &height)
 
 	int index = width * height;
 	std::random_device random;
-	std::mt19937 gen(random());
+	//std::mt19937 gen(random());
+	std::mt19937 gen(time(NULL));
+
+	//srand(time(NULL));
 
 	while (index--) {
-		matrix[0][index] = static_cast<bool>(gen() % 2);
+		matrix[0][index] = static_cast<bool>(gen() % 2);		
 	}
 }
 

@@ -23,7 +23,7 @@ namespace CellUniverse.ViewModels {
         private TimeSpan totalTime;
         private CellUniverseState currentState;
 
-        private ICellUniverse multiverse;
+        private IUniverseModelColored multiverse;
         private Color[,] cellularData;
 
         private string startPauseButtonText = "Start";
@@ -39,9 +39,10 @@ namespace CellUniverse.ViewModels {
         }
 
         private void Initialize() {
-            //width = 960; height = 540; layersCount = 3; SpacingBetweenCells = 0;
-            width = 320; height = 180; layersCount = 3; SpacingBetweenCells = 1;
-            Delay = 0;
+            //width = 960; height = 540; layersCount = 3; SpacingBetweenCells = 0; Delay = 0;
+            width = 320; height = 180; layersCount = 3; SpacingBetweenCells = 1; Delay = 0;
+            //width = 128; height = 72; layersCount = 1; SpacingBetweenCells = 1; Delay = 0;
+            //width = 8; height = 4; layersCount = 1; SpacingBetweenCells = 1; Delay = 0;
 
             timer = new DispatcherTimer();
             timer.Tick += (s, e) => { Update(); };
@@ -86,8 +87,8 @@ namespace CellUniverse.ViewModels {
         }
 
         private void Update() {
-            foreach (var layer in multiverse.GetNext()) {
-                CellularData = layer;
+            foreach (var screen in multiverse.NextScreen) {
+                CellularData = screen;
             }
             UpdateCounters();
             stopwatch.Restart();
@@ -95,9 +96,9 @@ namespace CellUniverse.ViewModels {
 
         private void UpdateCounters() {
 
-            //if (totalStopwatch.Elapsed >= TimeSpan.FromSeconds(30)) { // <--- !! for speed-test
-            //    startPauseResumeSimulationCommand.Execute(null);
-            //}
+            if (totalStopwatch.Elapsed >= TimeSpan.FromSeconds(30)) { // <--- !! for speed-test
+                startPauseResumeSimulationCommand.Execute(null);
+            }
 
             TotalTime = totalStopwatch.Elapsed;
             TotalGenerations += layersCount;

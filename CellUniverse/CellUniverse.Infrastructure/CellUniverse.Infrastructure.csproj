@@ -66,8 +66,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\ICellAlgorithm.cs" />
-    <Compile Include="Interfaces\ICellUniverse.cs" />
+    <Compile Include="Interfaces\IUniverseModel.cs" />
+    <Compile Include="Interfaces\IUniverseModelColored.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

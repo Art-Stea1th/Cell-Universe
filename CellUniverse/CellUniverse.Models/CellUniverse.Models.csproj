@@ -68,8 +68,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algorithms\TheGameOfLife.cs" />
-    <Compile Include="Algorithms\TheGameOfLifeNativeWrapper.cs" />
+    <Compile Include="TheGameOfLife\Cell.cs" />
+    <Compile Include="TheGameOfLife\ComputeScheduler.cs" />
+    <Compile Include="TheGameOfLife\Universe.cs" />
+    <Compile Include="TheGameOfLife\CLI\NativeWrapperModel.cs" />
     <Compile Include="ColorWorker.cs" />
     <Compile Include="Multiverse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

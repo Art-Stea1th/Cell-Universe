@@ -3,8 +3,8 @@ using System.Windows.Media;
 
 namespace CellUniverse.Infrastructure.Interfaces {
 
-    public interface ICellUniverse {
+    public interface IUniverseModelColored {
 
-        IEnumerable<Color[,]> GetNext();
+        IEnumerable<Color[,]> NextScreen { get; }
     }
 }

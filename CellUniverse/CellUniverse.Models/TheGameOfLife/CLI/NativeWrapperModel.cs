@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CellUniverse.Models.Algorithms {
+namespace CellUniverse.Models.TheGameOfLife.CLI {
 
     using Infrastructure.Interfaces;
-    using CLI;
+    using Models.CLI;
 
-    public sealed class TheGameOfLifeNativeWrapper : ICellAlgorithm {
+    public sealed class NativeWrapperModel : IUniverseModel {
 
         private readonly int width, height;
 
@@ -14,22 +14,23 @@ namespace CellUniverse.Models.Algorithms {
 
         private readonly CTheGameOfLife nativeModel;        
 
-        public TheGameOfLifeNativeWrapper(int width, int height) {
+        public NativeWrapperModel(int width, int height) {
             generation = new bool[this.width = width, this.height = height];
             nativeModel = new CTheGameOfLife(this.width, this.height);
         }
 
-        IEnumerable<Tuple<int, int, bool>> ICellAlgorithm.NextGeneration() {
+        IEnumerable<Tuple<int, int, bool>> IUniverseModel.NextGeneration {
+            get {
+                NextFromNative();
 
-            NextFromNative();
-
-            for (int x = 0; x < width; x++) {
-                for (int y = 0; y < height; y++) {
-                    if (generation[x, y]) {
-                        yield return new Tuple<int, int, bool>(x, y, false);
+                for (int x = 0; x < width; x++) {
+                    for (int y = 0; y < height; y++) {
+                        if (generation[x, y]) {
+                            yield return new Tuple<int, int, bool>(x, y, false);
+                        }
                     }
                 }
-            }
+            }            
         }
 
         private unsafe void NextFromNative() {
