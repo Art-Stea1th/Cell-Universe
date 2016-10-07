@@ -38,7 +38,7 @@ namespace CellUniverse.Models.TheGameOfLife {
             virtualHeight = height;
 
             generationPlacement = GetNewEmptyUniverse(virtualWidth * virtualHeight);
-            scheduler = new ComputeScheduler(generationPlacement, 3);
+            scheduler = new ComputeScheduler(generationPlacement, 1);
 
             random = new Random();
         }

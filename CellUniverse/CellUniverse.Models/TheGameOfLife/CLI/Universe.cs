@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+
 
 namespace CellUniverse.Models.TheGameOfLife.CLI {
 
     using Infrastructure.Interfaces;
     using Models.CLI;
 
-    public sealed class NativeWrapperModel : IUniverseModel {
+    public sealed class Universe : IUniverseModel {
 
         private readonly int width, height;
 
@@ -14,7 +16,7 @@ namespace CellUniverse.Models.TheGameOfLife.CLI {
 
         private readonly CTheGameOfLife nativeModel;        
 
-        public NativeWrapperModel(int width, int height) {
+        public Universe(int width, int height) {
             generation = new bool[this.width = width, this.height = height];
             nativeModel = new CTheGameOfLife(this.width, this.height);
         }
@@ -35,11 +37,11 @@ namespace CellUniverse.Models.TheGameOfLife.CLI {
 
         private unsafe void NextFromNative() {
 
-            bool** next = nativeModel.GetNextGeneration();
+            bool* next = nativeModel.GetNextGeneration();
 
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
-                    generation[x, y] = next[y][x];
+                    generation[x, y] = next[x + y * width];
                 }
             }
         }

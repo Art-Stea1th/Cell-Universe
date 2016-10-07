@@ -12,7 +12,7 @@
     <ClInclude Include="TheGameOfLife.cuh">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TheGameOfLifeCUDA.cuh">
+    <ClInclude Include="Universe.cuh">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -20,7 +20,7 @@
     <CudaCompile Include="TheGameOfLife.cu">
       <Filter>Source Files</Filter>
     </CudaCompile>
-    <CudaCompile Include="TheGameOfLifeCUDA.cu">
+    <CudaCompile Include="Universe.cu">
       <Filter>Source Files</Filter>
     </CudaCompile>
   </ItemGroup>

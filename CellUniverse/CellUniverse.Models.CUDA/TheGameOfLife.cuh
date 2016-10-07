@@ -9,7 +9,7 @@ namespace CellUniverse {
 
 			private:
 
-				bool** matrix;
+				bool* matrix;
 
 				void AllocateLinearMatrix(const int &width, const int &height);
 				void InitializeLinearMatrix(const int &width, const int &height);
@@ -18,7 +18,7 @@ namespace CellUniverse {
 
 			public:
 
-				bool** GetNextGeneration();
+				bool* GetNextGeneration();
 
 				CTheGameOfLife(const int &width, const int &height);
 				~CTheGameOfLife();

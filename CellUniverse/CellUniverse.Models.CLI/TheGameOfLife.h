@@ -14,7 +14,7 @@ namespace CellUniverse {
 
 			public:
 
-				bool ** GetNextGeneration();
+				bool * GetNextGeneration();
 
 				void Destroy();
 

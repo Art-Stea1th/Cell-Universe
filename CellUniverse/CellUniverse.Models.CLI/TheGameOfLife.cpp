@@ -3,7 +3,7 @@
 
 using namespace CellUniverse::Models::CLI;
 
-bool ** CTheGameOfLife::GetNextGeneration() {
+bool * CTheGameOfLife::GetNextGeneration() {
 	return _impl->GetNextGeneration();
 }
 

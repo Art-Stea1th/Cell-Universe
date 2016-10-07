@@ -6,7 +6,7 @@ namespace CellUniverse.Models {
 
     using Infrastructure.Interfaces;
     using TheGameOfLife;
-    using TheGameOfLife.CLI;
+    using NUniverse = TheGameOfLife.CLI.Universe;
 
     public sealed class Multiverse : IUniverseModelColored {
 
@@ -68,8 +68,8 @@ namespace CellUniverse.Models {
             layers = new List<IUniverseModel>(layersCount);
             for (int i = 0; i < layersCount; i++) {
                 layers.Add(new Universe(layersData[i]));
+                //layers.Add(new NUniverse(width, height));
             }
-            //layers.Add(new NativeWrapperModel(width, height));
         }
 
         private bool[,] GetRandomLayer(int width, int height) {

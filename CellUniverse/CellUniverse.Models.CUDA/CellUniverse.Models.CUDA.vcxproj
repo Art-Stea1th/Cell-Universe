@@ -20,11 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TheGameOfLife.cuh" />
-    <ClInclude Include="TheGameOfLifeCUDA.cuh" />
+    <ClInclude Include="Universe.cuh" />
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="TheGameOfLife.cu" />
-    <CudaCompile Include="TheGameOfLifeCUDA.cu" />
+    <CudaCompile Include="Universe.cu" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{82490A06-287C-4EDA-89FC-E6BABB9D7DE2}</ProjectGuid>
