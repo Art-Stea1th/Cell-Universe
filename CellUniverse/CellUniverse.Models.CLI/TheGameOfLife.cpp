@@ -1,22 +1,22 @@
 #include "TheGameOfLife.h"
-#include"..\CellUniverse.Models.CUDA\TheGameOfLife.cuh"
+//#include"..\CellUniverse.Models.CUDA\TheGameOfLife.cuh"
 
 using namespace CellUniverse::Models::CLI;
 
 bool * CTheGameOfLife::GetNextGeneration() {
-	return _impl->GetNextGeneration();
+	return /*_impl->GetNextGeneration()*/ nullptr;
 }
 
 void CTheGameOfLife::Destroy() {
 
-	if (_impl != nullptr) {
+	/*if (_impl != nullptr) {
 		delete _impl;
 		_impl = nullptr;
-	}
+	}*/
 }
 
 CTheGameOfLife::CTheGameOfLife(int width, int height)
-	: _impl(new CUDA::CTheGameOfLife(width, height)) { }
+	/*: _impl(new CUDA::CTheGameOfLife(width, height))*/ { }
 
 CTheGameOfLife::~CTheGameOfLife() {
 	Destroy();

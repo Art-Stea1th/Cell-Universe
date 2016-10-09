@@ -19,12 +19,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TheGameOfLife.cuh" />
+    <ClInclude Include="ComputeScheduler.cuh" />
+    <ClInclude Include="Defines.cuh" />
+    <ClInclude Include="DefinesCUDA.cuh" />
+    <ClInclude Include="DeviceInfo.cuh" />
+    <ClInclude Include="MemoryManager.cuh" />
+    <ClInclude Include="ConcurrentQueue.h" />
     <ClInclude Include="Universe.cuh" />
   </ItemGroup>
   <ItemGroup>
-    <CudaCompile Include="TheGameOfLife.cu" />
+    <CudaCompile Include="ComputeScheduler.cu" />
+    <CudaCompile Include="DeviceInfo.cu" />
+    <CudaCompile Include="kernel.cu" />
+    <CudaCompile Include="MemoryManager.cu" />
     <CudaCompile Include="Universe.cu" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ConcurrentQueue.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{82490A06-287C-4EDA-89FC-E6BABB9D7DE2}</ProjectGuid>
@@ -33,26 +44,26 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
@@ -80,22 +91,26 @@
     <OutDir>..\CellUniverse.Views\bin\Debug</OutDir>
     <IntDir>..\CellUniverse.Views\obj\Debug\Intermediate</IntDir>
     <TargetName>modelscuda</TargetName>
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\CellUniverse.Views\bin\Debug</OutDir>
     <IntDir>..\CellUniverse.Views\obj\Debug\Intermediate</IntDir>
     <TargetName>modelscuda</TargetName>
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\CellUniverse.Views\bin\Release</OutDir>
     <IntDir>..\CellUniverse.Views\obj\Release\Intermediate</IntDir>
     <TargetName>modelscuda</TargetName>
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>..\CellUniverse.Views\bin\Release</OutDir>
     <IntDir>..\CellUniverse.Views\obj\Release\Intermediate</IntDir>
     <TargetName>modelscuda</TargetName>
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

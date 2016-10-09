@@ -1,28 +1,26 @@
 #pragma once
-#include <cstdint>
-#include <ctime>
-#include <random>
 
-#include <CUDA_runtime.h>
-#include <device_launch_parameters.h>
-
+#include "Defines.cuh"
+#include "ComputeScheduler.cuh"
 
 namespace CellUniverse {
 	namespace Models {
 		namespace CUDA {
 
-			void InitializeDevice(bool* &matrix, int width, int height);
-			void ConfigureDevice(int width, int height);
-			void AllocateLinearMatrixOnDevice(bool* &matrix, int width, int height);
-			__global__ void InitializeLinearMatrixOnDevice(bool* matrix);
+			class EXPORTED CUniverse {
 
-			void CalculateNextGeneration(bool* &matrix);
-			__global__ void DoNextStep(bool* dev_matrix, bool* dev_buffer);
-			__device__ int CycleFixIndex(int index, int vectorLength);
-			__global__ void SwapValues(bool* dev_matrix, bool* dev_buffer);
+			private:
 
-			void FreeDevice();
-			void DestroyLinearMatrixOnDevice(bool* matrix);
+				int virtualWidth, virtualHeight;
+				bool* universePlacement;
+
+				CComputeScheduler* scheduler;
+
+			public:
+
+				CUniverse(int width, int height);
+				~CUniverse();
+			};
 		}
 	}
 }

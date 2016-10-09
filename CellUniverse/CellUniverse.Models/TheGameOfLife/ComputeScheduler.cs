@@ -14,7 +14,7 @@ namespace CellUniverse.Models.TheGameOfLife {
 
         private ConcurrentQueue<ConcurrentQueue<Tuple<int, int, bool>>> precalculatedBuffer;
 
-        bool thisWillBeDestroyed;        
+        private bool thisWillBeDestroyed;
 
         internal ComputeScheduler(Cell[] universe, int bufferSize = 3) {
             universePlacement = universe;

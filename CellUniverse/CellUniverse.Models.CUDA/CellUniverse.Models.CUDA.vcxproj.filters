@@ -1,27 +1,62 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{58b20b13-9df5-4ff2-a576-57797352147f}</UniqueIdentifier>
+    <Filter Include="Defines">
+      <UniqueIdentifier>{c6836539-7c3f-4941-a974-83c8561ffbec}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{73137548-fe0b-4348-98a4-ba5da9d46684}</UniqueIdentifier>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{08e30d04-a865-4918-8441-2c9cec15d505}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{8f96ca8b-8e97-4e57-9d25-b37c3123815a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="zEntry">
+      <UniqueIdentifier>{1751a93c-b9bf-44d0-81b4-e6a99de6e852}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TheGameOfLife.cuh">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Defines.cuh">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="DefinesCUDA.cuh">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="ComputeScheduler.cuh">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceInfo.cuh">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryManager.cuh">
+      <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Universe.cuh">
-      <Filter>Header Files</Filter>
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ConcurrentQueue.h">
+      <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CudaCompile Include="TheGameOfLife.cu">
-      <Filter>Source Files</Filter>
+    <CudaCompile Include="ComputeScheduler.cu">
+      <Filter>Sources</Filter>
+    </CudaCompile>
+    <CudaCompile Include="DeviceInfo.cu">
+      <Filter>Sources</Filter>
+    </CudaCompile>
+    <CudaCompile Include="MemoryManager.cu">
+      <Filter>Sources</Filter>
     </CudaCompile>
     <CudaCompile Include="Universe.cu">
-      <Filter>Source Files</Filter>
+      <Filter>Sources</Filter>
     </CudaCompile>
+    <CudaCompile Include="kernel.cu">
+      <Filter>zEntry</Filter>
+    </CudaCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ConcurrentQueue.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

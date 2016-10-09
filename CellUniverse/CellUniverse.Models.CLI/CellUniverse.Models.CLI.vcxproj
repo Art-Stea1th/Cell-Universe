@@ -77,24 +77,28 @@
     <OutDir>..\CellUniverse.Views\bin\Debug</OutDir>
     <IntDir>..\CellUniverse.Views\obj\Debug\Intermediate</IntDir>
     <TargetName>modelscli</TargetName>
+    <CodeAnalysisRuleSet>MixedRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\CellUniverse.Views\bin\Debug</OutDir>
     <IntDir>..\CellUniverse.Views\obj\Debug\Intermediate</IntDir>
     <TargetName>modelscli</TargetName>
+    <CodeAnalysisRuleSet>MixedRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>..\CellUniverse.Views\bin\Release</OutDir>
     <IntDir>..\CellUniverse.Views\obj\Release\Intermediate</IntDir>
     <TargetName>modelscli</TargetName>
+    <CodeAnalysisRuleSet>MixedRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>..\CellUniverse.Views\bin\Release</OutDir>
     <IntDir>..\CellUniverse.Views\obj\Release\Intermediate</IntDir>
     <TargetName>modelscli</TargetName>
+    <CodeAnalysisRuleSet>MixedRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
