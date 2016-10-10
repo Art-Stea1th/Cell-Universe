@@ -96,8 +96,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\CellUniverse.Views\bin\Debug</OutDir>
-    <IntDir>..\CellUniverse.Views\obj\Debug\Intermediate</IntDir>
+    <OutDir>..\CellUniverse.Views\bin\x64\Debug</OutDir>
+    <IntDir>..\CellUniverse.Views\obj\x64\Debug\Intermediate</IntDir>
     <TargetName>modelscuda</TargetName>
     <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -108,8 +108,8 @@
     <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>..\CellUniverse.Views\bin\Release</OutDir>
-    <IntDir>..\CellUniverse.Views\obj\Release\Intermediate</IntDir>
+    <OutDir>..\CellUniverse.Views\bin\x64\Release</OutDir>
+    <IntDir>..\CellUniverse.Views\obj\x64\Release\Intermediate</IntDir>
     <TargetName>modelscuda</TargetName>
     <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>

@@ -25,7 +25,7 @@ namespace CellUniverse.CustomControls.RapidCellularViewportDependencies {
                 InvalidateView = true;
 
                 // ------- WriteableBitmap Memory Leak? ----------
-                // GC.Collect(); // GC.WaitForPendingFinalizers();
+                GC.Collect(); // GC.WaitForPendingFinalizers();
                 // -----------------------------------------------
             }
         }
@@ -54,12 +54,13 @@ namespace CellUniverse.CustomControls.RapidCellularViewportDependencies {
                     surface.Lock();
                     foreach (var pixel in NextPixel(oldCellularData, newCellularData)) {
 
-                        int pBackBuffer = (int)surface.BackBuffer;
+                        long pBackBuffer = (long)surface.BackBuffer;
 
                         pBackBuffer += pixel.Item2 * surface.BackBufferStride;
                         pBackBuffer += pixel.Item1 * 4;
 
-                        *((int*)pBackBuffer) = pixel.Item3;
+                        *((long*)pBackBuffer) = pixel.Item3;
+
                     }
                     surface.AddDirtyRect(new Int32Rect(startX, startY, width, height));
                     surface.Unlock();
