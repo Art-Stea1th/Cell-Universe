@@ -1,16 +1,28 @@
 #pragma once
 
-#include "DefinesCUDA.cuh"
-
 
 namespace CellUniverse {
 	namespace Models {
 		namespace CUDA {
 
-			HT int GetMaxComputeCapabilityDeviceId();
-			HT int GetThreadsPerBlock(const cudaDeviceProp &deviceProp);
-			HT int GetAlignedBlocksCount(int threadsPerBlock, int vectorLength);
+			class DeviceInfo {
+			
+			private:
 
+				int deviceCount;
+				cudaDeviceProp* deviceProps;
+
+				void Initialize();
+
+			public:
+
+				int GetMaxComputeCapabilityDeviceId();
+				int GetThreadsPerBlock(int deviceIndex);
+				int GetAlignedBlocksCount(int threadsPerBlock, int vectorLength);
+
+				DeviceInfo();
+				~DeviceInfo();
+			};
 		}
 	}
 }

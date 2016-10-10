@@ -10,14 +10,8 @@
     <Filter Include="Sources">
       <UniqueIdentifier>{8f96ca8b-8e97-4e57-9d25-b37c3123815a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="zEntry">
-      <UniqueIdentifier>{1751a93c-b9bf-44d0-81b4-e6a99de6e852}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Defines.cuh">
-      <Filter>Defines</Filter>
-    </ClInclude>
     <ClInclude Include="DefinesCUDA.cuh">
       <Filter>Defines</Filter>
     </ClInclude>
@@ -27,13 +21,16 @@
     <ClInclude Include="DeviceInfo.cuh">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="MemoryManager.cuh">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Universe.cuh">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="ConcurrentQueue.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines.h">
+      <Filter>Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceComputeScheduler.cuh">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -44,18 +41,15 @@
     <CudaCompile Include="DeviceInfo.cu">
       <Filter>Sources</Filter>
     </CudaCompile>
-    <CudaCompile Include="MemoryManager.cu">
-      <Filter>Sources</Filter>
-    </CudaCompile>
     <CudaCompile Include="Universe.cu">
       <Filter>Sources</Filter>
     </CudaCompile>
-    <CudaCompile Include="kernel.cu">
-      <Filter>zEntry</Filter>
+    <CudaCompile Include="DeviceComputeScheduler.cu">
+      <Filter>Sources</Filter>
     </CudaCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ConcurrentQueue.cpp">
+    <ClCompile Include="ConcurrentQueue.cu">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>

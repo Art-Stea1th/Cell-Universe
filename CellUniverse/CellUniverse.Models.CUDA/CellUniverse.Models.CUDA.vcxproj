@@ -20,22 +20,23 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ComputeScheduler.cuh" />
-    <ClInclude Include="Defines.cuh" />
+    <ClInclude Include="Defines.h" />
     <ClInclude Include="DefinesCUDA.cuh" />
+    <ClInclude Include="DeviceComputeScheduler.cuh" />
     <ClInclude Include="DeviceInfo.cuh" />
-    <ClInclude Include="MemoryManager.cuh" />
     <ClInclude Include="ConcurrentQueue.h" />
     <ClInclude Include="Universe.cuh" />
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="ComputeScheduler.cu" />
+    <CudaCompile Include="DeviceComputeScheduler.cu" />
     <CudaCompile Include="DeviceInfo.cu" />
-    <CudaCompile Include="kernel.cu" />
-    <CudaCompile Include="MemoryManager.cu" />
     <CudaCompile Include="Universe.cu" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ConcurrentQueue.cpp" />
+    <CudaCompile Include="ConcurrentQueue.cu">
+      <FileType>Document</FileType>
+    </CudaCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{82490A06-287C-4EDA-89FC-E6BABB9D7DE2}</ProjectGuid>
@@ -44,26 +45,26 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>

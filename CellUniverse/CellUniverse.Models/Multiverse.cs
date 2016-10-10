@@ -42,34 +42,14 @@ namespace CellUniverse.Models {
             this.width = width;
             this.height = height;
 
-            GenerateNotIdenticalLayers(this.width, this.height, (byte)layersCount);
-
-            colors = cworker.GetTintsFromColor(
-                Color.FromRgb((byte)random.Next(255), (byte)random.Next(255), (byte)random.Next(255)), layersCount);
-        }
-
-        private void GenerateNotIdenticalLayers(int width, int height, byte layersCount) {
-
-            List<bool[,]> layersData = new List<bool[,]>(layersCount);
-
-            for (int i = 0; i < layersCount; i++) {
-
-                bool[,] newLayer = GetRandomLayer(width, height);
-                bool IdenticalGeneration = true;
-
-                while (IdenticalGeneration && i > 1) {
-                    newLayer = GetRandomLayer(width, height);
-                    foreach (var layer in layersData) {
-                        IdenticalGeneration = IsIdentical(layer, newLayer);
-                    }
-                }
-                layersData.Add(newLayer);
-            }
             layers = new List<IUniverseModel>(layersCount);
             for (int i = 0; i < layersCount; i++) {
-                layers.Add(new Universe(layersData[i]));
-                //layers.Add(new NUniverse(width, height));
+                //layers.Add(new Universe(width, height));
+                layers.Add(new NUniverse(width, height));
             }
+
+            colors = cworker.GetTintsFromColor(
+                Color.FromRgb((byte)random.Next(255), (byte)random.Next(255), (byte)random.Next(255)), layersCount);            
         }
 
         private bool[,] GetRandomLayer(int width, int height) {

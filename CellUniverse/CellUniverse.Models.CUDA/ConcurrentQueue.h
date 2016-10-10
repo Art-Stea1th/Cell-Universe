@@ -10,7 +10,7 @@ namespace CellUniverse {
 
 			private:
 
-				std::mutex mtx;
+				std::recursive_mutex rmtx;
 				std::queue<T> impl;
 
 			public:
@@ -27,4 +27,4 @@ namespace CellUniverse {
 		}
 	}
 }
-#include "ConcurrentQueue.cpp"
+#include "ConcurrentQueue.cu"

@@ -1,26 +1,34 @@
+#include "DefinesCUDA.cuh"
 #include "DeviceInfo.cuh"
-#include "Defines.cuh"
 
 namespace CellUniverse {
 	namespace Models {
 		namespace CUDA {
 
-			HT int GetMaxComputeCapabilityDeviceId() {
+			DeviceInfo::DeviceInfo() {
+				deviceCount = 0;
+				deviceProps = nullptr;
+				Initialize();
+			}
 
-				int deviceCount = 0;
-				cudaGetDeviceCount(&deviceCount);
+			void DeviceInfo::Initialize() {
+				cudaGetDeviceCount(&deviceCount);				
+				if (deviceCount > 0) {
+					deviceProps = new cudaDeviceProp[deviceCount];
+					for (int i = 0; i < deviceCount; ++i) {
+						cudaGetDeviceProperties(&deviceProps[i], i);
+					}
+				}
+			}
 
-				cudaDeviceProp* deviceProps = nullptr;
+			int DeviceInfo::GetMaxComputeCapabilityDeviceId() {
 
 				if (deviceCount > 0) {
-
-					deviceProps = new cudaDeviceProp[deviceCount];
 
 					int maxComputeCapabilityDeviceId = 0;
 					int localMajor = 0, localMinor = 0;
 
 					for (int i = 0; i < deviceCount; ++i) {
-						cudaGetDeviceProperties(&deviceProps[i], i);
 						if (deviceProps[i].major > localMajor) {
 							maxComputeCapabilityDeviceId = i;
 							continue;
@@ -31,18 +39,17 @@ namespace CellUniverse {
 							}
 						}
 					}
-					deviceProps != nullptr ? delete deviceProps : NOTHING;
 					return maxComputeCapabilityDeviceId;
 				}
 				else {
 					return -1;
 				}
-			}
+			}					
 
-			HT int GetThreadsPerBlock(const cudaDeviceProp &deviceProp) {
+			int DeviceInfo::GetThreadsPerBlock(int deviceIndex) {
 
-				int maxThreadsPerSM = deviceProp.maxThreadsPerMultiProcessor;
-				int maxThreadsPerBlock = deviceProp.maxThreadsPerBlock;
+				int maxThreadsPerSM = deviceProps[deviceIndex].maxThreadsPerMultiProcessor;
+				int maxThreadsPerBlock = deviceProps[deviceIndex].maxThreadsPerBlock;
 
 				int threadsPerBlock = maxThreadsPerSM;
 
@@ -52,10 +59,15 @@ namespace CellUniverse {
 				return threadsPerBlock;
 			}
 
-			HT int GetAlignedBlocksCount(int threadsPerBlock, int vectorLength) {
-				return vectorLength % threadsPerBlock != 0
-					? vectorLength / threadsPerBlock + 1
-					: vectorLength / threadsPerBlock;
+			int DeviceInfo::GetAlignedBlocksCount(int threadsPerBlock, int vectorLength) {
+				return threadsPerBlock == 0 ? 0 :
+					(vectorLength % threadsPerBlock == 0
+						? vectorLength / threadsPerBlock
+						: vectorLength / threadsPerBlock + 1);				
+			}
+
+			DeviceInfo::~DeviceInfo() {
+				deviceProps != nullptr ? delete deviceProps : NULL;
 			}
 		}
 	}

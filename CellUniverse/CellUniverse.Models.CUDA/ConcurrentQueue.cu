@@ -8,38 +8,38 @@ namespace CellUniverse {
 		namespace CUDA {
 
 			template <typename T> void ConcurrentQueue<T>::Enqueue(T &item) {
-				mtx.lock();
-				impl.push(item);
-				mtx.unlock();
+				rmtx.lock();
+				impl.push(item);	
+				rmtx.unlock();
 			}
 
 			template <typename T> bool ConcurrentQueue<T>::TryDequeue(T &result) {
 
-				if (mtx.try_lock()) {
+				if (rmtx.try_lock()) {
 
 					if (!impl.empty()) {
 						result = impl.front();
 						impl.pop();
-						mtx.unlock();
+						rmtx.unlock();
 						return true;
 					}
-					mtx.unlock();
+					rmtx.unlock();
 					return false;
 				}
 				return false;
 			}
 
 			template <typename T> unsigned ConcurrentQueue<T>::Count() {
-				mtx.lock();
+				rmtx.lock();
 				unsigned result = impl.size();
-				mtx.unlock();
+				rmtx.unlock();
 				return result;
 			}
 
 			template <typename T> bool ConcurrentQueue<T>::IsEmpty() {
-				mtx.lock();
+				rmtx.lock();
 				bool result = impl.empty();
-				mtx.unlock();
+				rmtx.unlock();
 				return result;
 			}
 

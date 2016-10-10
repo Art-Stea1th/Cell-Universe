@@ -12,6 +12,7 @@ namespace CellUniverse.Models.TheGameOfLife {
 
         private ComputeScheduler scheduler;
 
+        private static int countUniverses = 0;
         private Random random;
 
         IEnumerable<Tuple<int, int, bool>> IUniverseModel.NextGeneration {
@@ -38,9 +39,9 @@ namespace CellUniverse.Models.TheGameOfLife {
             virtualHeight = height;
 
             generationPlacement = GetNewEmptyUniverse(virtualWidth * virtualHeight);
-            scheduler = new ComputeScheduler(generationPlacement, 1);
+            scheduler = new ComputeScheduler(generationPlacement);
 
-            random = new Random();
+            random = new Random(countUniverses++);
         }
 
         private void FillRandom() {

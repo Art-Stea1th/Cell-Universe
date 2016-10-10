@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Defines.cuh"
+#include "Defines.h"
 #include "ComputeScheduler.cuh"
 
 namespace CellUniverse {
@@ -11,12 +11,18 @@ namespace CellUniverse {
 
 			private:
 
-				int virtualWidth, virtualHeight;
+				static int countUniverses;
+
 				bool* universePlacement;
+				int virtualWidth, virtualHeight;				
 
 				CComputeScheduler* scheduler;
 
+				void FillRandom();
+
 			public:
+
+				bool* GetNext();
 
 				CUniverse(int width, int height);
 				~CUniverse();

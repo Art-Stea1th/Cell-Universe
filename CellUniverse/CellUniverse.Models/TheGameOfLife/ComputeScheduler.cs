@@ -8,8 +8,6 @@ namespace CellUniverse.Models.TheGameOfLife {
     internal sealed class ComputeScheduler : IDisposable {
 
         private Cell[] universePlacement;
-
-        private int precalculatedBufferCount;
         private int precalculatedBufferLimit;
 
         private ConcurrentQueue<ConcurrentQueue<Tuple<int, int, bool>>> precalculatedBuffer;
@@ -19,7 +17,6 @@ namespace CellUniverse.Models.TheGameOfLife {
         internal ComputeScheduler(Cell[] universe, int bufferSize = 3) {
             universePlacement = universe;
             precalculatedBufferLimit = bufferSize;
-            precalculatedBufferCount = 0;
             precalculatedBuffer = new ConcurrentQueue<ConcurrentQueue<Tuple<int, int, bool>>>();
             thisWillBeDestroyed = false;
         }
@@ -33,7 +30,7 @@ namespace CellUniverse.Models.TheGameOfLife {
             ThreadPool.QueueUserWorkItem((object o) => {
 
                 while (!thisWillBeDestroyed) {
-                    if (precalculatedBufferCount < precalculatedBufferLimit) {
+                    if (precalculatedBuffer.Count < precalculatedBufferLimit) {
 
                         var localBuffer = new ConcurrentQueue<Tuple<int, int, bool>>();
 
@@ -48,7 +45,6 @@ namespace CellUniverse.Models.TheGameOfLife {
                         }
 
                         precalculatedBuffer.Enqueue(localBuffer);
-                        Interlocked.Increment(ref precalculatedBufferCount);
                     }
                     else {
                         Thread.Sleep(1);
@@ -74,10 +70,9 @@ namespace CellUniverse.Models.TheGameOfLife {
                             }
                         }
                         success = true;
-                        Interlocked.Decrement(ref precalculatedBufferCount);
                     }
                     else {
-                        Thread.Sleep(1);
+                        Thread.Sleep(2);
                     }
                 }
             }

@@ -1,20 +1,22 @@
 #pragma once
-
+#define CLI_MODEL
 
 namespace CellUniverse {
 	namespace Models {
 
-		//namespace CUDA { class CTheGameOfLife; }
+		namespace CUDA { class CUniverse; }
 
 		namespace CLI {
 
 			public ref class CTheGameOfLife {
 
-				//CUDA::CTheGameOfLife * _impl;
+			private:
+
+				CUDA::CUniverse * _impl;
 
 			public:
 
-				bool * GetNextGeneration();
+				bool* GetNextGeneration();
 
 				void Destroy();
 
