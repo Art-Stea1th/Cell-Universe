@@ -1,5 +1,5 @@
 #include "TheGameOfLife.h"
-#include"..\CellUniverse.Models.CUDA\Universe.cuh"
+#include"..\CellUniverse.Models.Native\Universe.h"
 
 using namespace CellUniverse::Models::CLI;
 
@@ -15,7 +15,7 @@ void CTheGameOfLife::Destroy() {
 	}
 }
 
-CTheGameOfLife::CTheGameOfLife(int width, int height) : _impl(new CUDA::CUniverse(width, height)) { }
+CTheGameOfLife::CTheGameOfLife(int width, int height) : _impl(new Native::CPP::CUniverse(width, height)) { }
 
 CTheGameOfLife::~CTheGameOfLife() {
 	Destroy();

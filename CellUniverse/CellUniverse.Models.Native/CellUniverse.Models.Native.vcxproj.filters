@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="CUDA">
+      <UniqueIdentifier>{126b1a80-d7ab-440d-988b-169fb47fe259}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CUDA\Defines">
+      <UniqueIdentifier>{1a89b7b0-bde5-4704-8077-aab02ef61de6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CUDA\Headers">
+      <UniqueIdentifier>{cab65ed8-35ed-46e4-820e-03a5935e0408}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CUDA\Sources">
+      <UniqueIdentifier>{d0a4cf79-29ec-405b-842b-b3d5b44224ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CPP">
+      <UniqueIdentifier>{269ed5e1-3076-4150-a531-d799986f9f30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CPP\Defines">
+      <UniqueIdentifier>{c2c2cb6a-c23c-4720-9872-3ec7d6c51abd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CPP\Headers">
+      <UniqueIdentifier>{3867f284-7918-45b5-9f13-6a715610232d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CPP\Sources">
+      <UniqueIdentifier>{57a1eaf5-5205-47a4-933c-c9fa98122397}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CPP\Interfaces">
+      <UniqueIdentifier>{c6245236-ee77-4694-85ff-b292c5df8d66}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DefinesCUDA.cuh">
+      <Filter>CUDA\Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="ComputeScheduler.cuh">
+      <Filter>CUDA\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceComputeScheduler.cuh">
+      <Filter>CUDA\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceInfo.cuh">
+      <Filter>CUDA\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceMemoryAssistant.cuh">
+      <Filter>CUDA\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines.h">
+      <Filter>CPP\Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="ConcurrentQueue.h">
+      <Filter>CPP\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Universe.h">
+      <Filter>CPP\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Threading.h">
+      <Filter>CPP\Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="IFSMCompatible.h">
+      <Filter>CPP\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleFSM.h">
+      <Filter>CPP\Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="ComputeScheduler.cu">
+      <Filter>CUDA\Sources</Filter>
+    </CudaCompile>
+    <CudaCompile Include="DeviceComputeScheduler.cu">
+      <Filter>CUDA\Sources</Filter>
+    </CudaCompile>
+    <CudaCompile Include="DeviceInfo.cu">
+      <Filter>CUDA\Sources</Filter>
+    </CudaCompile>
+    <CudaCompile Include="DeviceMemoryAssistant.cu">
+      <Filter>CUDA\Sources</Filter>
+    </CudaCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ConcurrentQueue.cpp">
+      <Filter>CPP\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Universe.cpp">
+      <Filter>CPP\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleFSM.cpp">
+      <Filter>CPP\Sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

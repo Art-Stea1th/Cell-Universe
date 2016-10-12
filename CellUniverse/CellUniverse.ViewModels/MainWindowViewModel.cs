@@ -39,10 +39,12 @@ namespace CellUniverse.ViewModels {
         }
 
         private void Initialize() {
-            width = 960; height = 540; layersCount = 3; SpacingBetweenCells = 0; Delay = 0;
-            //width = 320; height = 180; layersCount = 3; SpacingBetweenCells = 1; Delay = 0;
-            //width = 128; height = 72; layersCount = 1; SpacingBetweenCells = 1; Delay = 0;
-            //width = 8; height = 4; layersCount = 1; SpacingBetweenCells = 1; Delay = 0;
+            //width = 960; height = 540; layersCount = 1; SpacingBetweenCells = 0; Delay = 0;
+            //width = 480; height = 270; layersCount = 3; SpacingBetweenCells = 0; Delay = 0;
+            width = 320; height = 180; layersCount = 3; SpacingBetweenCells = 1; Delay = 0;
+            //width = 160; height = 90; layersCount = 64; SpacingBetweenCells = 1; Delay = 0;
+            //width = 137; height = 77; layersCount = 5; SpacingBetweenCells = 1; Delay = 0;
+            //width = 80; height = 45; layersCount = 1; SpacingBetweenCells = 1; Delay = 0;
 
             timer = new DispatcherTimer();
             timer.Tick += (s, e) => { Update(); };
@@ -96,9 +98,9 @@ namespace CellUniverse.ViewModels {
 
         private void UpdateCounters() {
 
-            if (totalStopwatch.Elapsed >= TimeSpan.FromSeconds(30)) { // <--- !! for speed-test
-                startPauseResumeSimulationCommand.Execute(null);
-            }
+            //if (totalStopwatch.Elapsed >= TimeSpan.FromSeconds(30)) { // <--- !! for speed-test
+            //    startPauseResumeSimulationCommand.Execute(null);
+            //}
 
             TotalTime = totalStopwatch.Elapsed;
             TotalGenerations += layersCount;

@@ -20,27 +20,31 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ComputeScheduler.cuh" />
+    <ClInclude Include="ConcurrentQueue.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="DefinesCUDA.cuh" />
     <ClInclude Include="DeviceComputeScheduler.cuh" />
     <ClInclude Include="DeviceInfo.cuh" />
-    <ClInclude Include="ConcurrentQueue.h" />
-    <ClInclude Include="Universe.cuh" />
+    <ClInclude Include="DeviceMemoryAssistant.cuh" />
+    <ClInclude Include="IFSMCompatible.h" />
+    <ClInclude Include="SimpleFSM.h" />
+    <ClInclude Include="Threading.h" />
+    <ClInclude Include="Universe.h" />
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="ComputeScheduler.cu" />
     <CudaCompile Include="DeviceComputeScheduler.cu" />
     <CudaCompile Include="DeviceInfo.cu" />
-    <CudaCompile Include="Universe.cu" />
+    <CudaCompile Include="DeviceMemoryAssistant.cu" />
   </ItemGroup>
   <ItemGroup>
-    <CudaCompile Include="ConcurrentQueue.cu">
-      <FileType>Document</FileType>
-    </CudaCompile>
+    <ClCompile Include="ConcurrentQueue.cpp" />
+    <ClCompile Include="SimpleFSM.cpp" />
+    <ClCompile Include="Universe.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{82490A06-287C-4EDA-89FC-E6BABB9D7DE2}</ProjectGuid>
-    <RootNamespace>CellUniverse_Models_CUDA</RootNamespace>
+    <ProjectGuid>{70819322-14BE-4184-B738-F6CCFDC49D54}</ProjectGuid>
+    <RootNamespace>CellUniverse_Models_Native</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -89,29 +93,27 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\CellUniverse.Views\bin\Debug</OutDir>
-    <IntDir>..\CellUniverse.Views\obj\Debug\Intermediate</IntDir>
-    <TargetName>modelscuda</TargetName>
-    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <OutDir>..\CellUniverse.Views\bin\Debug\</OutDir>
+    <IntDir>..\CellUniverse.Views\obj\Debug\Intermediate\</IntDir>
+    <TargetName>modelsnative</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\CellUniverse.Views\bin\x64\Debug</OutDir>
-    <IntDir>..\CellUniverse.Views\obj\x64\Debug\Intermediate</IntDir>
-    <TargetName>modelscuda</TargetName>
-    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <OutDir>..\CellUniverse.Views\bin\x64\Debug\</OutDir>
+    <IntDir>..\CellUniverse.Views\obj\x64\Debug\Intermediate\</IntDir>
+    <TargetName>modelsnative</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\CellUniverse.Views\bin\Release</OutDir>
-    <IntDir>..\CellUniverse.Views\obj\Release\Intermediate</IntDir>
-    <TargetName>modelscuda</TargetName>
-    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <OutDir>..\CellUniverse.Views\bin\Release\</OutDir>
+    <IntDir>..\CellUniverse.Views\obj\Release\Intermediate\</IntDir>
+    <TargetName>modelsnative</TargetName>
+    <CodeAnalysisRuleSet>NativeMinimumRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>..\CellUniverse.Views\bin\x64\Release</OutDir>
-    <IntDir>..\CellUniverse.Views\obj\x64\Release\Intermediate</IntDir>
-    <TargetName>modelscuda</TargetName>
-    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <OutDir>..\CellUniverse.Views\bin\x64\Release\</OutDir>
+    <IntDir>..\CellUniverse.Views\obj\x64\Release\Intermediate\</IntDir>
+    <TargetName>modelsnative</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -155,6 +157,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

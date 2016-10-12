@@ -4,7 +4,7 @@
 namespace CellUniverse {
 	namespace Models {
 
-		namespace CUDA { class CUniverse; }
+		namespace Native { namespace CPP { class CUniverse; } }
 
 		namespace CLI {
 
@@ -12,7 +12,7 @@ namespace CellUniverse {
 
 			private:
 
-				CUDA::CUniverse * _impl;
+				Native::CPP::CUniverse * _impl;
 
 			public:
 

@@ -74,29 +74,30 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\CellUniverse.Views\bin\Debug</OutDir>
-    <IntDir>..\CellUniverse.Views\obj\Debug\Intermediate</IntDir>
+    <OutDir>..\CellUniverse.Views\bin\Debug\</OutDir>
+    <IntDir>..\CellUniverse.Views\obj\Debug\Intermediate\</IntDir>
     <TargetName>modelscli</TargetName>
     <CodeAnalysisRuleSet>MixedRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\CellUniverse.Views\bin\x64\Debug</OutDir>
-    <IntDir>..\CellUniverse.Views\obj\x64\Debug\Intermediate</IntDir>
+    <OutDir>..\CellUniverse.Views\bin\x64\Debug\</OutDir>
+    <IntDir>..\CellUniverse.Views\obj\x64\Debug\Intermediate\</IntDir>
     <TargetName>modelscli</TargetName>
     <CodeAnalysisRuleSet>MixedRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\CellUniverse.Views\bin\Release</OutDir>
-    <IntDir>..\CellUniverse.Views\obj\Release\Intermediate</IntDir>
+    <OutDir>..\CellUniverse.Views\bin\Release\</OutDir>
+    <IntDir>..\CellUniverse.Views\obj\Release\Intermediate\</IntDir>
     <TargetName>modelscli</TargetName>
     <CodeAnalysisRuleSet>MixedRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\CellUniverse.Views\bin\x64\Release</OutDir>
-    <IntDir>..\CellUniverse.Views\obj\x64\Release\Intermediate</IntDir>
+    <OutDir>..\CellUniverse.Views\bin\x64\Release\</OutDir>
+    <IntDir>..\CellUniverse.Views\obj\x64\Release\Intermediate\</IntDir>
     <TargetName>modelscli</TargetName>
     <CodeAnalysisRuleSet>MixedRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -124,10 +125,12 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
       <AdditionalDependencies />
     </Link>
+    <Manifest />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -142,11 +145,12 @@
     <ClInclude Include="TheGameOfLife.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Properties\AssemblyInfo.cpp" />
     <ClCompile Include="TheGameOfLife.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CellUniverse.Models.CUDA\CellUniverse.Models.CUDA.vcxproj">
-      <Project>{82490a06-287c-4eda-89fc-e6babb9d7de2}</Project>
+    <ProjectReference Include="..\CellUniverse.Models.Native\CellUniverse.Models.Native.vcxproj">
+      <Project>{70819322-14be-4184-b738-f6ccfdc49d54}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
