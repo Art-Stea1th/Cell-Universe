@@ -1,5 +1,5 @@
 #pragma once
-#include "IFSMCompatible.h"
+
 
 namespace CellUniverse {
 	namespace Models {
@@ -11,7 +11,7 @@ namespace CellUniverse {
 				
 				class DeviceInfo;
 
-				class CComputeScheduler : public IFSMCompatible {
+				class CComputeScheduler {
 
 				private:
 
@@ -31,8 +31,6 @@ namespace CellUniverse {
 
 					CPP::ConcurrentQueue<bool*>* precalculatedBuffer;
 					unsigned precalculatedBufferLimit;
-
-					void OnStarted() override;
 
 					void Initialize(bool* &universe, const int &width, const int &height, const int &bufferSize);
 					void InitializeDevice(bool* &universe);

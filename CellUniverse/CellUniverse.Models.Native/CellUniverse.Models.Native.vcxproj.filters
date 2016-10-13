@@ -25,9 +25,6 @@
     <Filter Include="CPP\Sources">
       <UniqueIdentifier>{57a1eaf5-5205-47a4-933c-c9fa98122397}</UniqueIdentifier>
     </Filter>
-    <Filter Include="CPP\Interfaces">
-      <UniqueIdentifier>{c6245236-ee77-4694-85ff-b292c5df8d66}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DefinesCUDA.cuh">
@@ -48,19 +45,13 @@
     <ClInclude Include="Defines.h">
       <Filter>CPP\Defines</Filter>
     </ClInclude>
-    <ClInclude Include="ConcurrentQueue.h">
-      <Filter>CPP\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Universe.h">
       <Filter>CPP\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Threading.h">
       <Filter>CPP\Defines</Filter>
     </ClInclude>
-    <ClInclude Include="IFSMCompatible.h">
-      <Filter>CPP\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="SimpleFSM.h">
+    <ClInclude Include="ConcurrentQueue.h">
       <Filter>CPP\Headers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -79,13 +70,10 @@
     </CudaCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ConcurrentQueue.cpp">
-      <Filter>CPP\Sources</Filter>
-    </ClCompile>
     <ClCompile Include="Universe.cpp">
       <Filter>CPP\Sources</Filter>
     </ClCompile>
-    <ClCompile Include="SimpleFSM.cpp">
+    <ClCompile Include="ConcurrentQueue.cpp">
       <Filter>CPP\Sources</Filter>
     </ClCompile>
   </ItemGroup>

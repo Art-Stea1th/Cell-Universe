@@ -42,10 +42,6 @@ namespace CellUniverse {
 					readyToComputing = true;
 				}
 
-				void CComputeScheduler::OnStarted() {
-
-				}
-
 				void CComputeScheduler::Start() {
 					if (state == Started) {
 						Stop();

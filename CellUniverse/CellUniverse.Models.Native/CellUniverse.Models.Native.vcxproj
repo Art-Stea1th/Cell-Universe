@@ -26,8 +26,6 @@
     <ClInclude Include="DeviceComputeScheduler.cuh" />
     <ClInclude Include="DeviceInfo.cuh" />
     <ClInclude Include="DeviceMemoryAssistant.cuh" />
-    <ClInclude Include="IFSMCompatible.h" />
-    <ClInclude Include="SimpleFSM.h" />
     <ClInclude Include="Threading.h" />
     <ClInclude Include="Universe.h" />
   </ItemGroup>
@@ -39,7 +37,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConcurrentQueue.cpp" />
-    <ClCompile Include="SimpleFSM.cpp" />
     <ClCompile Include="Universe.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
