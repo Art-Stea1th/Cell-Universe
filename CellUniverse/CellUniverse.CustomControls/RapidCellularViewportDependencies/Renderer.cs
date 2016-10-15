@@ -7,7 +7,7 @@ using System.Windows.Media.Imaging;
 
 namespace CellUniverse.CustomControls.RapidCellularViewportDependencies {
 
-    internal sealed class Renderer { // InverseLogic [Once lock() \ unlock() per frame]
+    internal sealed class Renderer {
 
         private Settings settings;
         private WriteableBitmap surface;
@@ -23,10 +23,8 @@ namespace CellUniverse.CustomControls.RapidCellularViewportDependencies {
                 settings.Recalculate(surfaceWidth, surfaceHeight, cellsHorizontal, cellsVertical, spacingBetweenCells);
                 surface = new WriteableBitmap(surfaceWidth, surfaceHeight, 96, 96, PixelFormats.Bgr32, null);
                 InvalidateView = true;
-
-                // ------- WriteableBitmap Memory Leak? ----------
-                GC.Collect(); // GC.WaitForPendingFinalizers();
-                // -----------------------------------------------
+                
+                GC.Collect(); // <-- WriteableBitmap Memory Leak?
             }
         }
 
@@ -38,6 +36,7 @@ namespace CellUniverse.CustomControls.RapidCellularViewportDependencies {
                 settings.SpacingBetweenCells != spacingBetweenCells;
         }
 
+        // InverseLogic: once lock\unlock per frame
         internal unsafe WriteableBitmap Render(Color[,] oldCellularData, Color[,] newCellularData) {
 
             if (IsValidData(oldCellularData, newCellularData)) {

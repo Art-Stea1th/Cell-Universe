@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -70,11 +71,19 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TheGameOfLife\Cell.cs" />
-    <Compile Include="TheGameOfLife\ComputeScheduler.cs" />
-    <Compile Include="TheGameOfLife\Universe.cs" />
-    <Compile Include="ColorWorker.cs" />
-    <Compile Include="Multiverse.cs" />
+    <Compile Include="Factories\Universes\Accelerated.cs" />
+    <Compile Include="Factories\FactoryAccelerated.cs" />
+    <Compile Include="Factories\FactoryManaged.cs" />
+    <Compile Include="Factories\FactoryNative.cs" />
+    <Compile Include="Factories\Universes\Managed.cs" />
+    <Compile Include="Factories\Universes\Native.cs" />
+    <Compile Include="FSM\Automat.cs" />
+    <Compile Include="FSM\States\Halted.cs" />
+    <Compile Include="FSM\States\Started.cs" />
+    <Compile Include="FSM\States\IState.cs" />
+    <Compile Include="FSM\States\Terminated.cs" />
+    <Compile Include="Factories\Universes\Universe.cs" />
+    <Compile Include="Factories\Factory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -88,6 +97,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="FSM\IAutomat.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -102,6 +112,10 @@
     <ProjectReference Include="..\CellUniverse.Infrastructure\CellUniverse.Infrastructure.csproj">
       <Project>{e39f291b-0e29-46b4-a757-9ffc5a3bd738}</Project>
       <Name>CellUniverse.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CellUniverse.Models.CLI\CellUniverse.Models.CLI.vcxproj">
+      <Project>{de2c9fef-5623-4144-9e77-cb50474ceae6}</Project>
+      <Name>CellUniverse.Models.CLI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

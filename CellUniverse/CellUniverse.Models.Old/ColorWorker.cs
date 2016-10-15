@@ -3,7 +3,7 @@ using System.Windows.Media;
 using System.Collections.Generic;
 
 
-namespace CellUniverse.Models {
+namespace CellUniverse.Models.Old {
 
     internal sealed class ColorWorker {
 

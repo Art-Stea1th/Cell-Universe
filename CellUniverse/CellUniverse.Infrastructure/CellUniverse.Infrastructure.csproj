@@ -68,7 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\IUniverseModel.cs" />
-    <Compile Include="Interfaces\IUniverseModelColored.cs" />
+    <Compile Include="Interfaces\IViewportModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -3,7 +3,7 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 
-namespace CellUniverse.Models.TheGameOfLife {
+namespace CellUniverse.Models.Old.TheGameOfLife {
 
     internal sealed class ComputeScheduler : IDisposable {
 
