@@ -1,12 +1,12 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+
 
 namespace CellUniverse.CustomControls {
 
     using RapidCellularViewportDependencies;
-    
+
     [TemplatePart(Name = RapidCellularViewport.CellSurfaceControl, Type = typeof(Image))]
     public sealed class RapidCellularViewport : Control {
 

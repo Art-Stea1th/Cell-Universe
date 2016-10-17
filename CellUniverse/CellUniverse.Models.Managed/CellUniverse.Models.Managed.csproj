@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8ADACDF0-04FB-4CE1-8A4C-CBE0CEE99F22}</ProjectGuid>
+    <ProjectGuid>{4BAB0292-1C08-4615-88D9-D859127304C3}</ProjectGuid>
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CellUniverse.Models</RootNamespace>
-    <AssemblyName>models</AssemblyName>
+    <RootNamespace>CellUniverse.Models.Managed</RootNamespace>
+    <AssemblyName>modelsmanaged</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -22,7 +22,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,9 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -52,7 +49,6 @@
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -71,19 +67,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Factories\Universes\Accelerated.cs" />
-    <Compile Include="Factories\FactoryAccelerated.cs" />
-    <Compile Include="Factories\FactoryManaged.cs" />
-    <Compile Include="Factories\FactoryNative.cs" />
-    <Compile Include="Factories\Universes\Managed.cs" />
-    <Compile Include="Factories\Universes\Native.cs" />
-    <Compile Include="FSM\Automat.cs" />
-    <Compile Include="FSM\States\Halted.cs" />
-    <Compile Include="FSM\States\Started.cs" />
-    <Compile Include="FSM\States\IState.cs" />
-    <Compile Include="FSM\States\Terminated.cs" />
-    <Compile Include="Factories\Universes\Universe.cs" />
-    <Compile Include="Factories\Factory.cs" />
+    <Compile Include="MDataStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -97,7 +81,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="FSM\IAutomat.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -109,12 +92,11 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CellUniverse.Infrastructure\CellUniverse.Infrastructure.csproj">
-      <Project>{e39f291b-0e29-46b4-a757-9ffc5a3bd738}</Project>
-      <Name>CellUniverse.Infrastructure</Name>
+    <ProjectReference Include="..\CellUniverse.Models\CellUniverse.Models.csproj">
+      <Project>{8adacdf0-04fb-4ce1-8a4c-cbe0cee99f22}</Project>
+      <Name>CellUniverse.Models</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
