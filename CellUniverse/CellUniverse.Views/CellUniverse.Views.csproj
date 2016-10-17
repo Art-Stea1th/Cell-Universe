@@ -41,6 +41,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -59,6 +60,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Styles\UWP\Dark\Window\DarkUWPWindowStyle.cs" />
+    <Compile Include="Styles\UWP\Dark\Window\LocalExtensions.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -71,6 +74,22 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Styles\UWP\Dark\DarkUWPBrushes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\UWP\Dark\Window\DarkUWPWindowStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\UWP\Dark\Window\WindowControls\DarkUWPTitleBarButtonCloseStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\UWP\Dark\Window\WindowControls\DarkUWPTitleBarButtonMinMaxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -97,10 +116,25 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\MainIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Styles\UWP\Dark\Controls\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CellUniverse.CustomControls\CellUniverse.CustomControls.csproj">
+      <Project>{b03132da-8024-4b5b-be9b-49eecc202b32}</Project>
+      <Name>CellUniverse.CustomControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CellUniverse.ViewModels\CellUniverse.ViewModels.csproj">
+      <Project>{5c54895d-4c06-472c-b618-f720e2c23978}</Project>
+      <Name>CellUniverse.ViewModels</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

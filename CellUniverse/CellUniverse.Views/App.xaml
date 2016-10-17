@@ -1,9 +1,15 @@
 ﻿<Application x:Class="CellUniverse.Views.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:CellUniverse.Views"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/UWP/Dark/DarkUWPBrushes.xaml"/>                
+                <ResourceDictionary Source="Styles/UWP/Dark/Window/WindowControls/DarkUWPTitleBarButtonMinMaxStyle.xaml"/>
+                <ResourceDictionary Source="Styles/UWP/Dark/Window/WindowControls/DarkUWPTitleBarButtonCloseStyle.xaml"/>
+                <ResourceDictionary Source="Styles/UWP/Dark/Window/DarkUWPWindowStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
