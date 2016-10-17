@@ -7,13 +7,17 @@
         xmlns:customcontrols="clr-namespace:CellUniverse.CustomControls;assembly=customcontrols"
         xmlns:viewmodels="clr-namespace:CellUniverse.ViewModels;assembly=viewmodels"
         mc:Ignorable="d"
+        Style="{StaticResource DarkUWPWindowStyle}"
         Icon="Resources/MainIcon.ico"
         Title="CellUniverse: Space of the Cellular Machines"
-        Width="1187" Height="582" MinWidth="868" MinHeight="402" ResizeMode="CanResize">
+        Width="1187" Height="590" MinWidth="867" MinHeight="410">
 
     <Window.DataContext>
         <viewmodels:MainWindowViewModel/>
     </Window.DataContext>
+    <Window.Resources>
+        <SolidColorBrush x:Key="{x:Static SystemColors.WindowTextBrushKey}" Color="White"/>
+    </Window.Resources>
 
     <Grid Name="mainGrid">
         <Grid.ColumnDefinitions>
@@ -33,6 +37,9 @@
             </Grid.RowDefinitions>
 
             <StackPanel Orientation="Vertical" Grid.Row="0">
+                <StackPanel.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="LightGray"/>                    
+                </StackPanel.Resources>
 
                 <Grid Margin="0,8,0,0">
                     <Grid.ColumnDefinitions>
@@ -75,7 +82,7 @@
                         Grid.Row="1" Grid.Column="1"
                         Padding="4" HorizontalAlignment="Right"
                         Text="{Binding Path=TotalGenerations, UpdateSourceTrigger=PropertyChanged}"
-                        IsEnabled="False"/>                    
+                        IsEnabled="False"/>
                 </Grid>
 
                 <Grid Margin="0,24,0,0">
@@ -141,7 +148,7 @@
                         Text="{Binding Path=NextGenerationsTime, UpdateSourceTrigger=PropertyChanged}"
                         IsEnabled="False"/>
                 </Grid>
-                
+
                 <Grid Margin="0,24,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
