@@ -24,7 +24,7 @@ namespace CellUniverse.CustomControls.RapidCellularViewportDependencies {
                 surface = new WriteableBitmap(surfaceWidth, surfaceHeight, 96, 96, PixelFormats.Bgr32, null);
                 InvalidateView = true;
                 
-                GC.Collect(); // <-- WriteableBitmap Memory Leak?
+                GC.Collect(); // WriteableBitmap Memory Leak?
             }
         }
 
@@ -36,7 +36,6 @@ namespace CellUniverse.CustomControls.RapidCellularViewportDependencies {
                 settings.SpacingBetweenCells != spacingBetweenCells;
         }
 
-        // InverseLogic: once lock\unlock per frame
         internal unsafe WriteableBitmap Render(Color[,] oldCellularData, Color[,] newCellularData) {
 
             if (IsValidData(oldCellularData, newCellularData)) {

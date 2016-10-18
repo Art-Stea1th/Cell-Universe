@@ -9,7 +9,7 @@ namespace CellUniverse.ViewModels {
 
     using Infrastructure;
     using Infrastructure.Interfaces;
-    using Models.Old;
+    using Models;
     
     public class MainWindowViewModel : ViewModelBase {
 
@@ -23,7 +23,7 @@ namespace CellUniverse.ViewModels {
         private TimeSpan totalTime;
         private CellUniverseState currentState;
 
-        private IViewportModel multiverse;
+        private IUniverseModelColored multiverse;
         private Color[,] cellularData;
 
         private string startPauseButtonText = "Start";

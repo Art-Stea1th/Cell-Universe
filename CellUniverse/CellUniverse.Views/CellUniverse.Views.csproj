@@ -143,9 +143,7 @@
   <ItemGroup>
     <Resource Include="Resources\MainIcon.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Styles\UWP\Dark\Controls\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\CellUniverse.CustomControls\CellUniverse.CustomControls.csproj">
       <Project>{b03132da-8024-4b5b-be9b-49eecc202b32}</Project>
