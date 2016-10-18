@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>6</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -40,6 +42,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -98,9 +101,9 @@
       <Project>{e39f291b-0e29-46b4-a757-9ffc5a3bd738}</Project>
       <Name>CellUniverse.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CellUniverse.Models.Old\CellUniverse.Models.Old.csproj">
-      <Project>{5c514137-1eb3-4c8c-9449-fb02197670fd}</Project>
-      <Name>CellUniverse.Models.Old</Name>
+    <ProjectReference Include="..\CellUniverse.Models\CellUniverse.Models.csproj">
+      <Project>{8adacdf0-04fb-4ce1-8a4c-cbe0cee99f22}</Project>
+      <Name>CellUniverse.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

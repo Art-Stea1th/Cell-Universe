@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{123820BB-B994-4588-948A-AA22825E2856}</ProjectGuid>
+    <ProjectGuid>{7AE3AF37-028D-46D0-969A-1F0A806F167E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CellUniverse.Views</RootNamespace>
