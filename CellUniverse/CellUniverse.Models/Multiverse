@@ -2,12 +2,13 @@
 using System.Windows.Media;
 using System.Collections.Generic;
 
-namespace CellUniverse.Models.Old {
+namespace CellUniverse.Models {
 
     using Infrastructure.Interfaces;
     using TheGameOfLife;
+    using NUniverse = TheGameOfLife.CLI.Universe;
 
-    public sealed class Multiverse : IViewportModel {
+    public sealed class Multiverse : IUniverseModelColored {
 
         private int width, height;
 
@@ -17,7 +18,7 @@ namespace CellUniverse.Models.Old {
         private Random random = new Random();
         private ColorWorker cworker = new ColorWorker();
 
-        IEnumerable<Color[,]> IViewportModel.NextScreen {
+        IEnumerable<Color[,]> IUniverseModelColored.NextScreen {
             get {
                 Color[,] result = new Color[height, width];
 
@@ -43,7 +44,8 @@ namespace CellUniverse.Models.Old {
 
             layers = new List<IUniverseModel>(layersCount);
             for (int i = 0; i < layersCount; i++) {
-                layers.Add(new Universe(width, height));
+                //layers.Add(new Universe(width, height));
+                layers.Add(new NUniverse(width, height));
             }
 
             colors = cworker.GetTintsFromColor(

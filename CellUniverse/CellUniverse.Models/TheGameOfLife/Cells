@@ -1,4 +1,4 @@
-﻿namespace CellUniverse.Models.Old.TheGameOfLife {
+﻿namespace CellUniverse.Models.TheGameOfLife {
 
 
     internal sealed class Cell {

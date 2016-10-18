@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CellUniverse.Models.Old.TheGameOfLife {
+namespace CellUniverse.Models.TheGameOfLife {
 
     using Infrastructure.Interfaces;
 
