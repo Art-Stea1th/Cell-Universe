@@ -2,10 +2,16 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Interop;
-using System.Windows.Media;
 
 namespace CellUniverse.Views.Styles.UWP.Dark.Window {
+
+    internal static class LocalExtensions {
+
+        public static void ForTemplatedWindow(this object templateFrameworkElement, Action<System.Windows.Window> action) {
+            System.Windows.Window window = ((FrameworkElement)templateFrameworkElement).TemplatedParent as System.Windows.Window;
+            if (window != null) action(window);
+        }
+    }
 
     public partial class DarkUWPWindowStyle {
 
@@ -15,52 +21,45 @@ namespace CellUniverse.Views.Styles.UWP.Dark.Window {
 
         void IconMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             if (e.ClickCount > 1)
-                sender.ForWindowFromTemplate(w => SystemCommands.CloseWindow(w));
+                sender.ForTemplatedWindow(w => w.Close());
         }
 
         void IconMouseUp(object sender, MouseButtonEventArgs e) {
             var element = sender as FrameworkElement;
             var point = element.PointToScreen(new Point(element.ActualWidth / 2, element.ActualHeight));
-            sender.ForWindowFromTemplate(w => SystemCommands.ShowSystemMenu(w, point));
+            sender.ForTemplatedWindow(w => SystemCommands.ShowSystemMenu(w, point));
         }
 
         void WindowLoaded(object sender, RoutedEventArgs e) {
             window = (System.Windows.Window)sender;
-            window.StateChanged += WindowStateChanged;
-        }
-
-        void WindowStateChanged(object sender, EventArgs e) {
-            var handle = window.GetWindowHandle();
-            var containerBorder = (Border)window.Template.FindName(WindowContainerName, window);
-
-            if (window.WindowState == WindowState.Maximized) {
-                var screen = System.Windows.Forms.Screen.FromHandle(handle);
-                if (screen.Primary) {
-                    containerBorder.Padding = new Thickness(
-                        SystemParameters.WorkArea.Left + 9,
-                        SystemParameters.WorkArea.Top + 9,
-                        SystemParameters.PrimaryScreenWidth - SystemParameters.WorkArea.Right,
-                        SystemParameters.PrimaryScreenHeight - SystemParameters.WorkArea.Bottom);
-                }
-            }
-            else {
-                containerBorder.Padding = new Thickness(7, 7, 7, 7);
-            }
-        }        
+        }      
 
         void MinimizeButtonClick(object sender, RoutedEventArgs e) {
-            sender.ForWindowFromTemplate(w => SystemCommands.MinimizeWindow(w));
+            sender.ForTemplatedWindow(w => w.WindowState = WindowState.Minimized);
         }
 
         void MaximizeButtonClick(object sender, RoutedEventArgs e) {
-            sender.ForWindowFromTemplate(w => {
-                if (w.WindowState == WindowState.Maximized) SystemCommands.RestoreWindow(w);
-                else SystemCommands.MaximizeWindow(w);
+            sender.ForTemplatedWindow(w => {
+
+                var containerBorder = (Border)window.Template.FindName(WindowContainerName, window);
+
+                if (w.WindowState == WindowState.Maximized) {
+                    w.WindowState = WindowState.Normal;
+                    containerBorder.Padding = new Thickness(7, 7, 7, 7);
+                }
+                else {
+                    w.WindowState = WindowState.Maximized;                    
+                    containerBorder.Padding = new Thickness(
+                        SystemParameters.WorkArea.Left + 6,
+                        SystemParameters.WorkArea.Top + 6,
+                        SystemParameters.PrimaryScreenWidth - SystemParameters.WorkArea.Right + 7,
+                        SystemParameters.PrimaryScreenHeight - SystemParameters.WorkArea.Bottom + 6);
+                }
             });
         }
 
         void CloseButtonClick(object sender, RoutedEventArgs e) {
-            sender.ForWindowFromTemplate(w => SystemCommands.CloseWindow(w));
+            sender.ForTemplatedWindow(w => w.Close());
         }
     }
 }

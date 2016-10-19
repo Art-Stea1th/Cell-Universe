@@ -81,7 +81,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Styles\UWP\Dark\Window\DarkUWPWindowStyle.cs" />
-    <Compile Include="Styles\UWP\Dark\Window\LocalExtensions.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
