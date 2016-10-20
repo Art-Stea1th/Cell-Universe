@@ -14,7 +14,8 @@
                     CornerRadius="0"
                     GlassFrameThickness="0"
                     UseAeroCaptionButtons="False"
-                    ResizeBorderThickness="7"/>
+                    ResizeBorderThickness="7">
+                </WindowChrome>
             </Setter.Value>
         </Setter>
         <EventSetter Event="Loaded" Handler="WindowLoaded"/>

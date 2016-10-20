@@ -19,9 +19,17 @@ namespace CellUniverse.Views.Styles.UWP.Dark.Window {
         private const string WindowBorderName = "PART_WindowBorder";
         private System.Windows.Window window = null;
 
+        private object stateLocker = new object();
+        private bool inChaging = false;
+
         void IconMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             if (e.ClickCount > 1)
                 sender.ForTemplatedWindow(w => w.Close());
+        }
+
+        void CaptionMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
+            if (e.ClickCount > 1)
+                MaximizeButtonClick(sender, e);
         }
 
         void IconMouseUp(object sender, MouseButtonEventArgs e) {
@@ -32,7 +40,35 @@ namespace CellUniverse.Views.Styles.UWP.Dark.Window {
 
         void WindowLoaded(object sender, RoutedEventArgs e) {
             window = (System.Windows.Window)sender;
-        }      
+            window.StateChanged += WindowStateChanged;
+            //window.OverridesDefaultStyle = true;
+            //window.Padding = new Thickness(0);
+        }
+
+        void WindowStateChanged(object sender, EventArgs e) {
+            var containerBorder = (Border)window.Template.FindName(WindowContainerName, window);            
+
+            if (window.WindowState == WindowState.Maximized && !inChaging) {
+
+                lock (stateLocker) {
+                    inChaging = true;
+                    window.WindowState = WindowState.Normal;
+                    window.WindowState = WindowState.Maximized;
+                    inChaging = false;
+                }
+                                
+                containerBorder.Padding = new Thickness(
+                        SystemParameters.WorkArea.Left + 6,
+                        SystemParameters.WorkArea.Top + 6,
+                        SystemParameters.PrimaryScreenWidth - SystemParameters.WorkArea.Right + 7,
+                        SystemParameters.PrimaryScreenHeight - SystemParameters.WorkArea.Bottom + 6);
+            }
+            else {
+                containerBorder.Padding = new Thickness(7, 7, 7, 7);
+            }
+
+            MaximizeButtonClick(sender, null);
+        }
 
         void MinimizeButtonClick(object sender, RoutedEventArgs e) {
             sender.ForTemplatedWindow(w => w.WindowState = WindowState.Minimized);
@@ -40,21 +76,9 @@ namespace CellUniverse.Views.Styles.UWP.Dark.Window {
 
         void MaximizeButtonClick(object sender, RoutedEventArgs e) {
             sender.ForTemplatedWindow(w => {
-
-                var containerBorder = (Border)window.Template.FindName(WindowContainerName, window);
-
-                if (w.WindowState == WindowState.Maximized) {
-                    w.WindowState = WindowState.Normal;
-                    containerBorder.Padding = new Thickness(7, 7, 7, 7);
-                }
-                else {
-                    w.WindowState = WindowState.Maximized;                    
-                    containerBorder.Padding = new Thickness(
-                        SystemParameters.WorkArea.Left + 6,
-                        SystemParameters.WorkArea.Top + 6,
-                        SystemParameters.PrimaryScreenWidth - SystemParameters.WorkArea.Right + 7,
-                        SystemParameters.PrimaryScreenHeight - SystemParameters.WorkArea.Bottom + 6);
-                }
+                if (w.WindowState == WindowState.Maximized) { w.WindowState = WindowState.Normal; }
+                else { w.WindowState = WindowState.Maximized; }
+                //e.Handled = true;
             });
         }
 
