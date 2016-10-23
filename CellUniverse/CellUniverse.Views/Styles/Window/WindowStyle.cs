@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace CellUniverse.Views.Styles.UWP.Dark.Window {
+namespace CellUniverse.Views.Styles.Window {
 
     internal static class LocalExtensions {
 
@@ -13,7 +13,7 @@ namespace CellUniverse.Views.Styles.UWP.Dark.Window {
         }
     }
 
-    public partial class DarkUWPWindowStyle {
+    public partial class WindowStyle {
 
         private const string WindowContainerName = "PART_WindowContainer";
         private const string WindowBorderName = "PART_WindowBorder";
@@ -41,8 +41,6 @@ namespace CellUniverse.Views.Styles.UWP.Dark.Window {
         void WindowLoaded(object sender, RoutedEventArgs e) {
             window = (System.Windows.Window)sender;
             window.StateChanged += WindowStateChanged;
-            //window.OverridesDefaultStyle = true;
-            //window.Padding = new Thickness(0);
         }
 
         void WindowStateChanged(object sender, EventArgs e) {
@@ -55,8 +53,7 @@ namespace CellUniverse.Views.Styles.UWP.Dark.Window {
                     window.WindowState = WindowState.Normal;
                     window.WindowState = WindowState.Maximized;
                     inChaging = false;
-                }
-                                
+                }                                
                 containerBorder.Padding = new Thickness(
                         SystemParameters.WorkArea.Left + 6,
                         SystemParameters.WorkArea.Top + 6,
@@ -78,7 +75,7 @@ namespace CellUniverse.Views.Styles.UWP.Dark.Window {
             sender.ForTemplatedWindow(w => {
                 if (w.WindowState == WindowState.Maximized) { w.WindowState = WindowState.Normal; }
                 else { w.WindowState = WindowState.Maximized; }
-                //e.Handled = true;
+                e.Handled = true;
             });
         }
 

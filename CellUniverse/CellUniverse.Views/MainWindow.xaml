@@ -7,7 +7,7 @@
         xmlns:customcontrols="clr-namespace:CellUniverse.CustomControls;assembly=customcontrols"
         xmlns:viewmodels="clr-namespace:CellUniverse.ViewModels;assembly=viewmodels"
         mc:Ignorable="d"
-        Style="{StaticResource DarkUWPWindowStyle}"
+        Style="{StaticResource WindowStyle}"
         Icon="Resources/MainIcon.ico"
         Title="CellUniverse: Space of the Cellular Machines"
         Width="1187" Height="590" MinWidth="867" MinHeight="410">
@@ -15,12 +15,9 @@
     <Window.DataContext>
         <viewmodels:MainWindowViewModel/>
     </Window.DataContext>
-    <Window.Resources>
-        <SolidColorBrush x:Key="{x:Static SystemColors.WindowTextBrushKey}" Color="White"/>
-    </Window.Resources>
 
     <Grid Name="mainGrid">
-        <Grid.ColumnDefinitions>
+        <!--<Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
@@ -196,6 +193,6 @@
                     Content="{Binding Path=StopResetButtonText, UpdateSourceTrigger=PropertyChanged}"
                     Command="{Binding StopResetSimulation}"/>
             </StackPanel>
-        </Grid>
+        </Grid>-->
     </Grid>
 </Window>
