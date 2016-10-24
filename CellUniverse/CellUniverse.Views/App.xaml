@@ -6,13 +6,9 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles/Brushes.xaml"/>
-                <ResourceDictionary Source="Styles/Fonts.xaml"/>
-
-                <ResourceDictionary Source="Styles/DarkStyleBrushesSet.xaml"/>
-
-                <ResourceDictionary Source="Styles/Window/TitleBarButtonsStyles.xaml"/>
-                <ResourceDictionary Source="Styles/Window/WindowStyle.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/BasicControls.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/BasicInteractiveControls.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/BasicWindow.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

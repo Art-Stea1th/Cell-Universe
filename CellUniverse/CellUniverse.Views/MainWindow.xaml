@@ -1,22 +1,53 @@
 ﻿<Window x:Class="CellUniverse.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CellUniverse.Views"
         xmlns:customcontrols="clr-namespace:CellUniverse.CustomControls;assembly=customcontrols"
         xmlns:viewmodels="clr-namespace:CellUniverse.ViewModels;assembly=viewmodels"
-        mc:Ignorable="d"
-        Style="{StaticResource WindowStyle}"
+        Style="{StaticResource BasicWindow}"
         Icon="Resources/MainIcon.ico"
         Title="CellUniverse: Space of the Cellular Machines"
-        Width="1187" Height="590" MinWidth="867" MinHeight="410">
+        Width="1187" Height="590" MinWidth="867" MinHeight="410" Background="Black">
+    <!--Style="{StaticResource WindowBase}"-->
 
     <Window.DataContext>
         <viewmodels:MainWindowViewModel/>
     </Window.DataContext>
 
-    <Grid Name="mainGrid">
+    <Grid Name="mainGrid" Margin="8">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label
+            Style="{StaticResource BasicContentControl}" IsEnabled="False"
+            Grid.Row="0" Grid.Column="0"
+            Content="0 Big Light Text"/>
+        
+        <Label
+            Style="{StaticResource BasicContentControl}"
+            Grid.Row="1" Grid.Column="0"
+            Content="0 Normal text very long line ..."/>
+
+        <Button
+            Style="{StaticResource BasicButton}"
+            Grid.Row="2" Grid.Column="0"
+            Content="0 Example Button"/>
+        
+        <Button
+            Style="{StaticResource BasicButton}" IsEnabled="False"
+            Grid.Row="3" Grid.Column="0"
+            Content="0 Example Button"/>
+
         <!--<Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="Auto"/>

@@ -1,0 +1,79 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Basic Brushes ..................................................................................... -->
+    <SolidColorBrush x:Key="TrueBlack"        Color="#000000" Opacity="1.0"/>
+    <SolidColorBrush x:Key="TrueWhite"        Color="#FFFFFF" Opacity="1.0"/>
+    <SolidColorBrush x:Key="CanonicalW10Blue" Color="#1883D7" Opacity="1.0"/>
+    <SolidColorBrush x:Key="CanonicalW10Red"  Color="#E81123" Opacity="1.0"/>
+
+    <SolidColorBrush
+        x:Key="BasicBrush"
+        Color="{Binding Color, Source={StaticResource TrueBlack}}"
+        Opacity="{Binding Opacity, Source={StaticResource TrueBlack}}"/>
+    <SolidColorBrush
+        x:Key="AdditionalBrush"
+        Color="{Binding Color, Source={StaticResource TrueWhite}}"
+        Opacity="{Binding Opacity, Source={StaticResource TrueWhite}}"/>
+    <SolidColorBrush
+        x:Key="AccentBrush"
+        Color="{Binding Color, Source={StaticResource CanonicalW10Blue}}"
+        Opacity="{Binding Opacity, Source={StaticResource CanonicalW10Blue}}"/>
+    <SolidColorBrush
+        x:Key="ExceptionalBrush"
+        Color="{Binding Color, Source={StaticResource CanonicalW10Red}}"
+        Opacity="{Binding Opacity, Source={StaticResource CanonicalW10Red}}"/>
+
+    <!-- Basic Control Brushes ..................................................................................... -->
+    <SolidColorBrush
+        x:Key="ControlBackgroundBrush"
+        Color="Transparent"
+        Opacity="0.0"/>
+    <SolidColorBrush
+        x:Key="ControlForegroundBrush"
+        Color="{Binding Color, Source={StaticResource AdditionalBrush}}"
+        Opacity="0.8"/>
+
+    <!-- Basic Hovered Control Brushes -->
+    <SolidColorBrush
+        x:Key="HoveredControlBackgroundBrush"
+        Color="{Binding Color, Source={StaticResource AdditionalBrush}}"
+        Opacity="0.16"/>
+    <SolidColorBrush
+        x:Key="HoveredControlForegroundBrush"
+        Color="{Binding Color, Source={StaticResource ControlForegroundBrush}}"
+        Opacity="0.96"/>
+    
+    <!-- Basic Activated Control Brushes -->
+    <SolidColorBrush
+        x:Key="ActivatedControlBackgroundBrush"
+        Color="{Binding Color, Source={StaticResource HoveredControlBackgroundBrush}}"
+        Opacity="0.08"/>
+    <SolidColorBrush
+        x:Key="ActivatedControlForegroundBrush"
+        Color="{Binding Color, Source={StaticResource HoveredControlForegroundBrush}}"
+        Opacity="0.48"/>
+
+    <!-- Basic Disabled Control Brushes ............................................................................ -->
+    <SolidColorBrush
+        x:Key="DisabledControlBackgroundBrush"
+        Color="{Binding Color, Source={StaticResource ControlBackgroundBrush}}"
+        Opacity="{Binding Opacity, Source={StaticResource ControlBackgroundBrush}}"/>
+    <SolidColorBrush
+        x:Key="DisabledControlForegroundBrush"
+        Color="{Binding Color, Source={StaticResource ControlForegroundBrush}}"
+        Opacity="0.32"/>
+
+    <!-- Basic Window Brushes ...................................................................................... -->
+
+    <SolidColorBrush
+        x:Key="WindowBackgroundBrush"
+        Color="Transparent"
+        Opacity="0.0"/>
+    <SolidColorBrush
+        x:Key="WindowForegroundBrush"
+        Color="{Binding Color, Source={StaticResource AdditionalBrush}}"
+        Opacity="0.0"/>
+
+</ResourceDictionary>
