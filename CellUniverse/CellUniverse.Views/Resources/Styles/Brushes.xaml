@@ -2,28 +2,17 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- Basic Brushes ..................................................................................... -->
-    <SolidColorBrush x:Key="TrueBlack"        Color="#000000" Opacity="1.0"/>
-    <SolidColorBrush x:Key="TrueWhite"        Color="#FFFFFF" Opacity="1.0"/>
-    <SolidColorBrush x:Key="CanonicalW10Blue" Color="#1883D7" Opacity="1.0"/>
-    <SolidColorBrush x:Key="CanonicalW10Red"  Color="#E81123" Opacity="1.0"/>
+    <!-- Basic Colors .............................................................................................. -->
+    <Color x:Key="TrueBlack">        #FF000000 </Color>
+    <Color x:Key="TrueWhite">        #FFFFFFFF </Color>
+    <Color x:Key="CanonicalW10Blue"> #FF1883D7 </Color>
+    <Color x:Key="CanonicalW10Red">  #FFE81123 </Color>
 
-    <SolidColorBrush
-        x:Key="BasicBrush"
-        Color="{Binding Color, Source={StaticResource TrueBlack}}"
-        Opacity="{Binding Opacity, Source={StaticResource TrueBlack}}"/>
-    <SolidColorBrush
-        x:Key="AdditionalBrush"
-        Color="{Binding Color, Source={StaticResource TrueWhite}}"
-        Opacity="{Binding Opacity, Source={StaticResource TrueWhite}}"/>
-    <SolidColorBrush
-        x:Key="AccentBrush"
-        Color="{Binding Color, Source={StaticResource CanonicalW10Blue}}"
-        Opacity="{Binding Opacity, Source={StaticResource CanonicalW10Blue}}"/>
-    <SolidColorBrush
-        x:Key="ExceptionalBrush"
-        Color="{Binding Color, Source={StaticResource CanonicalW10Red}}"
-        Opacity="{Binding Opacity, Source={StaticResource CanonicalW10Red}}"/>
+    <!-- Basic Brushes ............................................................................................. -->
+    <SolidColorBrush x:Key="BasicBrush"       Color="{StaticResource TrueBlack}"/>
+    <SolidColorBrush x:Key="AdditionalBrush"  Color="{StaticResource TrueWhite}"/>
+    <SolidColorBrush x:Key="AccentBrush"      Color="{StaticResource CanonicalW10Blue}"/>
+    <SolidColorBrush x:Key="ExceptionalBrush" Color="{StaticResource CanonicalW10Red}"/>
 
     <!-- Basic Control Brushes ..................................................................................... -->
     <SolidColorBrush
