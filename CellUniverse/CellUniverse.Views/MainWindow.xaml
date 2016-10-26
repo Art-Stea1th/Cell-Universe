@@ -9,46 +9,14 @@
         Icon="Resources/MainIcon.ico"
         Title="CellUniverse: Space of the Cellular Machines"
         Width="1187" Height="590" MinWidth="867" MinHeight="410" Background="Black">
-    <!--Style="{StaticResource WindowBase}"-->
 
     <Window.DataContext>
         <viewmodels:MainWindowViewModel/>
     </Window.DataContext>
 
-    <Grid Name="mainGrid" Margin="8">
+    <Grid Name="mainGrid">
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-
-        <Label
-            Style="{StaticResource BasicContentControl}" IsEnabled="False"
-            Grid.Row="0" Grid.Column="0"
-            Content="0 Big Light Text"/>
-        
-        <Label
-            Style="{StaticResource BasicContentControl}"
-            Grid.Row="1" Grid.Column="0"
-            Content="0 Normal text very long line ..."/>
-
-        <Button
-            Style="{StaticResource BasicButton}"
-            Grid.Row="2" Grid.Column="0"
-            Content="0 Example Button"/>
-        
-        <Button
-            Style="{StaticResource BasicButton}" IsEnabled="False"
-            Grid.Row="3" Grid.Column="0"
-            Content="0 Example Button"/>
-
-        <!--<Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
@@ -214,16 +182,18 @@
 
                 <Button
                     Name="startPauseResume"
+                    Style="{StaticResource BasicButton}"
                     Padding="4" Margin="0,2"
                     Content="{Binding Path=StartPauseResumeButtonText, UpdateSourceTrigger=PropertyChanged}"
                     Command="{Binding StartPauseResumeSimulation}"/>
 
                 <Button
                     Name="stopReset"
+                    Style="{StaticResource BasicButton}"
                     Padding="4" Margin="0,2,0,0"
                     Content="{Binding Path=StopResetButtonText, UpdateSourceTrigger=PropertyChanged}"
                     Command="{Binding StopResetSimulation}"/>
             </StackPanel>
-        </Grid>-->
+        </Grid>
     </Grid>
 </Window>

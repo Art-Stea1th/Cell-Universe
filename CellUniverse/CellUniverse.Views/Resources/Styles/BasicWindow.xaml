@@ -28,25 +28,21 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Window}">
 
-                    <Border x:Name="PART_WindowPadding">
+                    <Border x:Name="PART_WindowPadding" Background="Transparent" Padding="7">
                         <Grid>
 
                             <Border
                                 x:Name="PART_WindowSurface"
-                                Width="Auto" Height="Auto" Background="Black">
+                                Width="Auto" Height="Auto" Background="{StaticResource WindowBackgroundBrush}">
 
-                                <Grid>
-                                    <ContentPresenter Content="{TemplateBinding Content}"/>
-                                </Grid>
-
-                                <!--<DockPanel
+                                <DockPanel
                                     LastChildFill="True"
                                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
                                     <Border
                                         x:Name="WindowHeader"
                                         DockPanel.Dock="Top"
-                                        Background="{StaticResource WindowHeaderBackgroundColor}">
+                                        Background="{StaticResource WindowHeaderBackgroundBrush}">
                                         <Grid Height="31">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
@@ -127,15 +123,14 @@
                                             </Button>
                                         </Grid>
                                     </Border>
-
                                     <Border
                                         x:Name="WindowContentArea"
-                                        Background="{StaticResource WindowContentAreaBackgroundColor}">
+                                        DockPanel.Dock="Bottom"
+                                        Background="{StaticResource WindowContentAreaBackgroundBrush}">
 
-                                        <ContentPresenter DockPanel.Dock="Bottom" Content="{TemplateBinding Content}"/>
+                                        <ContentPresenter  Content="{TemplateBinding Content}"/>
                                     </Border>
-                                </DockPanel>-->
-
+                                </DockPanel>
                             </Border>
                         </Grid>
                     </Border>
@@ -152,15 +147,15 @@
                         </Trigger>
                         <Trigger Property="WindowState" Value="Maximized">
                             <Setter TargetName="PART_WindowSurface" Property="BorderThickness" Value="0"/>
-                            <!--<Setter TargetName="PART_MaximizeButton_Path" Property="Data" Value="M0,2 H7 V9 H0 V2 M2,2 V0 H9 V7 H7"/>-->
+                            <Setter TargetName="PART_MaximizeButton_Path" Property="Data" Value="M0,2 H7 V9 H0 V2 M2,2 V0 H9 V7 H7"/>
                         </Trigger>
                         
-                        <!--<Trigger Property="IsActive" Value="True">
-                            <Setter TargetName="PART_WindowSurface" Property="BorderBrush" Value="{StaticResource WindowActiveBorderColor}"/>
+                        <Trigger Property="IsActive" Value="True">
+                            <Setter TargetName="PART_WindowSurface" Property="BorderBrush" Value="{StaticResource WindowActiveBorderBrush}"/>
                         </Trigger>
                         <Trigger Property="IsActive" Value="False">
-                            <Setter TargetName="PART_WindowSurface" Property="BorderBrush" Value="{StaticResource WindowInactiveBorderColor}"/>
-                        </Trigger>-->
+                            <Setter TargetName="PART_WindowSurface" Property="BorderBrush" Value="{StaticResource WindowInactiveBorderBrush}"/>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

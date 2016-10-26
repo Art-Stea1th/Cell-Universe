@@ -5,13 +5,13 @@ using System.Windows.Input;
 
 namespace CellUniverse.Views.Resources.Styles {
 
-    //internal static class LocalExtensions {
+    internal static class LocalExtensions {
 
-    //    public static void ForTemplatedWindow(this object templateFrameworkElement, Action<System.Windows.Window> action) {
-    //        System.Windows.Window window = ((FrameworkElement)templateFrameworkElement).TemplatedParent as System.Windows.Window;
-    //        if (window != null) action(window);
-    //    }
-    //}
+        public static void ForTemplatedWindow(this object templateFrameworkElement, Action<System.Windows.Window> action) {
+            System.Windows.Window window = ((FrameworkElement)templateFrameworkElement).TemplatedParent as System.Windows.Window;
+            if (window != null) action(window);
+        }
+    }
 
     public partial class BasicWindow {
 
@@ -21,21 +21,21 @@ namespace CellUniverse.Views.Resources.Styles {
         private object stateLocker = new object();
         private bool inChaging = false;
 
-        //void IconMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
-        //    if (e.ClickCount > 1)
-        //        sender.ForTemplatedWindow(w => w.Close());
-        //}
+        void IconMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
+            if (e.ClickCount > 1)
+                sender.ForTemplatedWindow(w => w.Close());
+        }
 
-        //void CaptionMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
-        //    if (e.ClickCount > 1)
-        //        MaximizeButtonClick(sender, e);
-        //}
+        void CaptionMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
+            if (e.ClickCount > 1)
+                MaximizeButtonClick(sender, e);
+        }
 
-        //void IconMouseUp(object sender, MouseButtonEventArgs e) {
-        //    var element = sender as FrameworkElement;
-        //    var point = element.PointToScreen(new Point(element.ActualWidth / 2, element.ActualHeight));
-        //    sender.ForTemplatedWindow(w => SystemCommands.ShowSystemMenu(w, point));
-        //}
+        void IconMouseUp(object sender, MouseButtonEventArgs e) {
+            var element = sender as FrameworkElement;
+            var point = element.PointToScreen(new Point(element.ActualWidth / 2, element.ActualHeight));
+            sender.ForTemplatedWindow(w => SystemCommands.ShowSystemMenu(w, point));
+        }
 
         void WindowLoaded(object sender, RoutedEventArgs e) {
             window = (Window)sender;
@@ -61,20 +61,20 @@ namespace CellUniverse.Views.Resources.Styles {
             }
         }
 
-        //void MinimizeButtonClick(object sender, RoutedEventArgs e) {
-        //    sender.ForTemplatedWindow(w => w.WindowState = WindowState.Minimized);
-        //}
+        void MinimizeButtonClick(object sender, RoutedEventArgs e) {
+            sender.ForTemplatedWindow(w => w.WindowState = WindowState.Minimized);
+        }
 
-        //void MaximizeButtonClick(object sender, RoutedEventArgs e) {
-        //    sender.ForTemplatedWindow(w => {
-        //        if (w.WindowState == WindowState.Maximized) { w.WindowState = WindowState.Normal; }
-        //        else { w.WindowState = WindowState.Maximized; }
-        //        e.Handled = true;
-        //    });
-        //}
+        void MaximizeButtonClick(object sender, RoutedEventArgs e) {
+            sender.ForTemplatedWindow(w => {
+                if (w.WindowState == WindowState.Maximized) { w.WindowState = WindowState.Normal; }
+                else { w.WindowState = WindowState.Maximized; }
+                e.Handled = true;
+            });
+        }
 
-        //void CloseButtonClick(object sender, RoutedEventArgs e) {
-        //    sender.ForTemplatedWindow(w => w.Close());
-        //}
+        void CloseButtonClick(object sender, RoutedEventArgs e) {
+            sender.ForTemplatedWindow(w => w.Close());
+        }
     }
 }

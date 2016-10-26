@@ -8,6 +8,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/BasicControls.xaml"/>
                 <ResourceDictionary Source="Resources/Styles/BasicInteractiveControls.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/TitleBarButtonsStyles.xaml"/>
                 <ResourceDictionary Source="Resources/Styles/BasicWindow.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

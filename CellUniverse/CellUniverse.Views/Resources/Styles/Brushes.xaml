@@ -30,9 +30,13 @@
         Color="{Binding Color, Source={StaticResource AdditionalBrush}}"
         Opacity="0.16"/>
     <SolidColorBrush
+        x:Key="HoveredControlBackgroundBrushEx"
+        Color="{Binding Color, Source={StaticResource ExceptionalBrush}}"
+        Opacity="1.0"/>
+    <SolidColorBrush
         x:Key="HoveredControlForegroundBrush"
         Color="{Binding Color, Source={StaticResource ControlForegroundBrush}}"
-        Opacity="0.96"/>
+        Opacity="0.96"/>    
     
     <!-- Basic Activated Control Brushes -->
     <SolidColorBrush
@@ -40,9 +44,13 @@
         Color="{Binding Color, Source={StaticResource HoveredControlBackgroundBrush}}"
         Opacity="0.08"/>
     <SolidColorBrush
+        x:Key="ActivatedControlBackgroundBrushEx"
+        Color="{Binding Color, Source={StaticResource ExceptionalBrush}}"
+        Opacity="0.24"/>
+    <SolidColorBrush
         x:Key="ActivatedControlForegroundBrush"
         Color="{Binding Color, Source={StaticResource HoveredControlForegroundBrush}}"
-        Opacity="0.48"/>
+        Opacity="0.48"/>    
 
     <!-- Basic Disabled Control Brushes ............................................................................ -->
     <SolidColorBrush
@@ -58,11 +66,27 @@
 
     <SolidColorBrush
         x:Key="WindowBackgroundBrush"
-        Color="Transparent"
-        Opacity="0.0"/>
+        Color="{Binding Color, Source={StaticResource BasicBrush}}"
+        Opacity="{Binding Color, Source={StaticResource BasicBrush}}"/>    
     <SolidColorBrush
-        x:Key="WindowForegroundBrush"
+        x:Key="WindowHeaderBackgroundBrush"
         Color="{Binding Color, Source={StaticResource AdditionalBrush}}"
         Opacity="0.0"/>
+    <SolidColorBrush
+        x:Key="WindowContentAreaBackgroundBrush"
+        Color="{Binding Color, Source={StaticResource AdditionalBrush}}"
+        Opacity="0.1"/>
+    <SolidColorBrush
+        x:Key="WindowActiveBorderBrush"
+        Color="{Binding Color, Source={StaticResource AccentBrush}}"
+        Opacity="{Binding Color, Source={StaticResource AccentBrush}}"/>
+    <SolidColorBrush
+        x:Key="WindowInactiveBorderBrush"
+        Color="{Binding Color, Source={StaticResource AdditionalBrush}}"
+        Opacity="0.1"/>
+    <SolidColorBrush
+        x:Key="WindowForegroundBrush"
+        Color="{Binding Color, Source={StaticResource ControlForegroundBrush}}"
+        Opacity="{Binding Color, Source={StaticResource ControlForegroundBrush}}"/>
 
 </ResourceDictionary>
