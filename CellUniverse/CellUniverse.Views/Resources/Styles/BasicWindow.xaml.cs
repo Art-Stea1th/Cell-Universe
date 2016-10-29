@@ -7,8 +7,8 @@ namespace CellUniverse.Views.Resources.Styles {
 
     internal static class LocalExtensions {
 
-        public static void ForTemplatedWindow(this object templateFrameworkElement, Action<System.Windows.Window> action) {
-            System.Windows.Window window = ((FrameworkElement)templateFrameworkElement).TemplatedParent as System.Windows.Window;
+        public static void ForTemplatedWindow(this object templateFrameworkElement, Action<Window> action) {
+            Window window = ((FrameworkElement)templateFrameworkElement).TemplatedParent as Window;
             if (window != null) action(window);
         }
     }

@@ -6,7 +6,7 @@
         <ResourceDictionary Source="BasicControls.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="BasicButton" TargetType="{x:Type Button}" BasedOn="{StaticResource BasicContentControl}">
+    <Style x:Key="{x:Type Button}" TargetType="{x:Type Button}" BasedOn="{StaticResource BasicContentControl}">
         <Setter Property="Focusable" Value="false" />
         <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
         <Setter Property="Template">

@@ -8,9 +8,9 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="BasicWindow" TargetType="{x:Type Window}" BasedOn="{StaticResource BasicContentControl}">
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
         <Setter Property="WindowStyle" Value="None"/>
         <Setter Property="AllowsTransparency" Value="true"/>
-        <Setter Property="ResizeMode" Value="CanResize"/>
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
                 <WindowChrome

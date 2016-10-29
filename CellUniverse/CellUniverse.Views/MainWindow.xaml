@@ -182,14 +182,14 @@
 
                 <Button
                     Name="startPauseResume"
-                    Style="{StaticResource BasicButton}"
+                    
                     Padding="4" Margin="0,2"
                     Content="{Binding Path=StartPauseResumeButtonText, UpdateSourceTrigger=PropertyChanged}"
                     Command="{Binding StartPauseResumeSimulation}"/>
 
                 <Button
                     Name="stopReset"
-                    Style="{StaticResource BasicButton}"
+                    
                     Padding="4" Margin="0,2,0,0"
                     Content="{Binding Path=StopResetButtonText, UpdateSourceTrigger=PropertyChanged}"
                     Command="{Binding StopResetSimulation}"/>
