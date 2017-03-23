@@ -31,7 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>6</LangVersion>
   </PropertyGroup>
@@ -75,7 +75,6 @@
     <Compile Include="TheGameOfLife\Cell.cs" />
     <Compile Include="TheGameOfLife\ComputeScheduler.cs" />
     <Compile Include="TheGameOfLife\Universe.cs" />
-    <Compile Include="TheGameOfLife\CLI\Universe.cs" />
     <Compile Include="ColorWorker.cs" />
     <Compile Include="Multiverse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -105,10 +104,6 @@
     <ProjectReference Include="..\CellUniverse.Infrastructure\CellUniverse.Infrastructure.csproj">
       <Project>{e39f291b-0e29-46b4-a757-9ffc5a3bd738}</Project>
       <Name>CellUniverse.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CellUniverse.Models.CLI\CellUniverse.Models.CLI.vcxproj">
-      <Project>{de2c9fef-5623-4144-9e77-cb50474ceae6}</Project>
-      <Name>CellUniverse.Models.CLI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

@@ -13,7 +13,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
-                        <Border x:Name="PART_border" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <Border x:Name="PART_border" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource ControlBackgroundBrush}"/>
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}"/>
                     </Grid>
                     <ControlTemplate.Triggers>

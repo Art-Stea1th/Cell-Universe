@@ -33,6 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\MainIcon.ico</ApplicationIcon>
@@ -149,13 +150,13 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\CellUniverse.CustomControls\CellUniverse.CustomControls.csproj">
-      <Project>{b03132da-8024-4b5b-be9b-49eecc202b32}</Project>
-      <Name>CellUniverse.CustomControls</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CellUniverse.ViewModels\CellUniverse.ViewModels.csproj">
       <Project>{5c54895d-4c06-472c-b618-f720e2c23978}</Project>
       <Name>CellUniverse.ViewModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CellUniverse.Views.AppCustomControls\CellUniverse.Views.AppCustomControls.csproj">
+      <Project>{661fb6b3-028e-42e0-80c1-8dc8e301b54a}</Project>
+      <Name>CellUniverse.Views.AppCustomControls</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -78,7 +78,7 @@
                                                     MaxWidth="10" MaxHeight="10"
                                                     HorizontalAlignment="Center" VerticalAlignment="Center">
                                                     <Path
-                                                        Stroke="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"
+                                                        Stroke="{Binding RelativeSource={RelativeSource AncestorType=Control}, Path=Foreground}"
                                                         StrokeThickness="1"
                                                         Stretch="None"
                                                         RenderOptions.EdgeMode="Aliased"
@@ -97,7 +97,7 @@
                                                     HorizontalAlignment="Center" VerticalAlignment="Center">
                                                     <Path
                                                         x:Name="PART_MaximizeButton_Path"
-                                                        Stroke="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"
+                                                        Stroke="{Binding RelativeSource={RelativeSource AncestorType=Control}, Path=Foreground}"
                                                         StrokeThickness="1"
                                                         Stretch="None"
                                                         RenderOptions.EdgeMode="Aliased"
@@ -115,9 +115,10 @@
                                                     MaxWidth="10" MaxHeight="11"
                                                     HorizontalAlignment="Center" VerticalAlignment="Center">
                                                     <Path
-                                                        Stroke="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"
+                                                        Stroke="{Binding RelativeSource={RelativeSource AncestorType=Control}, Path=Foreground}"
                                                         StrokeThickness="1"
                                                         Stretch="None"
+                                                        RenderOptions.EdgeMode="Aliased"
                                                         Data="M0,0 L9,9 M0,9 L9,0"/>
                                                 </Grid>
                                             </Button>
@@ -142,7 +143,6 @@
                                     <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="7" ShadowDepth="2" Direction="315"/>
                                 </Setter.Value>
                             </Setter>
-                            <Setter TargetName="PART_WindowPadding" Property="Padding" Value="7"/>
                             <Setter TargetName="PART_WindowSurface" Property="BorderThickness" Value="1"/>
                         </Trigger>
                         <Trigger Property="WindowState" Value="Maximized">

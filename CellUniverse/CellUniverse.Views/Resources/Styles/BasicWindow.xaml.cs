@@ -56,8 +56,11 @@ namespace CellUniverse.Views.Resources.Styles {
                 containerBorder.Padding = new Thickness(
                         SystemParameters.WorkArea.Left + 7,
                         SystemParameters.WorkArea.Top + 7,
-                        SystemParameters.PrimaryScreenWidth - SystemParameters.WorkArea.Right + 8,
+                        SystemParameters.PrimaryScreenWidth - SystemParameters.WorkArea.Right + 7,
                         SystemParameters.PrimaryScreenHeight - SystemParameters.WorkArea.Bottom + 7);
+            }
+            else {
+                containerBorder.Padding = new Thickness(7);
             }
         }
 
