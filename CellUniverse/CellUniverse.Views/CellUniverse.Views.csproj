@@ -33,6 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\MainIcon.ico</ApplicationIcon>
@@ -61,7 +62,6 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -80,7 +80,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Styles\UWP\Dark\Window\DarkUWPWindowStyle.cs" />
+    <Compile Include="Resources\Styles\BasicWindow.xaml.cs">
+      <DependentUpon>BasicWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -93,19 +95,23 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Styles\UWP\Dark\DarkUWPBrushes.xaml">
+    <Page Include="Resources\Styles\BasicWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\UWP\Dark\Window\DarkUWPWindowStyle.xaml">
+    <Page Include="Resources\Styles\Brushes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\UWP\Dark\Window\WindowControls\DarkUWPTitleBarButtonCloseStyle.xaml">
+    <Page Include="Resources\Styles\BasicControls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\UWP\Dark\Window\WindowControls\DarkUWPTitleBarButtonMinMaxStyle.xaml">
+    <Page Include="Resources\Styles\BasicInteractiveControls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\TitleBarButtonsStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -144,16 +150,13 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Folder Include="Styles\UWP\Dark\Controls\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CellUniverse.CustomControls\CellUniverse.CustomControls.csproj">
-      <Project>{b03132da-8024-4b5b-be9b-49eecc202b32}</Project>
-      <Name>CellUniverse.CustomControls</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CellUniverse.ViewModels\CellUniverse.ViewModels.csproj">
       <Project>{5c54895d-4c06-472c-b618-f720e2c23978}</Project>
       <Name>CellUniverse.ViewModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CellUniverse.Views.AppCustomControls\CellUniverse.Views.AppCustomControls.csproj">
+      <Project>{661fb6b3-028e-42e0-80c1-8dc8e301b54a}</Project>
+      <Name>CellUniverse.Views.AppCustomControls</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
