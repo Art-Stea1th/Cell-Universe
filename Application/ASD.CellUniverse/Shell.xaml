@@ -1,0 +1,14 @@
+﻿<Window x:Class="ASD.CellUniverse.Shell"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:prism="http://prismlibrary.com/"
+        Title="{Binding Title}" Width="960" Height="540">
+    <DockPanel LastChildFill="True">
+        <ContentControl
+            DockPanel.Dock="Right"
+            prism:RegionManager.RegionName="ControlsPanelRegion"/>
+        <ContentControl
+            DockPanel.Dock="Left"
+            prism:RegionManager.RegionName="CellSurfaceRegion"/>
+    </DockPanel>
+</Window>

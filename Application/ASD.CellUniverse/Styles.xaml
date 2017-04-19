@@ -1,0 +1,25 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+
+    <LinearGradientBrush x:Key="RainbowCellsBrush" StartPoint="0,1" EndPoint="1,0">
+        <GradientStop Color="#72eed2" Offset="0.0"/>
+        <GradientStop Color="#4b31f4" Offset="0.14"/>
+        <GradientStop Color="#f23752" Offset="0.43"/>
+        <GradientStop Color="#de5334" Offset="0.58"/>
+        <GradientStop Color="#cfd82f" Offset="0.74"/>
+        <GradientStop Color="#0ac92c" Offset="0.92"/>
+        <GradientStop Color="#72eed2" Offset="1.0"/>
+    </LinearGradientBrush>
+
+    <s:Double x:Key="RightPanelMinWidth">128</s:Double>
+    <s:Double x:Key="ElementsMinHeight">28</s:Double>
+
+    <Thickness x:Key="DownControlsMargin">8,0,8,8</Thickness>
+    <Thickness x:Key="UpControlsMargin">8,8,8,0</Thickness>
+
+    <Style x:Key="{x:Type Button}" TargetType="{x:Type Button}">
+        <Setter Property="Margin" Value="{StaticResource DownControlsMargin}"/>
+        <Setter Property="MinHeight" Value="{StaticResource ElementsMinHeight}"/>
+    </Style>
+</ResourceDictionary>
