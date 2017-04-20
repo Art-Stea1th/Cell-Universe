@@ -3,14 +3,18 @@
 
 namespace ASD.CellUniverse {
 
+    using Infrastructure.Properties;
+
     public partial class App : Application {
 
-        protected override void OnStartup(StartupEventArgs e) {
+        public App() {
 
-            base.OnStartup(e);
+            Startup += (s, e) => {
+                var bootstrapper = new Bootstrapper();
+                bootstrapper.Run();
+            };
 
-            var bootstrapper = new Bootstrapper();
-            bootstrapper.Run();
+            Exit += (s, e) => Settings.Default.Save();
         }
     }
 }

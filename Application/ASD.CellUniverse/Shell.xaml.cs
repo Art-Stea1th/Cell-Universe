@@ -1,10 +1,10 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using Microsoft.Practices.Unity;
 using Prism.Regions;
 
 namespace ASD.CellUniverse {
 
+    using Infrastructure.Properties;
     using Views;
 
     public partial class Shell : Window {
@@ -24,8 +24,9 @@ namespace ASD.CellUniverse {
 
         private void InitializeRegions() {
 
-            regionManager.Regions["ControlsPanelRegion"].Add(container.Resolve<ControlsPanelView>());
-            regionManager.Regions["CellSurfaceRegion"].Add(container.Resolve<CellSurfaceView>());
+            regionManager.Regions[Settings.Default.ShellRegionMainName].Add(container.Resolve<CellSurfaceView>());
+            regionManager.Regions[Settings.Default.ShellRegionPanelName].Add(container.Resolve<ControlsPanelView>());
+
         }
     }
 }
