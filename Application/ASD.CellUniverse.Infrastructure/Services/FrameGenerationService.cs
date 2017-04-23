@@ -16,6 +16,7 @@ namespace ASD.CellUniverse.Infrastructure.Services {
 
         private double fps = 60.0;
         private IGenerationAlgorithm algorithm;
+        private bool[,] generatedData;
 
         public double FPS {
             get => fps;
@@ -27,8 +28,14 @@ namespace ASD.CellUniverse.Infrastructure.Services {
 
         public IGenerationAlgorithm GenerationAlgorithm {
             get => algorithm;
+            set => SetProperty(ref algorithm, value);
+        }
+
+        public bool[,] GeneratedData {
+            get => generatedData;
             set {
-                SetProperty(ref algorithm, value);
+                SetProperty(ref generatedData, value);
+                NextFrameReady?.Invoke(generatedData);
             }
         }
 
@@ -47,9 +54,11 @@ namespace ASD.CellUniverse.Infrastructure.Services {
 
         private void InitializeTimer() {
             timer = new DispatcherTimer();
-            timer.Tick += (s, e) => NextFrameReady?.Invoke(algorithm?.GenerateNextBy(null));
+            timer.Tick += GenerateNext;
+            UpdateTimerInterval();
         }
 
+        private void GenerateNext(object sender, EventArgs e) => GeneratedData = algorithm?.GenerateNextBy(generatedData);
         private double ValidFps(double fps) => fps < minFps ? minFps : fps > maxFps ? maxFps : fps;
         private void UpdateTimerInterval() => timer.Interval = TimeSpan.FromMilliseconds(1000.0 / fps);
     }

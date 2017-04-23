@@ -19,7 +19,7 @@ namespace ASD.CellUniverse.Infrastructure.Controllers {
         public ICommand Pause => pauseCommand;
         public ICommand Stop => stopCommand;
 
-        internal event Action Started, Paused, Stopped;
+        public event Action Started, Paused, Stopped;
 
         public ApplicationStateMachine() => InitializeCommands();
 

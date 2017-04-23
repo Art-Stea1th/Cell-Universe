@@ -2,14 +2,14 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:s="clr-namespace:System;assembly=mscorlib">    
 
-    <s:Double x:Key="RightPanelMinWidth">128</s:Double>
+    <s:Double x:Key="RightPanelMinWidth">140</s:Double>
     <s:Double x:Key="ElementsMinHeight">28</s:Double>
 
     <Thickness x:Key="DownControlsMargin">8,0,8,8</Thickness>
     <Thickness x:Key="UpControlsMargin">8,8,8,0</Thickness>
 
     <Style x:Key="{x:Type Button}" TargetType="{x:Type Button}">
-        <Setter Property="Margin" Value="{StaticResource UpControlsMargin}"/>
+        <Setter Property="Margin" Value="{StaticResource DownControlsMargin}"/>
         <Setter Property="MinHeight" Value="{StaticResource ElementsMinHeight}"/>
     </Style>
 

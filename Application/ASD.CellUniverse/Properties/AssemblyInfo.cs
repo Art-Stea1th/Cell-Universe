@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
+using System.Windows;
 using System.Runtime.InteropServices;
 
-[assembly: System.Windows.ThemeInfo(System.Windows.ResourceDictionaryLocation.None, System.Windows.ResourceDictionaryLocation.SourceAssembly)]
 [assembly: AssemblyTitle("CellUniverse: Space of the Cellular Machines")]
 [assembly: AssemblyDescription("Space of the Cellular Machines")]
 [assembly: AssemblyConfiguration("")]
@@ -12,5 +12,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]
-
+[assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
 [assembly: AssemblyVersion("0.5.*")]

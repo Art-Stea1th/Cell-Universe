@@ -11,6 +11,12 @@ namespace ASD.CellUniverse.Infrastructure.Algorithms {
 
     public sealed class TheGameOfLife : BindableBase, IGenerationAlgorithm {
 
-        public bool[,] GenerateNextBy(bool[,] prev) => throw new NotImplementedException();
+        public string Name => "The Game Of Life";
+
+        public override string ToString() => Name;
+
+        public bool[,] GenerateNextBy(bool[,] prev) {
+            return prev;
+        }
     }
 }

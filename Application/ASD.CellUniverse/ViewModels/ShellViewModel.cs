@@ -1,48 +1,86 @@
-﻿using System.Windows;
-using System.Windows.Input;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace ASD.CellUniverse.ViewModels {
 
+    using Infrastructure.Algorithms;
     using Infrastructure.Controllers;
     using Infrastructure.Interfaces;
     using Infrastructure.MVVM;
+    using Infrastructure.Services;
 
     public sealed class ShellViewModel : BindableBase {
 
-        private IMainController controller;
+        private int generationAlgorithmSelectedIndex = 0;
+        public int GenerationAlgorithmSelectedIndex {
+            get => generationAlgorithmSelectedIndex;
+            set {
+                SetProperty(ref generationAlgorithmSelectedIndex, value);
+                Generator.GenerationAlgorithm = generationAlgorithms[generationAlgorithmSelectedIndex];
+            }
+        }
+        public IEnumerable<IGenerationAlgorithm> GenerationAlgorithms => generationAlgorithms;
+        private List<IGenerationAlgorithm> generationAlgorithms;
+
+        public IFrameSequenceGenerator Generator { get; private set; }
+
+        public IMainController Controller { get; private set; }
+
+
+
 
         private WriteableBitmap pixelData;
-
-        public ImageSource PixelData => pixelData;
-
-        public ICommand Play => controller.Play;
-        public ICommand Pause => controller.Pause;
-        public ICommand Stop => controller.Stop;
+        public WriteableBitmap PixelData {
+            get => pixelData;
+            set => SetProperty(ref pixelData, value);
+        }
 
         public ShellViewModel() {
 
-            controller = new ApplicationStateMachine();
+            generationAlgorithms = new List<IGenerationAlgorithm> { new RandomMixer(), new TheGameOfLife() };
 
+            Generator = new FrameGenerationService(generationAlgorithms[generationAlgorithmSelectedIndex]);
 
-            var field = CreateField(161, 90);
-            pixelData = NewBitmapFrom(field);
+            Generator.NextFrameReady += (a) => UpdatePixelData(a, Colors.DarkGray, Colors.Transparent);
+            Generator.GeneratedData = CreateRandom(321, 200);
+
+            Controller = new ApplicationStateMachine();
+            Controller.Started += Generator.Start;
+            Controller.Paused += Generator.Pause;
+            Controller.Stopped += Generator.Stop;
         }
 
-        private Color[,] CreateField(int width, int height) {
+        private void UpdatePixelData(bool[,] array, Color trueColor, Color falseColor)
+            => PixelData = NewBitmapFrom(array, trueColor, falseColor);
 
-            var black = true;
+        private bool[,] CreateRandom(int width, int height) {
+
+            var random = new Random();
+            var result = new bool[width, height];
+
+            for (var y = 0; y < height; y++) {
+                for (var x = 0; x < width; x++) {
+                    result[x, y] = random.Next() % 2 == 1;
+                }
+            }
+            return result;
+        }
+
+        private WriteableBitmap NewBitmapFrom(bool[,] array, Color trueColor, Color falseColor) {
+            var width = array.GetLength(0);
+            var height = array.GetLength(1);
+
             var colors = new Color[width, height];
 
             for (var y = 0; y < height; y++) {
                 for (var x = 0; x < width; x++) {
-                    if (black) { colors[x, y] = Colors.Black; }
-                    else { colors[x, y] = Colors.DodgerBlue; }
-                    black = !black;
+                    colors[x, y] = array[x, y] ? trueColor : falseColor;
                 }
             }
-            return colors;
+            return NewBitmapFrom(colors);
         }
 
         private WriteableBitmap NewBitmapFrom(Color[,] colors) {

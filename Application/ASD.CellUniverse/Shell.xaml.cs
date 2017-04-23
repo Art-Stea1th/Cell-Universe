@@ -7,7 +7,7 @@ namespace ASD.CellUniverse {
     public partial class Shell : Window {
         public Shell() {
             InitializeComponent();
-            DataContext = new ShellViewModel();
+            //DataContext = new ShellViewModel();
         }
     }
 }

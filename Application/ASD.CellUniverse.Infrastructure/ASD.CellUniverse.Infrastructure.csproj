@@ -39,7 +39,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algorithms\RandomSurface.cs" />
+    <Compile Include="Algorithms\RandomMixer.cs" />
     <Compile Include="Algorithms\TheGameOfLife.cs" />
     <Compile Include="Controllers\ApplicationStateMachine.cs" />
     <Compile Include="Extensions\SettingsExtension.cs" />
