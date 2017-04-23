@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Windows.Input;
-using Prism.Commands;
 
-namespace ASD.CellUniverse.PlaybackModule.FSM {
+namespace ASD.CellUniverse.Infrastructure.Controllers {
 
-    internal sealed class StateMachine {
+    using MVVM;
+    using Interfaces;
+
+    public sealed class ApplicationStateMachine : BindableBase, IMainController {
 
         private enum State { Started, Paused, Stopped }
         private object shared = new object();
@@ -17,37 +19,30 @@ namespace ASD.CellUniverse.PlaybackModule.FSM {
         public ICommand Pause => pauseCommand;
         public ICommand Stop => stopCommand;
 
-        public event Action Started, Paused, Stopped;
+        internal event Action Started, Paused, Stopped;
 
-        public StateMachine() => InitializeCommands();
+        public ApplicationStateMachine() => InitializeCommands();
 
         private void InitializeCommands() {
 
             playCommand = new DelegateCommand(
-                () => ChangeState(State.Started, Started),
-                () => state == State.Stopped || state == State.Paused);
+                (o) => ChangeState(State.Started, Started),
+                (o) => state == State.Stopped || state == State.Paused);
 
             pauseCommand = new DelegateCommand(
-                () => ChangeState(State.Paused, Paused),
-                () => state == State.Started);
+                (o) => ChangeState(State.Paused, Paused),
+                (o) => state == State.Started);
 
             stopCommand = new DelegateCommand(
-                () => ChangeState(State.Stopped, Stopped),
-                () => state == State.Started);
+                (o) => ChangeState(State.Stopped, Stopped),
+                (o) => state == State.Started);
         }
 
         private void ChangeState(State newState, Action onNewState) {
             lock (shared) {
                 state = newState;
                 onNewState?.Invoke();
-                Raise();
             }
-        }
-
-        private void Raise() {
-            playCommand.RaiseCanExecuteChanged();
-            pauseCommand.RaiseCanExecuteChanged();
-            stopCommand.RaiseCanExecuteChanged();
         }
     }
 }

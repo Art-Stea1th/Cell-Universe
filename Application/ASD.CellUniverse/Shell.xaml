@@ -1,8 +1,8 @@
 ﻿<Window x:Class="ASD.CellUniverse.Shell"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:prism="http://prismlibrary.com/"
         xmlns:app="clr-namespace:ASD.CellUniverse.Infrastructure.Extensions;assembly=ASD.CellUniverse.Infrastructure"
+        xmlns:c="clr-namespace:ASD.CellUniverse.Controls;assembly=ASD.CellUniverse.Controls"
         Title="{app:Settings ShellTitle, Mode=OneWay}"
         WindowState="{app:Settings ShellState}"
         Width="{app:Settings ShellWidth}"
@@ -10,13 +10,21 @@
         Left="{app:Settings ShellLeft}"
         Top="{app:Settings ShellTop}">
     <DockPanel LastChildFill="True">
-        <ContentControl
+        <StackPanel
             DockPanel.Dock="Right"
-            prism:RegionManager.RegionName=
-            "{app:Settings ShellRegionPanelName, Mode=OneWay}"/>
-        <ContentControl
-            DockPanel.Dock="Left"
-            prism:RegionManager.RegionName=
-            "{app:Settings ShellRegionMainName, Mode=OneWay}"/>
+            MinWidth="{StaticResource RightPanelMinWidth}">
+            <Button
+                Content="PLAY"
+                Command="{Binding Play}"/>
+            <Button
+                Content="PAUSE"
+                Command="{Binding Pause}"/>
+            <Button
+                Content="STOP"
+                Command="{Binding Stop}"/>
+        </StackPanel>
+        <c:PixelImage            
+            Source="{Binding PixelData}"
+            DockPanel.Dock="Left"/>
     </DockPanel>
 </Window>

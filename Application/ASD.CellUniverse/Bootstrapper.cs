@@ -1,12 +1,9 @@
-﻿using System.Windows;
-using Microsoft.Practices.Unity;
-using Prism.Unity;
+﻿using System.Configuration;
+using System.Windows;
 
 namespace ASD.CellUniverse {
 
-    internal sealed class Bootstrapper : UnityBootstrapper {
+    internal sealed class Bootstrapper {
 
-        protected override DependencyObject CreateShell() => Container.Resolve<Shell>();
-        protected override void InitializeShell() => Application.Current.MainWindow.Show();
     }
 }

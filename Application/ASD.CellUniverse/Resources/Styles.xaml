@@ -9,7 +9,7 @@
     <Thickness x:Key="UpControlsMargin">8,8,8,0</Thickness>
 
     <Style x:Key="{x:Type Button}" TargetType="{x:Type Button}">
-        <Setter Property="Margin" Value="{StaticResource DownControlsMargin}"/>
+        <Setter Property="Margin" Value="{StaticResource UpControlsMargin}"/>
         <Setter Property="MinHeight" Value="{StaticResource ElementsMinHeight}"/>
     </Style>
 

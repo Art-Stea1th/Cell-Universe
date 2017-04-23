@@ -3,17 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assemblies", "Assemblies", "{60CCF501-32BF-4297-8030-AB5B49D61EA5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASD.CellUniverse", "ASD.CellUniverse\ASD.CellUniverse.csproj", "{42AEA811-2693-4E63-99D5-7A588BB826A0}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Algorithms", "Algorithms", "{F5B5D0C0-B3BC-44F1-8C34-B7E2260AB0D2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASD.CellUniverse.Infrastructure", "ASD.CellUniverse.Infrastructure\ASD.CellUniverse.Infrastructure.csproj", "{1EF48BF3-2444-4B2D-9F13-7B57AC8DB462}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASD.CellUniverse.PlaybackModule", "ASD.CellUniverse.PlaybackModule\ASD.CellUniverse.PlaybackModule.csproj", "{70ECE19B-7788-4C80-8EA5-84E0AF0AC230}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assemblies", "Assemblies", "{EC0DC9E8-1D82-449C-850E-1D8E84FEFBC7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Media", "Media", "{ECCE3F05-FAEA-4FC6-9C18-82712DF0C1F2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASD.CellUniverse.Controls", "ASD.CellUniverse.Controls\ASD.CellUniverse.Controls.csproj", "{737469AD-8B82-4805-A28F-151F46B808AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,16 +25,16 @@ Global
 		{1EF48BF3-2444-4B2D-9F13-7B57AC8DB462}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EF48BF3-2444-4B2D-9F13-7B57AC8DB462}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1EF48BF3-2444-4B2D-9F13-7B57AC8DB462}.Release|Any CPU.Build.0 = Release|Any CPU
-		{70ECE19B-7788-4C80-8EA5-84E0AF0AC230}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{70ECE19B-7788-4C80-8EA5-84E0AF0AC230}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{70ECE19B-7788-4C80-8EA5-84E0AF0AC230}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{70ECE19B-7788-4C80-8EA5-84E0AF0AC230}.Release|Any CPU.Build.0 = Release|Any CPU
+		{737469AD-8B82-4805-A28F-151F46B808AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{737469AD-8B82-4805-A28F-151F46B808AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{737469AD-8B82-4805-A28F-151F46B808AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{737469AD-8B82-4805-A28F-151F46B808AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{1EF48BF3-2444-4B2D-9F13-7B57AC8DB462} = {60CCF501-32BF-4297-8030-AB5B49D61EA5}
-		{70ECE19B-7788-4C80-8EA5-84E0AF0AC230} = {ECCE3F05-FAEA-4FC6-9C18-82712DF0C1F2}
+		{1EF48BF3-2444-4B2D-9F13-7B57AC8DB462} = {EC0DC9E8-1D82-449C-850E-1D8E84FEFBC7}
+		{737469AD-8B82-4805-A28F-151F46B808AF} = {EC0DC9E8-1D82-449C-850E-1D8E84FEFBC7}
 	EndGlobalSection
 EndGlobal

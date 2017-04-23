@@ -32,24 +32,6 @@ namespace ASD.CellUniverse.Infrastructure.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("CellSurfaceRegion")]
-        public string ShellRegionMainName {
-            get {
-                return ((string)(this["ShellRegionMainName"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ControlsPanelRegion")]
-        public string ShellRegionPanelName {
-            get {
-                return ((string)(this["ShellRegionPanelName"]));
-            }
-        }
-        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Normal")]

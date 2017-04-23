@@ -8,12 +8,6 @@ namespace ASD.CellUniverse {
     public partial class App : Application {
 
         public App() {
-
-            Startup += (s, e) => {
-                var bootstrapper = new Bootstrapper();
-                bootstrapper.Run();
-            };
-
             Exit += (s, e) => Settings.Default.Save();
         }
     }
