@@ -46,7 +46,8 @@
     <Compile Include="Interfaces\IFrameSequenceGenerator.cs" />
     <Compile Include="Interfaces\IGenerationAlgorithm.cs" />
     <Compile Include="Interfaces\IMainController.cs" />
-    <Compile Include="MVVM\DelegateCommand.cs" />
+    <Compile Include="Interfaces\ISeedGenerator.cs" />
+    <Compile Include="MVVM\RelayCommand.cs" />
     <Compile Include="MVVM\BindableBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

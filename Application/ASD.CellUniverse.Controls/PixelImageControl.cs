@@ -5,7 +5,7 @@ using ASD.CellUniverse.Controls.Helpers;
 
 namespace ASD.CellUniverse.Controls {
 
-    public class PixelImage : FrameworkElement {
+    public class PixelImageControl : FrameworkElement {
 
         public ImageSource Source {
             get => (ImageSource)GetValue(SourceProperty);
@@ -23,26 +23,26 @@ namespace ASD.CellUniverse.Controls {
         }
 
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
-            "Source", typeof(ImageSource), typeof(PixelImage), new FrameworkPropertyMetadata(
+            "Source", typeof(ImageSource), typeof(PixelImageControl), new FrameworkPropertyMetadata(
                 null, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender));
 
         public static readonly DependencyProperty StretchProperty =
-            Viewbox.StretchProperty.AddOwner(typeof(PixelImage));
+            Viewbox.StretchProperty.AddOwner(typeof(PixelImageControl));
 
         public static readonly DependencyProperty StretchDirectionProperty =
-            Viewbox.StretchDirectionProperty.AddOwner(typeof(PixelImage));
+            Viewbox.StretchDirectionProperty.AddOwner(typeof(PixelImageControl));
 
-        static PixelImage() {
+        static PixelImageControl() {
 
             Style style = CreateDefaultStyles();
-            StyleProperty.OverrideMetadata(typeof(PixelImage), new FrameworkPropertyMetadata(style));
+            StyleProperty.OverrideMetadata(typeof(PixelImageControl), new FrameworkPropertyMetadata(style));
 
             StretchProperty.OverrideMetadata(
-                typeof(PixelImage), new FrameworkPropertyMetadata(
+                typeof(PixelImageControl), new FrameworkPropertyMetadata(
                     Stretch.Uniform, FrameworkPropertyMetadataOptions.AffectsMeasure));
 
             StretchDirectionProperty.OverrideMetadata(
-                typeof(PixelImage), new FrameworkPropertyMetadata(
+                typeof(PixelImageControl), new FrameworkPropertyMetadata(
                     StretchDirection.Both, FrameworkPropertyMetadataOptions.AffectsMeasure));
         }
 
@@ -53,7 +53,7 @@ namespace ASD.CellUniverse.Controls {
         }
 
         private static Style CreateDefaultStyles() {
-            var style = new Style(typeof(PixelImage), null);
+            var style = new Style(typeof(PixelImageControl), null);
             style.Setters.Add(new Setter(FlowDirectionProperty, FlowDirection.LeftToRight));
             style.Seal();
             return style;

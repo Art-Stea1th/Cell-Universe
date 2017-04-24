@@ -6,10 +6,12 @@ namespace ASD.CellUniverse.Infrastructure.Interfaces {
 
     public interface IMainController : INotifyPropertyChanged {
 
-        event Action Started, Paused, Stopped;
+        event Action Started, Paused, Resumed, Stopped, Reseted;
 
-        ICommand Play { get; }
-        ICommand Pause { get; }
-        ICommand Stop { get; }
+        ICommand PlayPauseResume { get; }
+        ICommand StopReset { get; }
+
+        string PlayPauseResumeName { get; }
+        string StopResetName { get; }
     }
 }

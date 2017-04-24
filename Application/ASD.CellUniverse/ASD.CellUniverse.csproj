@@ -47,7 +47,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Converters\Boolean2DArrayToInt32RectConverter.cs" />
+    <Compile Include="Converters\TempBool2dToByteArrayConverter.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Page Include="Shell.xaml">
       <Generator>MSBuild:Compile</Generator>

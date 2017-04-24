@@ -6,6 +6,7 @@ using System.Windows.Media.Imaging;
 
 namespace ASD.CellUniverse.ViewModels {
 
+    using Converters;
     using Infrastructure.Algorithms;
     using Infrastructure.Controllers;
     using Infrastructure.Interfaces;
@@ -29,8 +30,9 @@ namespace ASD.CellUniverse.ViewModels {
 
         public IMainController Controller { get; private set; }
 
+        // --- TEMP >> ---
 
-
+        int width = 321, height = 200;
 
         private WriteableBitmap pixelData;
         public WriteableBitmap PixelData {
@@ -38,23 +40,34 @@ namespace ASD.CellUniverse.ViewModels {
             set => SetProperty(ref pixelData, value);
         }
 
+        private TempBool2dToByteArrayConverter converter = new TempBool2dToByteArrayConverter();
+
+        // --- << TEMP ---
+
         public ShellViewModel() {
+            
+            PixelData = new WriteableBitmap(width, height, 96.0, 96.0, PixelFormats.Bgra32, null);
 
             generationAlgorithms = new List<IGenerationAlgorithm> { new RandomMixer(), new TheGameOfLife() };
 
             Generator = new FrameGenerationService(generationAlgorithms[generationAlgorithmSelectedIndex]);
 
-            Generator.NextFrameReady += (a) => UpdatePixelData(a, Colors.DarkGray, Colors.Transparent);
+            Generator.NextFrameReady += (a) => UpdatePixelData(a);
             Generator.GeneratedData = CreateRandom(321, 200);
 
             Controller = new ApplicationStateMachine();
-            Controller.Started += Generator.Start;
+            Controller.Started += Generator.Play;
             Controller.Paused += Generator.Pause;
+            Controller.Resumed += Generator.Resume;
             Controller.Stopped += Generator.Stop;
+            Controller.Reseted += Generator.Reset;
         }
 
-        private void UpdatePixelData(bool[,] array, Color trueColor, Color falseColor)
-            => PixelData = NewBitmapFrom(array, trueColor, falseColor);
+        private void UpdatePixelData(bool[,] array)
+            => PixelData.WritePixels(
+                new Int32Rect(0, 0, width, height),
+                converter.Convert(array, typeof(byte[]), null, null) as byte[],
+                PixelData.PixelWidth * sizeof(int), 0);
 
         private bool[,] CreateRandom(int width, int height) {
 
@@ -67,48 +80,6 @@ namespace ASD.CellUniverse.ViewModels {
                 }
             }
             return result;
-        }
-
-        private WriteableBitmap NewBitmapFrom(bool[,] array, Color trueColor, Color falseColor) {
-            var width = array.GetLength(0);
-            var height = array.GetLength(1);
-
-            var colors = new Color[width, height];
-
-            for (var y = 0; y < height; y++) {
-                for (var x = 0; x < width; x++) {
-                    colors[x, y] = array[x, y] ? trueColor : falseColor;
-                }
-            }
-            return NewBitmapFrom(colors);
-        }
-
-        private WriteableBitmap NewBitmapFrom(Color[,] colors) {
-
-            int width = colors.GetLength(0), height = colors.GetLength(1);
-            var bytes = new byte[width * height * sizeof(int) / sizeof(byte)];
-
-            for (var y = 0; y < height; ++y) {
-                for (var x = 0; x < width; ++x) {
-                    SetColorToByteArray(bytes, GetLinearIndex(x, y, width) * sizeof(int), colors[x, y]);
-                }
-            }
-
-            var result = new WriteableBitmap(width, height, 96.0, 96.0, PixelFormats.Bgra32, null);
-            result.WritePixels(new Int32Rect(0, 0, width, height), bytes, result.PixelWidth * sizeof(int), 0);
-
-            return result;
-        }
-
-        private int GetLinearIndex(int x, int y, int width) {
-            return width * y + x;
-        }
-
-        private void SetColorToByteArray(byte[] viewportByteArray, int startIndex, Color color) {
-            viewportByteArray[startIndex] = color.B;
-            viewportByteArray[++startIndex] = color.G;
-            viewportByteArray[++startIndex] = color.R;
-            viewportByteArray[++startIndex] = color.A;
         }
     }
 }

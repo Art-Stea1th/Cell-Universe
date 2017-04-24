@@ -9,15 +9,16 @@ namespace ASD.CellUniverse.Infrastructure.Services {
 
     public class FrameGenerationService : BindableBase, IFrameSequenceGenerator {
 
-        private const double minFps = 1000.0 / 60000.0; // 1   frame  per minute
-        private const double maxFps = 120.0;            // 120 frames per second
-
         private DispatcherTimer timer;
 
         private double fps = 60.0;
+        private DoubleCollection fpsCollection;
+
         private IGenerationAlgorithm algorithm;
         private bool[,] generatedData;
 
+        public double MinFPS => 1.0;
+        public double MaxFPS => 120.0;
         public double FPS {
             get => fps;
             set {
@@ -25,6 +26,7 @@ namespace ASD.CellUniverse.Infrastructure.Services {
                 UpdateTimerInterval();
             }
         }
+        public DoubleCollection FPSCollection => fpsCollection;
 
         public IGenerationAlgorithm GenerationAlgorithm {
             get => algorithm;
@@ -41,13 +43,15 @@ namespace ASD.CellUniverse.Infrastructure.Services {
 
         public event Action<bool[,]> NextFrameReady;
 
-        public void Start() => timer.Start();
+        public void Play() => timer.Start();
         public void Pause() => timer.Stop();
-        public void Stop() {
-            timer.Stop();
-        }
+        public void Resume() => timer.Start();
+
+        public void Stop() { timer.Stop(); Reset(); }
+        public void Reset() => GeneratedData = new bool[GeneratedData.GetLength(0), GeneratedData.GetLength(1)];
 
         public FrameGenerationService(IGenerationAlgorithm algorithm) {
+            fpsCollection = new DoubleCollection { 1.0, 2.0, 3.0, 5.0, 10.0, 15.0, 20.0, 25.0, 30.0, 50.0, 60.0, 120.0 };
             this.algorithm = algorithm;
             InitializeTimer();
         }
@@ -59,7 +63,7 @@ namespace ASD.CellUniverse.Infrastructure.Services {
         }
 
         private void GenerateNext(object sender, EventArgs e) => GeneratedData = algorithm?.GenerateNextBy(generatedData);
-        private double ValidFps(double fps) => fps < minFps ? minFps : fps > maxFps ? maxFps : fps;
+        private double ValidFps(double fps) => fps < MinFPS ? MinFPS : fps > MaxFPS ? MaxFPS : fps;
         private void UpdateTimerInterval() => timer.Interval = TimeSpan.FromMilliseconds(1000.0 / fps);
     }
 }

@@ -27,24 +27,41 @@
                     ItemsSource="{Binding GenerationAlgorithms}"
                     SelectedIndex="{Binding GenerationAlgorithmSelectedIndex}"
                     Margin="{StaticResource UpControlsMargin}"/>
+                <Grid
+                    Margin="{StaticResource UpControlsMargin}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Grid.Column="0"
+                        Text="FPS: "/>
+                    <Slider
+                        Grid.Column="1"
+                        Minimum="{Binding Generator.MinFPS}"
+                        Maximum="{Binding Generator.MaxFPS}"
+                        Value="{Binding Generator.FPS}"
+                        Ticks="{Binding Generator.FPSCollection}"
+                        IsSnapToTickEnabled="True"                        
+                        AutoToolTipPlacement="BottomRight"/>
+                </Grid>                
             </StackPanel>
             <StackPanel
                 Grid.Row="1">
                 <Button
-                    Content="PLAY"
-                    Command="{Binding Controller.Play}"/>
+                    Content="{Binding Controller.PlayPauseResumeName}"
+                    Command="{Binding Controller.PlayPauseResume}"/>
                 <Button
-                    Content="PAUSE"
-                    Command="{Binding Controller.Pause}"/>
-                <Button
-                    Content="STOP"
-                    Command="{Binding Controller.Stop}"/>
+                    Content="{Binding Controller.StopResetName}"
+                    Command="{Binding Controller.StopReset}"/>
             </StackPanel>
         </Grid>
         <Border
             DockPanel.Dock="Left"
             Background="Transparent">
-            <c:PixelImage Source="{Binding PixelData}"/>
-        </Border>        
+            <c:PixelImageControl Source="{Binding PixelData}"/>
+            <!--<c:PixelImageViewport
+                Background="{StaticResource RainbowCellsBrush}"/>-->
+        </Border>
     </DockPanel>
 </Window>

@@ -37,7 +37,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\MeasureArrangeHelper.cs" />
-    <Compile Include="PixelImage.cs" />
+    <Compile Include="Pixel.cs" />
+    <Compile Include="PixelImageViewport.cs" />
+    <Compile Include="PixelImageControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
