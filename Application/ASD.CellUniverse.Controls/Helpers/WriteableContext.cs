@@ -14,7 +14,7 @@ namespace ASD.CellUniverse.Controls.Helpers {
 
         internal unsafe void WriteRect(int posX, int posY, int width, int height, uint color) {
 
-            var pBackBuffer = (long)bitmap.BackBuffer;
+            var pBackBuffer = (long)bitmap.BackBuffer; // long address (8-Bytes) to x64 support
 
             for (var y = posY; y < posY + height; ++y) {
                 for (var x = posX; x < posX + width; ++x) {
@@ -22,7 +22,7 @@ namespace ASD.CellUniverse.Controls.Helpers {
                     pBackBuffer += posY * bitmap.BackBufferStride;
                     pBackBuffer += posX * 4;
 
-                    *((long*)pBackBuffer) = color;
+                    *((uint*)pBackBuffer) = color; // int / uint (4-byte) color value by address
                 }
             }
             bitmap.AddDirtyRect(new Int32Rect(posX, posY, width, height));
