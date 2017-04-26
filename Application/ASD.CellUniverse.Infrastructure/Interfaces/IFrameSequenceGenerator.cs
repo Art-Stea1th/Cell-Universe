@@ -6,7 +6,7 @@ namespace ASD.CellUniverse.Infrastructure.Interfaces {
 
     public interface IFrameSequenceGenerator : INotifyPropertyChanged {
 
-        event Action<bool[,]> NextFrameReady;
+        event Action<byte[,]> NextFrameReady;
 
         double MinFPS { get; }
         double MaxFPS { get; }
@@ -15,7 +15,7 @@ namespace ASD.CellUniverse.Infrastructure.Interfaces {
 
         IGenerationAlgorithm GenerationAlgorithm { get; set; }
 
-        bool[,] GeneratedData { get; set; }
+        byte[,] GeneratedData { get; set; }
 
         void Play();
         void Pause();

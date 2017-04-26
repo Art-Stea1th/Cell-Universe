@@ -4,7 +4,7 @@
 
         string Name { get; }
 
-        bool[,] GenerateNextBy(bool[,] prev);
+        byte[,] GenerateNextBy(byte[,] prev);
 
     }
 }

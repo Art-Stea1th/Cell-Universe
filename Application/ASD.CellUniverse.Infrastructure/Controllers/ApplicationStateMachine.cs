@@ -73,7 +73,7 @@ namespace ASD.CellUniverse.Infrastructure.Controllers {
             dummyCommand = new StateMachineCommand(
                 "...",
                 (o) => { },
-                (o) => 0 == 1);
+                (o) => 0.0 == double.Epsilon);
 
             ChangeState(State.Stopped, playCommand, dummyCommand, null);
         }

@@ -15,7 +15,7 @@ namespace ASD.CellUniverse.Infrastructure.Services {
         private DoubleCollection fpsCollection;
 
         private IGenerationAlgorithm algorithm;
-        private bool[,] generatedData;
+        private byte[,] generatedData;
 
         public double MinFPS => 1.0;
         public double MaxFPS => 120.0;
@@ -33,7 +33,7 @@ namespace ASD.CellUniverse.Infrastructure.Services {
             set => SetProperty(ref algorithm, value);
         }
 
-        public bool[,] GeneratedData {
+        public byte[,] GeneratedData {
             get => generatedData;
             set {
                 SetProperty(ref generatedData, value);
@@ -41,14 +41,14 @@ namespace ASD.CellUniverse.Infrastructure.Services {
             }
         }
 
-        public event Action<bool[,]> NextFrameReady;
+        public event Action<byte[,]> NextFrameReady;
 
         public void Play() => timer.Start();
         public void Pause() => timer.Stop();
         public void Resume() => timer.Start();
 
         public void Stop() { timer.Stop(); Reset(); }
-        public void Reset() => GeneratedData = new bool[GeneratedData.GetLength(0), GeneratedData.GetLength(1)];
+        public void Reset() => GeneratedData = new byte[GeneratedData.GetLength(0), GeneratedData.GetLength(1)];
 
         public FrameGenerationService(IGenerationAlgorithm algorithm) {
             fpsCollection = new DoubleCollection { 1.0, 2.0, 3.0, 5.0, 10.0, 15.0, 20.0, 25.0, 30.0, 50.0, 60.0, 120.0 };

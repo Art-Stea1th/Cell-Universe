@@ -15,15 +15,15 @@ namespace ASD.CellUniverse.Infrastructure.Algorithms {
 
         public override string ToString() => Name;
 
-        public bool[,] GenerateNextBy(bool[,] prev) {
-            return NewGeneration(prev);
+        public byte[,] GenerateNextBy(byte[,] prev) {
+            return NextGeneration(prev);
         }
 
+        private byte alive = 255, dead = 0;
 
+        public byte[,] NextGeneration(byte[,] cells) {
 
-        public bool[,] NewGeneration(bool[,] cells) {
-
-            var nextGeneration = new bool[cells.GetLength(0), cells.GetLength(1)];
+            var nextGeneration = new byte[cells.GetLength(0), cells.GetLength(1)];
 
             for (var x = 0; x < cells.GetLength(0); x++) {
                 for (var y = 0; y < cells.GetLength(1); y++) {
@@ -31,20 +31,20 @@ namespace ASD.CellUniverse.Infrastructure.Algorithms {
                     var neighbours = CountNeighbours(cells, x, y);
 
                     if ((neighbours == 2 || neighbours == 3) && IsAlive(cells, x, y)) {
-                        nextGeneration[x, y] = true;
+                        nextGeneration[x, y] = alive;
                     }
                     if ((neighbours < 2 || neighbours > 3) && IsAlive(cells, x, y)) {
-                        nextGeneration[x, y] = false;
+                        nextGeneration[x, y] = dead;
                     }
                     if (neighbours == 3 && !IsAlive(cells, x, y)) {
-                        nextGeneration[x, y] = true;
+                        nextGeneration[x, y] = alive;
                     }
                 }
             }
             return nextGeneration;
         }
 
-        private int CountNeighbours(bool[,] cells, int x, int y) {
+        private int CountNeighbours(byte[,] cells, int x, int y) {
 
             var counter = 0;
 
@@ -69,6 +69,6 @@ namespace ASD.CellUniverse.Infrastructure.Algorithms {
             return counter;
         }
 
-        private static bool IsAlive(bool[,] cells, int x, int y) => cells[x, y] ? true : false;
+        private bool IsAlive(byte[,] cells, int x, int y) => cells[x, y] == alive ? true : false;
     }
 }

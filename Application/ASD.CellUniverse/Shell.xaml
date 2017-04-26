@@ -57,11 +57,9 @@
             </StackPanel>
         </Grid>
         <Border
-            DockPanel.Dock="Left"
-            Background="Transparent">
-            <c:PixelImageControl Source="{Binding PixelData}"/>
-            <!--<c:PixelImageViewport
-                Background="{StaticResource RainbowCellsBrush}"/>-->
+            DockPanel.Dock="Left">
+            <c:MatrixLED
+                IntencitySource="{Binding IntencityData}"/>
         </Border>
     </DockPanel>
 </Window>

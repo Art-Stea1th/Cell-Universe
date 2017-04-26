@@ -6,7 +6,6 @@ using System.Windows.Media.Imaging;
 
 namespace ASD.CellUniverse.ViewModels {
 
-    using Converters;
     using Infrastructure.Algorithms;
     using Infrastructure.Controllers;
     using Infrastructure.Interfaces;
@@ -34,25 +33,23 @@ namespace ASD.CellUniverse.ViewModels {
 
         int width = 321, height = 200;
 
-        private WriteableBitmap pixelData;
-        public WriteableBitmap PixelData {
-            get => pixelData;
-            set => SetProperty(ref pixelData, value);
+        private byte[,] intencityData;
+        public byte[,] IntencityData {
+            get => intencityData;
+            set => SetProperty(ref intencityData, value);
         }
-
-        private TempBool2dToByteArrayConverter converter = new TempBool2dToByteArrayConverter();
 
         // --- << TEMP ---
 
         public ShellViewModel() {
-            
-            PixelData = new WriteableBitmap(width, height, 96.0, 96.0, PixelFormats.Bgra32, null);
+
+            IntencityData = new byte[width, height];
 
             generationAlgorithms = new List<IGenerationAlgorithm> { new RandomMixer(), new TheGameOfLife() };
 
             Generator = new FrameGenerationService(generationAlgorithms[generationAlgorithmSelectedIndex]);
 
-            Generator.NextFrameReady += (a) => UpdatePixelData(a);
+            Generator.NextFrameReady += (a) => UpdateIntencityData(a);
             Generator.GeneratedData = CreateRandom(321, 200);
 
             Controller = new ApplicationStateMachine();
@@ -63,20 +60,17 @@ namespace ASD.CellUniverse.ViewModels {
             Controller.Reseted += Generator.Reset;
         }
 
-        private void UpdatePixelData(bool[,] array)
-            => PixelData.WritePixels(
-                new Int32Rect(0, 0, width, height),
-                converter.Convert(array, typeof(byte[]), null, null) as byte[],
-                PixelData.PixelWidth * sizeof(int), 0);
+        private void UpdateIntencityData(byte[,] newIntencityData)
+            => IntencityData = newIntencityData;
 
-        private bool[,] CreateRandom(int width, int height) {
+        private byte[,] CreateRandom(int width, int height) {
 
             var random = new Random();
-            var result = new bool[width, height];
+            var result = new byte[width, height];
 
             for (var y = 0; y < height; y++) {
                 for (var x = 0; x < width; x++) {
-                    result[x, y] = random.Next() % 2 == 1;
+                    result[x, y] = random.Next() % 2 == 1 ? (byte)255 : (byte)0;
                 }
             }
             return result;
