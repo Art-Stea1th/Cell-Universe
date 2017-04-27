@@ -10,8 +10,5 @@ namespace ASD.CellUniverse.Infrastructure.Interfaces {
 
         ICommand PlayPauseResume { get; }
         ICommand StopReset { get; }
-
-        string PlayPauseResumeName { get; }
-        string StopResetName { get; }
     }
 }

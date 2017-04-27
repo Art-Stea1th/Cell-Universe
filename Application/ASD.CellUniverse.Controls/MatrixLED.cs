@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -8,8 +8,8 @@ using System.Windows.Media.Imaging;
 
 namespace ASD.CellUniverse.Controls {
 
-    using Helpers;
     using Extensions;
+    using Helpers;
 
     public class MatrixLED : FrameworkElement {
 
@@ -60,136 +60,107 @@ namespace ASD.CellUniverse.Controls {
             style.Seal(); return style;
         }
 
-        public MatrixLED() {
-            //IntencitySource = buffer = 
+        private static void OnIntencitySourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+            var matrix = d as MatrixLED;
+            matrix.ledsNext = e.NewValue as byte[,];
+            matrix.UpdateBuffer();
+            matrix.ledsPrev = matrix.ledsNext;
+        }
 
-            contentSize = CalculateContentSize();
-            gridBitmap = BitmapHelper.CreateWriteable(contentSize.X, contentSize.Y);
-            gridPixels = GenerateGridMaskPixels(contentSize, cellSize, thickness);
+        private void UpdateBuffer() {
 
-            using (var context = new WriteableContext(gridBitmap)) {
-                foreach (var pixel in gridPixels) {
-                    context.WriteRect(pixel.x, pixel.y, 1, 1, pixel.color);
+            if (ledsPrev == null) {
+                if (ledsNext == null) {
+                    return;
+                }
+                else {
+                    RecalculateMaskSize();
+                    NewGridMask();
+                    NewLedsMask();
                 }
             }
-        }
-
-        // ---------------
-
-
-        private Color solidColor = Color.FromArgb(255, 0, 0, 0);
-        private Color emptyColor = Color.FromArgb(0, 0, 0, 0);
-
-        private int cellSize = 8;
-        private int thickness = 1;
-
-        private ImageBrush GridOpacityMask => new ImageBrush(gridBitmap);
-        private WriteableBitmap gridBitmap;
-        private IEnumerable<(int x, int y, uint color)> gridPixels;
-
-        private ImageBrush SourceOpacityMask => new ImageBrush(sourceBitmap);
-        private WriteableBitmap sourceBitmap;
-
-        private byte[,] buffer = new byte[160, 100];
-        //private bool countChanged;
-
-        private SizeInt contentSize;
-
-        private SizeInt CalculateContentSize() {
-            var cellsSizeX = buffer.CountX() * cellSize;
-            var cellsSizeY = buffer.CountY() * cellSize;
-            var thicknessSizeX = buffer.CountX() * thickness + thickness;
-            var thisknessSizeY = buffer.CountY() * thickness + thickness;
-            return new SizeInt(cellsSizeX + thicknessSizeX, cellsSizeY + thisknessSizeY);
-        }
-
-        private IEnumerable<(int x, int y, uint color)> GenerateGridMaskPixels(SizeInt size, int cellSize, int thickness) {
-            for (var x = 0; x < size.X; ++x) {
-                for (var y = 0; y < size.Y; ++y) {
-                    if (x == 0 || y == 0 || x % (cellSize + thickness) == 0 || y % (cellSize + thickness) == 0) {
-                        yield return (x: x, y: y, color: solidColor.Bgra32());
+            else {
+                if (ledsNext == null) {
+                    ClearLedsMask();
+                }
+                else {
+                    if (SizeEquals(ledsPrev, ledsNext)) {
+                        RepaintLedsMask();
+                    }
+                    else {
+                        RecalculateMaskSize();
+                        NewGridMask();
+                        NewLedsMask();
                     }
                 }
             }
         }
 
-
-        private static void OnIntencitySourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-
-            
-
-            return;
-
-            var prev = e.OldValue as byte[,];
-            var next = e.NewValue as byte[,];
-
-            if (next == null || SizeEquals(prev, next)) {
-                return;
-            }
-            //(d as MatrixLED).OnSizeChanged(null);
-        }
-
-        private void OnSizeChanged(SizeInt newSize) {
-
-        }
-
         private static bool SizeEquals<T>(T[,] array1, T[,] array2)
             => array1.GetLength(0) == array2.GetLength(0) && array1.GetLength(1) == array2.GetLength(1);
 
+        private void RecalculateMaskSize() {
+            var cellsSizeX = ledsNext.CountX() * cellSize;
+            var cellsSizeY = ledsNext.CountY() * cellSize;
+            var thicknessSizeX = ledsNext.CountX() * thickness + thickness;
+            var thisknessSizeY = ledsNext.CountY() * thickness + thickness;
+            contentSize = new IntPair(cellsSizeX + thicknessSizeX, cellsSizeY + thisknessSizeY);
+        }
 
+        private void NewGridMask() {
+            gridBitmap = BitmapHelper.CreateWriteable(contentSize.X, contentSize.Y);
+            RepaintGridMask();
+        }
+
+        private void NewLedsMask() {
+            ledsBitmap = BitmapHelper.CreateWriteable(contentSize.X, contentSize.Y);
+            RepaintLedsMask();
+        }
+
+        private void RepaintGridMask() {            
+            using (var context = new WriteableContext(gridBitmap)) {
+                context.WriteGrid(cellSize, thickness, Color.FromArgb(10, 255, 255, 255));
+            }
+        }
+
+        private void RepaintLedsMask() {
+            using (var context = new WriteableContext(ledsBitmap)) {
+                context.WriteRectSequence(GetChangedLeds()
+                    .Select(l => (
+                    x: thickness + l.x * thickness + l.x * cellSize,
+                    y: thickness + l.y * thickness + l.y * cellSize,
+                    color: l.newValue == 0 ? solidColor : emptyColor)
+                    ),
+                    cellSize);
+            }
+        }
+
+        private void ClearLedsMask() => ledsBitmap = null;
+
+        private IEnumerable<(int x, int y, byte newValue)> GetChangedLeds() {
+            if (ledsPrev == null) {
+                return ledsNext.AsEnumerableIndexed();
+            }
+            return ledsPrev.AsEnumerableIndexed().Except(ledsNext.AsEnumerableIndexed());
+        }
+        
+        
         // EXPERIMENTS
 
         protected override void OnRender(DrawingContext dc) {
-            RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
 
-            //dc.DrawRectangle(Background, null, new Rect(new Point(), RenderSize));
+            RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.NearestNeighbor);
 
-            //dc.PushOpacityMask(SourceOpacityMask);
-            //dc.Pop();
-            //dc.DrawRectangle(ForegroundOpacityMask, null, new Rect(new Point(), RenderSize));
+            dc.DrawRectangle(Background, null, new Rect(new Point(), RenderSize));
 
-            //dc.DrawRectangle(Foreground, null, new Rect(new Point(), RenderSize));
+            dc.PushOpacityMask(LedsOpacityMask);
 
+            dc.DrawRectangle(Foreground, null, new Rect(new Point(), RenderSize));
+
+            dc.Pop();
             
 
-
             dc.DrawImage(gridBitmap, new Rect(new Point(), RenderSize));
-        }
-
-        private void DrawClear(DrawingContext dc) {
-            dc.DrawRectangle(Background, null, new Rect(new Point(), RenderSize));
-        }
-
-        private WriteableBitmap GetSourceBitmap() {
-
-            var random = new Random();
-
-            var colors = new Color[contentSize.X, contentSize.Y];
-
-            for (var y = 0; y < contentSize.Y; y++) {
-                for (var x = 0; x < contentSize.X; x++) {
-                    colors[x, y] = random.Next() % 2 == 1 ? solidColor : emptyColor;
-                    //colors[x, y] = Color.FromArgb(255, 0, 0, 255);
-                }
-            }
-
-            var bitmap = BitmapHelper.CreateWriteable(contentSize.X, contentSize.Y);
-            var buffer = new uint[contentSize.X * contentSize.Y];
-
-            for (var y = 0; y < contentSize.Y; ++y) {
-                for (var x = 0; x < contentSize.X; ++x) {
-                    var linearIndex = GetLinearIndex(x, y, contentSize.X);
-                    buffer[linearIndex] = colors[x, y].Bgra32();
-                }
-            }
-
-            bitmap.WritePixels(buffer);
-
-            return bitmap;
-        }
-
-        private int GetLinearIndex(int x, int y, int width) {
-            return width * y + x;
         }
 
         // END EXPERIMENTS
@@ -206,18 +177,41 @@ namespace ASD.CellUniverse.Controls {
             return MeasureArrangeHelper.ComputeSize(availableSize, contentSize);
         }
 
-        private struct SizeInt {
+        private Color solidColor = Color.FromArgb(255, 0, 0, 0);
+        private Color emptyColor = Color.FromArgb(0, 0, 0, 0);
+
+        private int cellSize = 4;
+        private int thickness = 1;
+
+        private ImageBrush GridOpacityMask => new ImageBrush(gridBitmap);
+        private WriteableBitmap gridBitmap;
+
+        private ImageBrush LedsOpacityMask => new ImageBrush(ledsBitmap);
+        private WriteableBitmap ledsBitmap;
+
+        private byte[,] ledsPrev;
+        private byte[,] ledsNext;
+
+        private IntPair contentSize;
+
+        private struct IntPair {
 
             public int X { get; }
             public int Y { get; }
 
-            public SizeInt(int x, int y) { X = x; Y = y; }
+            public IntPair(int x, int y) { X = x; Y = y; }
 
-            public static explicit operator SizeInt(Size size)
-                => new SizeInt((int)size.Width, (int)size.Height);
+            public static explicit operator IntPair(Size size)
+                => new IntPair((int)size.Width, (int)size.Height);
 
-            public static implicit operator Size(SizeInt size)
-                => new Size(size.X, size.Y);
+            public static explicit operator IntPair(Int32Rect rect)
+                => new IntPair(rect.Width, rect.Height);
+
+            public static implicit operator Size(IntPair pair)
+                => new Size(pair.X, pair.Y);
+
+            public static implicit operator Int32Rect(IntPair pair)
+                => new Int32Rect(0, 0, pair.X, pair.Y);
         }
     }
 }

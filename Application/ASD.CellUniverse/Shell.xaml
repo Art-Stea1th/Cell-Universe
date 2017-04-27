@@ -49,17 +49,19 @@
             <StackPanel
                 Grid.Row="1">
                 <Button
-                    Content="{Binding Controller.PlayPauseResumeName}"
+                    Content="{Binding Controller.PlayPauseResume}"
                     Command="{Binding Controller.PlayPauseResume}"/>
                 <Button
-                    Content="{Binding Controller.StopResetName}"
+                    Content="{Binding Controller.StopReset}"
                     Command="{Binding Controller.StopReset}"/>
             </StackPanel>
         </Grid>
         <Border
-            DockPanel.Dock="Left">
+            DockPanel.Dock="Left"
+            Background="Black">
             <c:MatrixLED
-                IntencitySource="{Binding IntencityData}"/>
+                IntencitySource="{Binding IntencityData}"
+                Foreground="{StaticResource RainbowCellsBrush}"/>
         </Border>
     </DockPanel>
 </Window>

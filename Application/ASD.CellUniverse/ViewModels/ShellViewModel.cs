@@ -31,7 +31,7 @@ namespace ASD.CellUniverse.ViewModels {
 
         // --- TEMP >> ---
 
-        int width = 321, height = 200;
+        int width = 80, height = 50;
 
         private byte[,] intencityData;
         public byte[,] IntencityData {
@@ -50,7 +50,7 @@ namespace ASD.CellUniverse.ViewModels {
             Generator = new FrameGenerationService(generationAlgorithms[generationAlgorithmSelectedIndex]);
 
             Generator.NextFrameReady += (a) => UpdateIntencityData(a);
-            Generator.GeneratedData = CreateRandom(321, 200);
+            Generator.GeneratedData = CreateRandom(width, height);
 
             Controller = new ApplicationStateMachine();
             Controller.Started += Generator.Play;
@@ -58,11 +58,17 @@ namespace ASD.CellUniverse.ViewModels {
             Controller.Resumed += Generator.Resume;
             Controller.Stopped += Generator.Stop;
             Controller.Reseted += Generator.Reset;
+
+            // TMP
+            Controller.Stopped += () => Generator.GeneratedData = CreateRandom(width, height);
+            Controller.Reseted += () => Generator.GeneratedData = CreateRandom(width, height);
+
         }
 
         private void UpdateIntencityData(byte[,] newIntencityData)
             => IntencityData = newIntencityData;
 
+        // TMP
         private byte[,] CreateRandom(int width, int height) {
 
             var random = new Random();

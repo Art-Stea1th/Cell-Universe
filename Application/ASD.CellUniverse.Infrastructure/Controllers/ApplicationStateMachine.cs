@@ -14,9 +14,7 @@ namespace ASD.CellUniverse.Infrastructure.Controllers {
         private State state;
 
         private StateMachineCommand playCommand, pauseCommand, resumeCommand, stopCommand, resetCommand, dummyCommand;
-
         private StateMachineCommand playPauseResumeCommand, stopResetCommand;
-        private string playPauseResumeName, stopResetName;
 
         public event Action Started, Paused, Resumed, Stopped, Reseted;
 
@@ -28,16 +26,6 @@ namespace ASD.CellUniverse.Infrastructure.Controllers {
         public ICommand StopReset {
             get => stopResetCommand;
             private set => SetProperty(ref stopResetCommand, value as StateMachineCommand);
-        }
-
-        public string PlayPauseResumeName {
-            get => playPauseResumeName;
-            set => SetProperty(ref playPauseResumeName, value);
-        }
-
-        public string StopResetName {
-            get => stopResetName;
-            set => SetProperty(ref stopResetName, value);
         }
 
         public ApplicationStateMachine() => InitializeCommands();
@@ -87,21 +75,19 @@ namespace ASD.CellUniverse.Infrastructure.Controllers {
                 PlayPauseResume = newPlayCommand;
                 StopReset = newStopCommand;
 
-                PlayPauseResumeName = newPlayCommand.Name;
-                StopResetName = newStopCommand.Name;
-
                 onNewState?.Invoke();
             }
         }
 
         private class StateMachineCommand : RelayCommand {
 
-            internal string Name { get; }
-
             public StateMachineCommand(string name, Action<object> execute, Predicate<object> canExecute)
                 : base(execute, canExecute) {
                 Name = name;
             }
+            public override string ToString() => Name;
+
+            internal string Name { get; }
         }
     }
 }

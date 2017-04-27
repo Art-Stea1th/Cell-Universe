@@ -11,7 +11,7 @@ namespace ASD.CellUniverse.Infrastructure.Services {
 
         private DispatcherTimer timer;
 
-        private double fps = 60.0;
+        private double fps = 30.0;
         private DoubleCollection fpsCollection;
 
         private IGenerationAlgorithm algorithm;
