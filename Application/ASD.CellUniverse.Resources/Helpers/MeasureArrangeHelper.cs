@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace ASD.CellUniverse.Controls.Helpers {
+namespace ASD.CellUniverse.Resources.Helpers {
 
     internal static class MeasureArrangeHelper {
 

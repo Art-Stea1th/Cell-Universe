@@ -13,7 +13,7 @@
         <Setter Property="MinHeight" Value="{StaticResource ElementsMinHeight}"/>
     </Style>
 
-    <LinearGradientBrush x:Key="RainbowCellsBrush" StartPoint="0,1" EndPoint="1,0">
+    <LinearGradientBrush x:Key="RainbowBrush" StartPoint="0,1" EndPoint="1,0">
         <GradientStop Color="#72eed2" Offset="0.0"/>
         <GradientStop Color="#4b31f4" Offset="0.14"/>
         <GradientStop Color="#f23752" Offset="0.43"/>

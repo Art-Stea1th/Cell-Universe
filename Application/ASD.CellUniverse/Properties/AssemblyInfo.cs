@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
-using System.Windows;
 using System.Runtime.InteropServices;
+using System.Windows;
 
 [assembly: AssemblyTitle("CellUniverse: Space of the Cellular Machines")]
 [assembly: AssemblyDescription("Space of the Cellular Machines")]

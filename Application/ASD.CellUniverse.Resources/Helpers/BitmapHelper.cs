@@ -1,7 +1,7 @@
 ﻿using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace ASD.CellUniverse.Controls.Helpers {
+namespace ASD.CellUniverse.Resources.Helpers {
 
     internal static class BitmapHelper {
 

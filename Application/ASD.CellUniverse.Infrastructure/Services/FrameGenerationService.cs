@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Media;
 using System.Windows.Threading;
 
@@ -11,14 +12,14 @@ namespace ASD.CellUniverse.Infrastructure.Services {
 
         private DispatcherTimer timer;
 
-        private double fps = 30.0;
+        private double fps = 120.0;
         private DoubleCollection fpsCollection;
 
         private IGenerationAlgorithm algorithm;
         private byte[,] generatedData;
 
         public double MinFPS => 1.0;
-        public double MaxFPS => 120.0;
+        public double MaxFPS => fpsCollection.Last();
         public double FPS {
             get => fps;
             set {

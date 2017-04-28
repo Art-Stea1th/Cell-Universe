@@ -1,8 +1,9 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Windows;
 
-[assembly: AssemblyTitle("CellUniverse Controls Assembly")]
-[assembly: AssemblyDescription("Controls Assembly")]
+[assembly: AssemblyTitle("CellUniverse Resources Assembly")]
+[assembly: AssemblyDescription("Resources Assembly")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Art.Stea1th Design & Development")]
 [assembly: AssemblyProduct("CellUniverse: Space of the Cellular Machines")]
@@ -11,6 +12,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]
-
-[assembly: Guid("737469ad-8b82-4805-a28f-151f46b808af")]
+[assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
 [assembly: AssemblyVersion("0.5.*")]

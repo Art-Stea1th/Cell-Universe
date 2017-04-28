@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ASD.CellUniverse.Shell"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:c="clr-namespace:ASD.CellUniverse.Controls;assembly=ASD.CellUniverse.Controls"
+        xmlns:c="clr-namespace:ASD.CellUniverse.Resources.Controls;assembly=ASD.CellUniverse.Resources"
         xmlns:vm="clr-namespace:ASD.CellUniverse.ViewModels"
         xmlns:app="clr-namespace:ASD.CellUniverse.Infrastructure.Extensions;assembly=ASD.CellUniverse.Infrastructure"
         Title="{app:Settings ShellTitle, Mode=OneWay}"
@@ -13,9 +13,22 @@
     <Window.DataContext>
         <vm:ShellViewModel/>
     </Window.DataContext>
-    <DockPanel LastChildFill="True">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        
+        <Border
+            Grid.Column="0"
+            Background="#FF000000">
+            <c:MatrixLED
+                IntencitySource="{Binding IntencityData}"
+                Foreground="{StaticResource RainbowBrush}"
+                GridBrush="#0AFFFFFF"/>
+        </Border>
         <Grid
-            DockPanel.Dock="Right"
+            Grid.Column="1"
             MinWidth="{StaticResource RightPanelMinWidth}">
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -44,7 +57,7 @@
                         Ticks="{Binding Generator.FPSCollection}"
                         IsSnapToTickEnabled="True"                        
                         AutoToolTipPlacement="BottomRight"/>
-                </Grid>                
+                </Grid>
             </StackPanel>
             <StackPanel
                 Grid.Row="1">
@@ -56,12 +69,5 @@
                     Command="{Binding Controller.StopReset}"/>
             </StackPanel>
         </Grid>
-        <Border
-            DockPanel.Dock="Left"
-            Background="Black">
-            <c:MatrixLED
-                IntencitySource="{Binding IntencityData}"
-                Foreground="{StaticResource RainbowCellsBrush}"/>
-        </Border>
-    </DockPanel>
+    </Grid>
 </Window>

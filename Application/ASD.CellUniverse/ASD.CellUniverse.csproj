@@ -101,10 +101,6 @@
       <DependentUpon>Shell.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Resources\Styles.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -112,19 +108,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ASD.CellUniverse.Controls\ASD.CellUniverse.Controls.csproj">
-      <Project>{737469ad-8b82-4805-a28f-151f46b808af}</Project>
-      <Name>ASD.CellUniverse.Controls</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ASD.CellUniverse.Infrastructure\ASD.CellUniverse.Infrastructure.csproj">
       <Project>{1ef48bf3-2444-4b2d-9f13-7b57ac8db462}</Project>
       <Name>ASD.CellUniverse.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ASD.CellUniverse.Resources\ASD.CellUniverse.Resources.csproj">
+      <Project>{f6afc11e-33e4-460f-9dac-fd6570a02a87}</Project>
+      <Name>ASD.CellUniverse.Resources</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Converters\" />
-    <Folder Include="Views\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>

@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace ASD.CellUniverse.Controls.Extensions {
+namespace ASD.CellUniverse.Resources.Extensions {
 
     internal static class Extensions {
 
@@ -30,6 +30,8 @@ namespace ASD.CellUniverse.Controls.Extensions {
 
         public static uint Bgra32(this Color color) // Little Endian
             => ((uint)color.A << 24) | ((uint)color.R << 16) | ((uint)color.G << 8) | color.B;
+
+        public static uint ToAlpha(this byte value) => ((uint)value) << 24;
 
         public static Color Argb32(this uint color)
             => Color.FromArgb((byte)(color >> 24), (byte)(color >> 16), (byte)(color >> 8), (byte)(color));

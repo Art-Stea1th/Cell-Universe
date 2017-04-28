@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -6,7 +7,7 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace ASD.CellUniverse.Controls {
+namespace ASD.CellUniverse.Resources.Controls {
 
     using Extensions;
     using Helpers;
@@ -28,6 +29,11 @@ namespace ASD.CellUniverse.Controls {
             set => SetValue(ForegroundProperty, value);
         }
 
+        public Brush GridBrush {
+            get => (Brush)GetValue(GridBrushProperty);
+            set => SetValue(GridBrushProperty, value);
+        }
+
         public bool ShowGrid {
             get => (bool)GetValue(ShowGridProperty);
             set => SetValue(ShowGridProperty, value);
@@ -43,7 +49,11 @@ namespace ASD.CellUniverse.Controls {
 
         public static readonly DependencyProperty ForegroundProperty =
             TextElement.ForegroundProperty.AddOwner(typeof(MatrixLED), new FrameworkPropertyMetadata(
-                SystemColors.ControlTextBrush, FrameworkPropertyMetadataOptions.Inherits));
+                SystemColors.ControlTextBrush, FrameworkPropertyMetadataOptions.Inherits | FrameworkPropertyMetadataOptions.SubPropertiesDoNotAffectRender));
+
+        public static readonly DependencyProperty GridBrushProperty = DependencyProperty.Register(
+            "GridBrush", typeof(Brush), typeof(MatrixLED), new FrameworkPropertyMetadata(
+                Brushes.Transparent, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.SubPropertiesDoNotAffectRender));
 
         public static readonly DependencyProperty ShowGridProperty = DependencyProperty.Register(
             "ShowGrid", typeof(bool), typeof(MatrixLED), new FrameworkPropertyMetadata(
@@ -112,26 +122,37 @@ namespace ASD.CellUniverse.Controls {
             RepaintGridMask();
         }
 
-        private void NewLedsMask() {
+        private void NewLedsMask(bool force = false) {
             ledsBitmap = BitmapHelper.CreateWriteable(contentSize.X, contentSize.Y);
-            RepaintLedsMask();
+            RepaintLedsMask(force);
         }
 
         private void RepaintGridMask() {            
             using (var context = new WriteableContext(gridBitmap)) {
-                context.WriteGrid(cellSize, thickness, Color.FromArgb(10, 255, 255, 255));
+                context.WriteGrid(cellSize, thickness, solidColor);
             }
         }
 
-        private void RepaintLedsMask() {
+        private void RepaintLedsMask(bool force = false) {
             using (var context = new WriteableContext(ledsBitmap)) {
-                context.WriteRectSequence(GetChangedLeds()
-                    .Select(l => (
-                    x: thickness + l.x * thickness + l.x * cellSize,
-                    y: thickness + l.y * thickness + l.y * cellSize,
-                    color: l.newValue == 0 ? solidColor : emptyColor)
-                    ),
-                    cellSize);
+                if (force) {
+                    context.WriteRectSequence(ledsNext.AsEnumerableIndexed()
+                        .Select(l => (
+                        x: thickness + l.x * thickness + l.x * cellSize,
+                        y: thickness + l.y * thickness + l.y * cellSize,
+                        color: l.value == 0 ? emptyColor : solidColor)),
+                        cellSize);
+                }
+                else {
+                    context.WriteRectSequence(GetChangedLeds()
+                        .Select(l => (
+                        x: thickness + l.x * thickness + l.x * cellSize,
+                        y: thickness + l.y * thickness + l.y * cellSize,
+                        color: l.newValue == 0 ? emptyColor : solidColor)),
+                        cellSize);
+                }
+
+                
             }
         }
 
@@ -141,32 +162,29 @@ namespace ASD.CellUniverse.Controls {
             if (ledsPrev == null) {
                 return ledsNext.AsEnumerableIndexed();
             }
-            return ledsPrev.AsEnumerableIndexed().Except(ledsNext.AsEnumerableIndexed());
+            return ledsNext.AsEnumerableIndexed().Except(ledsPrev.AsEnumerableIndexed());
         }
         
         
-        // EXPERIMENTS
-
         protected override void OnRender(DrawingContext dc) {
 
-            RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.NearestNeighbor);
+            RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.HighQuality);
 
             dc.DrawRectangle(Background, null, new Rect(new Point(), RenderSize));
 
-            dc.PushOpacityMask(LedsOpacityMask);
-
-            dc.DrawRectangle(Foreground, null, new Rect(new Point(), RenderSize));
+            dc.PushOpacityMask(GridOpacityMask);
+            dc.DrawRectangle(GridBrush, null, new Rect(new Point(), RenderSize));
 
             dc.Pop();
-            
 
-            dc.DrawImage(gridBitmap, new Rect(new Point(), RenderSize));
+            dc.PushOpacityMask(LedsOpacityMask);
+            dc.DrawRectangle(Foreground, null, new Rect(new Point(), RenderSize));
         }
 
-        // END EXPERIMENTS
-
         protected override Size MeasureOverride(Size constraint) {
-            return ComputeSize(constraint);
+            var resultSize = ComputeSize(constraint);
+            CalculateCellSize(resultSize);
+            return resultSize;
         }
 
         protected override Size ArrangeOverride(Size arrangeSize) {
@@ -175,6 +193,28 @@ namespace ASD.CellUniverse.Controls {
 
         private Size ComputeSize(Size availableSize) {
             return MeasureArrangeHelper.ComputeSize(availableSize, contentSize);
+        }
+
+        private void CalculateCellSize(Size available) {
+
+            if (ledsNext == null) { return; }
+
+            var newCellSize = thickness * 4;
+
+            var purposeWidth = ledsNext.CountX() * newCellSize + ledsNext.CountX() * thickness + 1;
+
+            var availableCellSize = (int)Math.Round(available.Width / purposeWidth) * newCellSize;
+
+            newCellSize = availableCellSize < newCellSize ? newCellSize : availableCellSize;
+
+            if (newCellSize != cellSize) {
+                cellSize = newCellSize;
+                RecalculateMaskSize();
+                NewGridMask();
+                NewLedsMask(true);
+            }
+
+            //Console.WriteLine($"{newCellSize}");
         }
 
         private Color solidColor = Color.FromArgb(255, 0, 0, 0);

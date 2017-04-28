@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace ASD.CellUniverse.Controls.Helpers {
+namespace ASD.CellUniverse.Resources.Helpers {
 
     using Extensions;
 
@@ -16,9 +16,9 @@ namespace ASD.CellUniverse.Controls.Helpers {
         }
 
         public void Dispose() {
-            if (rangeChanged) {
-                bitmap.AddDirtyRect(new Int32Rect(X.min, Y.min, X.max - X.min + 1, Y.max - Y.min + 1));
-            }
+            //if (rangeChanged) {
+            //    bitmap.AddDirtyRect(new Int32Rect(X.min, Y.min, X.max - X.min + 1, Y.max - Y.min + 1));
+            //}
             bitmap.Unlock();
         }
 
@@ -54,6 +54,7 @@ namespace ASD.CellUniverse.Controls.Helpers {
                     this[x, y] = color;
                 }
             }
+            bitmap.AddDirtyRect(new Int32Rect(posX, posY, width, height));
         }
 
         internal unsafe void WriteRectSequence(IEnumerable<(int x, int y)> sequence, int rectSize, Color color) {
@@ -95,6 +96,7 @@ namespace ASD.CellUniverse.Controls.Helpers {
 
         // --- long address (8-Bytes) to x64 support
         private long AddressBy(int x, int y) => bitmap.BackBuffer.ToInt64() + Offset(x, y);
+        //private long Offset(int x, int y) => (long)bitmap.BackBufferStride * y + (long)bitmap.PixelWidth * x;
         private long Offset(int x, int y) => (long)bitmap.BackBufferStride * y + (long)PixelTypeSize * x;
 
         // --- to support different PixelFormats

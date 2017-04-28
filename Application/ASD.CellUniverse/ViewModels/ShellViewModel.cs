@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace ASD.CellUniverse.ViewModels {
 
@@ -31,7 +28,17 @@ namespace ASD.CellUniverse.ViewModels {
 
         // --- TEMP >> ---
 
-        int width = 80, height = 50;
+        //int width = 800, height = 500; // 16 : 10
+        //int width = 480, height = 300; // 16 : 10
+        //int width = 400, height = 250; // 16 : 10
+        int width = 320, height = 200; // 16 : 10
+        //int width = 160, height = 100; // 16 : 10
+        //int width = 80, height = 50; // 16 : 10
+        //int width = 40, height = 25; // 16 : 10
+        //int width = 32, height = 20; // 16 : 10
+        //int width = 16, height = 10; // 16 : 10
+        //int width = 8, height = 5; // 16 : 10
+
 
         private byte[,] intencityData;
         public byte[,] IntencityData {
@@ -45,7 +52,7 @@ namespace ASD.CellUniverse.ViewModels {
 
             IntencityData = new byte[width, height];
 
-            generationAlgorithms = new List<IGenerationAlgorithm> { new RandomMixer(), new TheGameOfLife() };
+            generationAlgorithms = new List<IGenerationAlgorithm> { new TheGameOfLife(), new RandomMixer() };
 
             Generator = new FrameGenerationService(generationAlgorithms[generationAlgorithmSelectedIndex]);
 
