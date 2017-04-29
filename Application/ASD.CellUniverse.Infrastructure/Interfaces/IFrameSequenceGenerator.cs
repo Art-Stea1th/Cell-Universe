@@ -13,7 +13,7 @@ namespace ASD.CellUniverse.Infrastructure.Interfaces {
         double FPS { get; set; }
         DoubleCollection FPSCollection { get; }
 
-        IGenerationAlgorithm GenerationAlgorithm { get; set; }
+        IMatrixMutator GenerationAlgorithm { get; set; }
 
         byte[,] GeneratedData { get; set; }
 

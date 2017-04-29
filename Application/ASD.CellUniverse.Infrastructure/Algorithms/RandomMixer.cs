@@ -7,7 +7,7 @@ namespace ASD.CellUniverse.Infrastructure.Algorithms {
     using Interfaces;
     using MVVM;
 
-    public class RandomMixer : BindableBase, IGenerationAlgorithm {
+    public class RandomMixer : BindableBase, IMatrixMutator {
 
         public string Name => "Random Mixer";
 
@@ -16,7 +16,7 @@ namespace ASD.CellUniverse.Infrastructure.Algorithms {
         private Random random;
         public RandomMixer() => random = new Random();
 
-        public byte[,] GenerateNextBy(byte[,] prev) {
+        public byte[,] Mutate(byte[,] prev) {
 
             var next = new byte[prev.GetLength(0), prev.GetLength(1)];
 

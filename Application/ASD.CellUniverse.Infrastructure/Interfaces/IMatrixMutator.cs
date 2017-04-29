@@ -1,10 +1,10 @@
 ﻿namespace ASD.CellUniverse.Infrastructure.Interfaces {
 
-    public interface IGenerationAlgorithm {
+    public interface IMatrixMutator {
 
         string Name { get; }
 
-        byte[,] GenerateNextBy(byte[,] prev);
+        byte[,] Mutate(byte[,] prev);
 
     }
 }

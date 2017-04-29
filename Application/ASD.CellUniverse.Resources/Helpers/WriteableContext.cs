@@ -16,9 +16,9 @@ namespace ASD.CellUniverse.Resources.Helpers {
         }
 
         public void Dispose() {
-            //if (rangeChanged) {
-            //    bitmap.AddDirtyRect(new Int32Rect(X.min, Y.min, X.max - X.min + 1, Y.max - Y.min + 1));
-            //}
+            if (rangeChanged) {
+                bitmap.AddDirtyRect(new Int32Rect(X.min, Y.min, X.max - X.min + 1, Y.max - Y.min + 1));
+            }
             bitmap.Unlock();
         }
 
@@ -54,7 +54,6 @@ namespace ASD.CellUniverse.Resources.Helpers {
                     this[x, y] = color;
                 }
             }
-            bitmap.AddDirtyRect(new Int32Rect(posX, posY, width, height));
         }
 
         internal unsafe void WriteRectSequence(IEnumerable<(int x, int y)> sequence, int rectSize, Color color) {

@@ -79,11 +79,13 @@
     <Compile Include="Algorithms\RandomMixer.cs" />
     <Compile Include="Algorithms\TheGameOfLife.cs" />
     <Compile Include="Controllers\ApplicationStateMachine.cs" />
-    <Compile Include="Extensions\SettingsExtension.cs" />
+    <Compile Include="BindingExtensions\SettingsExtension.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Interfaces\IFrameSequenceGenerator.cs" />
-    <Compile Include="Interfaces\IGenerationAlgorithm.cs" />
+    <Compile Include="Interfaces\IMatrix.cs" />
+    <Compile Include="Interfaces\IMatrixMutator.cs" />
     <Compile Include="Interfaces\IMainController.cs" />
-    <Compile Include="Interfaces\ISeedGenerator.cs" />
+    <Compile Include="Interfaces\IMatrixGenerator.cs" />
     <Compile Include="MVVM\RelayCommand.cs" />
     <Compile Include="MVVM\BindableBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -94,13 +96,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Services\CryptoRandomService.cs" />
     <Compile Include="Services\FrameGenerationService.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Resources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\Settings.settings">

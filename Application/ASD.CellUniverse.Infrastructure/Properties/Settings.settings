@@ -2,14 +2,11 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ASD.CellUniverse.Infrastructure.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="ShellTitle" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">CellUniverse: Space of the Cellular Machines</Value>
-    </Setting>
     <Setting Name="ShellState" Type="System.Windows.WindowState" Scope="User">
       <Value Profile="(Default)">Normal</Value>
     </Setting>
     <Setting Name="ShellWidth" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">960</Value>
+      <Value Profile="(Default)">970</Value>
     </Setting>
     <Setting Name="ShellHeight" Type="System.Double" Scope="User">
       <Value Profile="(Default)">540</Value>

@@ -23,15 +23,6 @@ namespace ASD.CellUniverse.Infrastructure.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("CellUniverse: Space of the Cellular Machines")]
-        public string ShellTitle {
-            get {
-                return ((string)(this["ShellTitle"]));
-            }
-        }
-        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Normal")]
@@ -46,7 +37,7 @@ namespace ASD.CellUniverse.Infrastructure.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("960")]
+        [global::System.Configuration.DefaultSettingValueAttribute("970")]
         public double ShellWidth {
             get {
                 return ((double)(this["ShellWidth"]));

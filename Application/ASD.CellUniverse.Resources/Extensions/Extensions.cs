@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -50,5 +51,18 @@ namespace ASD.CellUniverse.Resources.Extensions {
 
         public static int CountX<T>(this T[,] array2D) => array2D.GetLength(0);
         public static int CountY<T>(this T[,] array2D) => array2D.GetLength(1);
+
+        // -----
+
+        public static string ToReadable(this ProcessorArchitecture arch) {
+            switch (arch) {
+                case ProcessorArchitecture.MSIL: return "Any CPU";
+                case ProcessorArchitecture.Amd64: return "x64";
+                case ProcessorArchitecture.X86: return "x86";
+                case ProcessorArchitecture.Arm: return "ARM";
+                case ProcessorArchitecture.IA64: return "IA64";
+                default: return "Unspecified";
+            }
+        }
     }
 }

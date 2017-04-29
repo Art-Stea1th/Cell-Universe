@@ -7,8 +7,6 @@ namespace ASD.CellUniverse {
 
     public partial class App : Application {
 
-        public App() {
-            Exit += (s, e) => Settings.Default.Save();
-        }
+        public App() => Exit += (s, e) => Settings.Default.Save();
     }
 }

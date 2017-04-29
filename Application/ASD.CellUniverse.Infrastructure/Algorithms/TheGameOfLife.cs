@@ -9,13 +9,13 @@ namespace ASD.CellUniverse.Infrastructure.Algorithms {
     using Interfaces;
     using MVVM;
 
-    public sealed class TheGameOfLife : BindableBase, IGenerationAlgorithm {
+    public sealed class TheGameOfLife : BindableBase, IMatrixMutator {
 
         public string Name => "The Game Of Life";
 
         public override string ToString() => Name;
 
-        public byte[,] GenerateNextBy(byte[,] prev) {
+        public byte[,] Mutate(byte[,] prev) {
             return NextGeneration(prev);
         }
 

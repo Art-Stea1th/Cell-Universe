@@ -12,13 +12,13 @@ namespace ASD.CellUniverse.Infrastructure.Services {
 
         private DispatcherTimer timer;
 
-        private double fps = 120.0;
+        private double fps;
         private DoubleCollection fpsCollection;
 
-        private IGenerationAlgorithm algorithm;
+        private IMatrixMutator algorithm;
         private byte[,] generatedData;
 
-        public double MinFPS => 1.0;
+        public double MinFPS => fpsCollection.First();
         public double MaxFPS => fpsCollection.Last();
         public double FPS {
             get => fps;
@@ -29,7 +29,7 @@ namespace ASD.CellUniverse.Infrastructure.Services {
         }
         public DoubleCollection FPSCollection => fpsCollection;
 
-        public IGenerationAlgorithm GenerationAlgorithm {
+        public IMatrixMutator GenerationAlgorithm {
             get => algorithm;
             set => SetProperty(ref algorithm, value);
         }
@@ -51,20 +51,22 @@ namespace ASD.CellUniverse.Infrastructure.Services {
         public void Stop() { timer.Stop(); Reset(); }
         public void Reset() => GeneratedData = new byte[GeneratedData.GetLength(0), GeneratedData.GetLength(1)];
 
-        public FrameGenerationService(IGenerationAlgorithm algorithm) {
+        public FrameGenerationService(IMatrixMutator algorithm) {
             fpsCollection = new DoubleCollection { 1.0, 2.0, 3.0, 5.0, 10.0, 15.0, 20.0, 25.0, 30.0, 50.0, 60.0, 120.0 };
             this.algorithm = algorithm;
             InitializeTimer();
+            FPS = fpsCollection.Last();
         }
 
         private void InitializeTimer() {
             timer = new DispatcherTimer();
             timer.Tick += GenerateNext;
-            UpdateTimerInterval();
         }
 
-        private void GenerateNext(object sender, EventArgs e) => GeneratedData = algorithm?.GenerateNextBy(generatedData);
+        private void GenerateNext(object sender, EventArgs e) => GeneratedData = algorithm?.Mutate(generatedData);
         private double ValidFps(double fps) => fps < MinFPS ? MinFPS : fps > MaxFPS ? MaxFPS : fps;
-        private void UpdateTimerInterval() => timer.Interval = TimeSpan.FromMilliseconds(1000.0 / fps);
+        private void UpdateTimerInterval() => timer.Interval = fps == fpsCollection.Last()
+            ? TimeSpan.FromTicks(1)
+            : TimeSpan.FromMilliseconds(1000.0 / ValidFps(fps));
     }
 }

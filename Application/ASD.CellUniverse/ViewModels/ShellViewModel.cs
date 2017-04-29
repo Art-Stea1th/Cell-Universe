@@ -11,22 +11,33 @@ namespace ASD.CellUniverse.ViewModels {
 
     public sealed class ShellViewModel : BindableBase {
 
-        private int generationAlgorithmSelectedIndex = 0;
-        public int GenerationAlgorithmSelectedIndex {
-            get => generationAlgorithmSelectedIndex;
+        public string Title => AppInfo.ToString();
+
+        private int mutatorSelectedIndex = 0;
+        public int MutatorSelectedIndex {
+            get => mutatorSelectedIndex;
             set {
-                SetProperty(ref generationAlgorithmSelectedIndex, value);
-                Generator.GenerationAlgorithm = generationAlgorithms[generationAlgorithmSelectedIndex];
+                SetProperty(ref mutatorSelectedIndex, value);
+                SequenceGenerator.GenerationAlgorithm = matrixMutators[mutatorSelectedIndex];
             }
         }
-        public IEnumerable<IGenerationAlgorithm> GenerationAlgorithms => generationAlgorithms;
-        private List<IGenerationAlgorithm> generationAlgorithms;
+        public IEnumerable<IMatrixMutator> Mutators => matrixMutators;
+        private List<IMatrixMutator> matrixMutators;
 
-        public IFrameSequenceGenerator Generator { get; private set; }
+        public IFrameSequenceGenerator SequenceGenerator { get; private set; }
 
         public IMainController Controller { get; private set; }
 
+        private bool canResolutionChange;
+
+        public bool CanResolutionChange {
+            get => canResolutionChange;
+            set => SetProperty(ref canResolutionChange, value);
+        }
+
         // --- TEMP >> ---
+
+
 
         //int width = 800, height = 500; // 16 : 10
         //int width = 480, height = 300; // 16 : 10
@@ -52,23 +63,26 @@ namespace ASD.CellUniverse.ViewModels {
 
             IntencityData = new byte[width, height];
 
-            generationAlgorithms = new List<IGenerationAlgorithm> { new TheGameOfLife(), new RandomMixer() };
+            matrixMutators = new List<IMatrixMutator> { new TheGameOfLife(), new RandomMixer() };
 
-            Generator = new FrameGenerationService(generationAlgorithms[generationAlgorithmSelectedIndex]);
+            SequenceGenerator = new FrameGenerationService(matrixMutators[mutatorSelectedIndex]);
 
-            Generator.NextFrameReady += (a) => UpdateIntencityData(a);
-            Generator.GeneratedData = CreateRandom(width, height);
+            SequenceGenerator.NextFrameReady += (a) => UpdateIntencityData(a);
+            SequenceGenerator.GeneratedData = CreateRandom(width, height);
 
             Controller = new ApplicationStateMachine();
-            Controller.Started += Generator.Play;
-            Controller.Paused += Generator.Pause;
-            Controller.Resumed += Generator.Resume;
-            Controller.Stopped += Generator.Stop;
-            Controller.Reseted += Generator.Reset;
+            Controller.Started += SequenceGenerator.Play;
+            Controller.Paused += SequenceGenerator.Pause;
+            Controller.Resumed += SequenceGenerator.Resume;
+            Controller.Stopped += SequenceGenerator.Stop;
+            Controller.Reseted += SequenceGenerator.Reset;
+            Controller.StateChanged += (s) => CanResolutionChange = s == State.Stopped ? true : false;
+
+            CanResolutionChange = Controller.State == State.Stopped;
 
             // TMP
-            Controller.Stopped += () => Generator.GeneratedData = CreateRandom(width, height);
-            Controller.Reseted += () => Generator.GeneratedData = CreateRandom(width, height);
+            Controller.Stopped += () => SequenceGenerator.GeneratedData = CreateRandom(width, height);
+            Controller.Reseted += () => SequenceGenerator.GeneratedData = CreateRandom(width, height);
 
         }
 

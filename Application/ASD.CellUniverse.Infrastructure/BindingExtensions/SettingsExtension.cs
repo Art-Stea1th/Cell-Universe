@@ -1,6 +1,7 @@
 ﻿using System.Windows.Data;
 
-namespace ASD.CellUniverse.Infrastructure.Extensions {
+
+namespace ASD.CellUniverse.Infrastructure.BindingExtensions {
 
     using Properties;
 

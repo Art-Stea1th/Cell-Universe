@@ -5,7 +5,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/ASD.CellUniverse.Resources;component/Styles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/ASD.CellUniverse.Resources;component/Resources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
