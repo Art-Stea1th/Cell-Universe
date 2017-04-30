@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:s="clr-namespace:System;assembly=mscorlib">
 
+    <BorderGapMaskConverter x:Key="BorderGapMaskConverter"/>
+
     <s:Double x:Key="RightPanelMinWidth">152</s:Double>
     <s:Double x:Key="ElementsMinHeight">28</s:Double>
 
@@ -15,11 +17,9 @@
     <Thickness x:Key="SingleControlPaddind">4</Thickness>
 
     <Style x:Key="{x:Type Button}" TargetType="{x:Type Button}">
-        <Setter Property="Margin" Value="{StaticResource DownControlsMargin}"/>
         <Setter Property="MinHeight" Value="{StaticResource ElementsMinHeight}"/>
     </Style>
-
-    <BorderGapMaskConverter x:Key="BorderGapMaskConverter"/>
+    
     <Style x:Key="{x:Type GroupBox}" TargetType="{x:Type GroupBox}">
         <Setter Property="BorderBrush" Value="#D5DFE5"/>
         <Setter Property="BorderThickness" Value="1"/>

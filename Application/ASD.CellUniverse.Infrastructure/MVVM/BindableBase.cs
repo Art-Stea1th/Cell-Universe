@@ -10,7 +10,7 @@ namespace ASD.CellUniverse.Infrastructure.MVVM {
 
         protected BindableBase() { }
 
-        protected void SetProperty<T>(ref T oldValue, T newValue, [CallerMemberName] string propertyName = null) {
+        protected void Set<T>(ref T oldValue, T newValue, [CallerMemberName] string propertyName = null) {
             oldValue = newValue; RaisePropertyChanged(propertyName);
         }
 

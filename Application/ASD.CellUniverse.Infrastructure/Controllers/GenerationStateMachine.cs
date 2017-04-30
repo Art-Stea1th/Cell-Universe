@@ -6,11 +6,10 @@ namespace ASD.CellUniverse.Infrastructure.Controllers {
     using MVVM;
     using Interfaces;
 
-    public sealed class ApplicationStateMachine : BindableBase, IMainController {
+    internal sealed class GenerationStateMachine : BindableBase, IGenerationController {
 
         private object shared = new object();
-
-        public State State { get; private set; }
+        private State state;
 
         private StateMachineCommand playCommand, pauseCommand, resumeCommand, stopCommand, resetCommand, dummyCommand;
         private StateMachineCommand playPauseResumeCommand, stopResetCommand;
@@ -18,22 +17,27 @@ namespace ASD.CellUniverse.Infrastructure.Controllers {
         public event Action Started, Paused, Resumed, Stopped, Reseted;
         public event Action<State> StateChanged;
 
+        public State State {
+            get => state;
+            private set => Set(ref state, value);
+        }
+
         public ICommand Start {
             get => playPauseResumeCommand;
-            private set => SetProperty(ref playPauseResumeCommand, value as StateMachineCommand);
+            private set => Set(ref playPauseResumeCommand, value as StateMachineCommand);
         }
 
         public ICommand Stop {
             get => stopResetCommand;
-            private set => SetProperty(ref stopResetCommand, value as StateMachineCommand);
+            private set => Set(ref stopResetCommand, value as StateMachineCommand);
         }
 
-        public ApplicationStateMachine() => InitializeCommands();
+        internal GenerationStateMachine() => InitializeCommands();
 
         private void InitializeCommands() {
 
             playCommand = new StateMachineCommand(
-                "PLAY",
+                "START",
                 (o) => ChangeState(State.Started, pauseCommand, stopCommand, Started),
                 (o) => State == State.Stopped);
 

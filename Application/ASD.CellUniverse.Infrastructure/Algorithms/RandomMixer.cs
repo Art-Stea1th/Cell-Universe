@@ -7,13 +7,13 @@ namespace ASD.CellUniverse.Infrastructure.Algorithms {
     using Interfaces;
     using MVVM;
 
-    public class RandomMixer : BindableBase, IMatrixMutator {
+    public class RandomMixer : BindableBase, IMutationAlgorithm {
 
+        private Random random;
         public string Name => "Random Mixer";
 
         public override string ToString() => Name;
 
-        private Random random;
         public RandomMixer() => random = new Random();
 
         public byte[,] Mutate(byte[,] prev) {
@@ -39,7 +39,6 @@ namespace ASD.CellUniverse.Infrastructure.Algorithms {
                 yield return columnsIndexes[i];
                 columnsIndexes.RemoveAt(i);
             }
-
         }
     }
 }

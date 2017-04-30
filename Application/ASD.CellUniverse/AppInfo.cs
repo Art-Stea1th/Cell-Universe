@@ -4,7 +4,7 @@ namespace ASD.CellUniverse {
 
     internal struct AppInfo {
 
-        public static readonly string Name;
+        public static readonly string Title;
         public static readonly string ProcessorArchitecture;
         public static readonly string MajorVersion;
         public static readonly string MinorVersion;
@@ -17,7 +17,7 @@ namespace ASD.CellUniverse {
             var name = assembly.GetName();
             var version = name.Version;
 
-            Name = assembly.GetCustomAttribute<AssemblyTitleAttribute>().Title;
+            Title = assembly.GetCustomAttribute<AssemblyTitleAttribute>().Title;
 
             ProcessorArchitecture = name.ProcessorArchitecture.ToReadable();
 
@@ -29,9 +29,9 @@ namespace ASD.CellUniverse {
 
         public static string ToString(string format = null) {
             if (string.IsNullOrWhiteSpace(format)) {
-                return $"{Name} ({ProcessorArchitecture}) - v.{MajorVersion}.{MinorVersion}, build {Build}, rev. {Revision}";
+                return $"{Title} ({ProcessorArchitecture}) - v.{MajorVersion}.{MinorVersion}, build {Build}, rev. {Revision}";
             }
-            return string.Format(format, Name, ProcessorArchitecture, MajorVersion, MinorVersion, Build, Revision);
+            return string.Format(format, Title, ProcessorArchitecture, MajorVersion, MinorVersion, Build, Revision);
         }
     }
 

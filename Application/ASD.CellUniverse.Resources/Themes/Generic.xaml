@@ -7,6 +7,7 @@
         <Setter Property="Cursor" Value="Arrow"/>
         <Setter Property="ToolTip" Value="Double-сlick to edit"/>
         <Setter Property="ToolTipInEdit" Value="Press &#34;Enter&#34; to accept input or &#34;Esc&#34; to deny"/>
+        <Setter Property="ToolTipService.InitialShowDelay" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type c:AcceptableTextBox}">

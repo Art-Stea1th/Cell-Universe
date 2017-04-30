@@ -1,106 +1,80 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ASD.CellUniverse.ViewModels {
 
     using Infrastructure.Algorithms;
-    using Infrastructure.Controllers;
     using Infrastructure.Interfaces;
     using Infrastructure.MVVM;
+    using Infrastructure.SeedGenerators;
     using Infrastructure.Services;
 
     public sealed class ShellViewModel : BindableBase {
 
+        private List<IMutationAlgorithm> matrixMutators;
+        private int selectedMutatorIndex;
+
+        private List<ISeedGenerator> seedWriters;
+        private int selectedWriterIndex;
+
+        private IApplicationFacade facade;
+
+
+
         public string Title => AppInfo.ToString();
 
-        private int mutatorSelectedIndex = 0;
-        public int MutatorSelectedIndex {
-            get => mutatorSelectedIndex;
+        public IEnumerable<IMutationAlgorithm> Mutators => matrixMutators;
+        public IEnumerable<ISeedGenerator> Writers => seedWriters;
+
+        public IApplicationFacade Facade => facade;
+
+        public int SelectedMutatorIndex {
+            get => selectedMutatorIndex;
             set {
-                SetProperty(ref mutatorSelectedIndex, value);
-                SequenceGenerator.GenerationAlgorithm = matrixMutators[mutatorSelectedIndex];
+                Set(ref selectedMutatorIndex, value);
+                Facade.Algorithm = matrixMutators[selectedMutatorIndex];
             }
         }
-        public IEnumerable<IMatrixMutator> Mutators => matrixMutators;
-        private List<IMatrixMutator> matrixMutators;
 
-        public IFrameSequenceGenerator SequenceGenerator { get; private set; }
-
-        public IMainController Controller { get; private set; }
-
-        private bool canResolutionChange;
-
-        public bool CanResolutionChange {
-            get => canResolutionChange;
-            set => SetProperty(ref canResolutionChange, value);
+        public int SelectedWriterIndex {
+            get => selectedWriterIndex;
+            set {
+                Set(ref selectedWriterIndex, value);
+                Facade.SeedWriter = seedWriters[selectedWriterIndex];
+            }
         }
-
-        // --- TEMP >> ---
-
-
-
-        //int width = 800, height = 500; // 16 : 10
-        //int width = 480, height = 300; // 16 : 10
-        //int width = 400, height = 250; // 16 : 10
-        int width = 320, height = 200; // 16 : 10
-        //int width = 160, height = 100; // 16 : 10
-        //int width = 80, height = 50; // 16 : 10
-        //int width = 40, height = 25; // 16 : 10
-        //int width = 32, height = 20; // 16 : 10
-        //int width = 16, height = 10; // 16 : 10
-        //int width = 8, height = 5; // 16 : 10
-
-
-        private byte[,] intencityData;
-        public byte[,] IntencityData {
-            get => intencityData;
-            set => SetProperty(ref intencityData, value);
-        }
-
-        // --- << TEMP ---
 
         public ShellViewModel() {
-
-            IntencityData = new byte[width, height];
-
-            matrixMutators = new List<IMatrixMutator> { new TheGameOfLife(), new RandomMixer() };
-
-            SequenceGenerator = new FrameGenerationService(matrixMutators[mutatorSelectedIndex]);
-
-            SequenceGenerator.NextFrameReady += (a) => UpdateIntencityData(a);
-            SequenceGenerator.GeneratedData = CreateRandom(width, height);
-
-            Controller = new ApplicationStateMachine();
-            Controller.Started += SequenceGenerator.Play;
-            Controller.Paused += SequenceGenerator.Pause;
-            Controller.Resumed += SequenceGenerator.Resume;
-            Controller.Stopped += SequenceGenerator.Stop;
-            Controller.Reseted += SequenceGenerator.Reset;
-            Controller.StateChanged += (s) => CanResolutionChange = s == State.Stopped ? true : false;
-
-            CanResolutionChange = Controller.State == State.Stopped;
-
-            // TMP
-            Controller.Stopped += () => SequenceGenerator.GeneratedData = CreateRandom(width, height);
-            Controller.Reseted += () => SequenceGenerator.GeneratedData = CreateRandom(width, height);
-
+            matrixMutators = new List<IMutationAlgorithm> { new TheGameOfLife(), new RandomMixer() };
+            seedWriters = new List<ISeedGenerator> { new UniformRandom() };
+            facade = new ApplicationFacade();
+            SelectedMutatorIndex = 0;
+            SelectedWriterIndex = 0;
         }
 
-        private void UpdateIntencityData(byte[,] newIntencityData)
-            => IntencityData = newIntencityData;
+        // --- Resolutions 8x5 [16x10] ---
 
-        // TMP
-        private byte[,] CreateRandom(int width, int height) {
+        //  int width = 8,   height = 5;
 
-            var random = new Random();
-            var result = new byte[width, height];
+        //  int width = 16,  height = 10;
+        //  int width = 24,  height = 15;
+        //  int width = 32,  height = 20;
+        //  int width = 40,  height = 25;
+        //  int width = 48,  height = 30;
+        //  int width = 56,  height = 35;
+        //  int width = 64,  height = 40;
+        //  int width = 72,  height = 45;
 
-            for (var y = 0; y < height; y++) {
-                for (var x = 0; x < width; x++) {
-                    result[x, y] = random.Next() % 2 == 1 ? (byte)255 : (byte)0;
-                }
-            }
-            return result;
-        }
+        //  int width = 80,  height = 50;
+
+        //  int width = 160, height = 100;
+        //  int width = 240, height = 150;
+        //  int width = 320, height = 200;
+        //  int width = 400, height = 250;
+        //  int width = 480, height = 300;
+        //  int width = 560, height = 350;
+        //  int width = 640, height = 400;
+        //  int width = 720, height = 450;
+
+        //  int width = 800, height = 500;
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace ASD.CellUniverse.Infrastructure.Interfaces {
 
-    public interface IMatrixMutator {
+    public interface IMutationAlgorithm {
 
         string Name { get; }
 

@@ -4,15 +4,20 @@
         xmlns:c="clr-namespace:ASD.CellUniverse.Resources.Controls;assembly=ASD.CellUniverse.Resources"
         xmlns:vm="clr-namespace:ASD.CellUniverse.ViewModels"
         xmlns:app="clr-namespace:ASD.CellUniverse.Infrastructure.BindingExtensions;assembly=ASD.CellUniverse.Infrastructure"
-        Title="{Binding Title}"
+        Title="{Binding Title, Mode=OneTime}"
         WindowState="{app:Settings ShellState}"
         Width="{app:Settings ShellWidth}"
         Height="{app:Settings ShellHeight}"
         Left="{app:Settings ShellLeft}"
         Top="{app:Settings ShellTop}">
+    <!-- TMP -->
     <Window.DataContext>
         <vm:ShellViewModel/>
     </Window.DataContext>
+    <!-- TMP -->
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -23,9 +28,9 @@
             Grid.Column="0"
             Background="#FF000000">
             <c:MatrixLED
-                IntencitySource="{Binding IntencityData}"
+                IntencitySource="{Binding Facade.Matrix}"
                 Foreground="{StaticResource RainbowBrush}"
-                GridBrush="#0AFFFFFF"/>
+                GridBrush="#10FFFFFF"/>
         </Border>
         <Grid
             Grid.Column="1"
@@ -35,35 +40,23 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <StackPanel
-                Grid.Row="0">
+                Grid.Row="0">                
                 <GroupBox
                     Header="Matrix Mutator:"
                     Margin="{StaticResource UpControlsMargin}"
-                    Padding="{StaticResource SingleControlPaddind}">
+                    Padding="{StaticResource SingleControlPaddind}"
+                    Visibility="{Binding Facade.MatrixReadyToMutate,
+                    Converter={StaticResource BooleanToVisibility}}">
                     <ComboBox
                         ItemsSource="{Binding Mutators}"
-                        SelectedIndex="{Binding MutatorSelectedIndex}"/>
-                </GroupBox>
-                <GroupBox
-                    Header="Speed:"
-                    Margin="{StaticResource UpControlsMargin}"
-                    Padding="{StaticResource SingleControlPaddind}">
-                    <c:FormattedSlider
-                        Grid.Row="1"
-                        Minimum="{Binding SequenceGenerator.MinFPS}"
-                        Maximum="{Binding SequenceGenerator.MaxFPS}"
-                        Value="{Binding SequenceGenerator.FPS}"
-                        Ticks="{Binding SequenceGenerator.FPSCollection}"
-                        IsSnapToTickEnabled="True"                        
-                        AutoToolTipPlacement="BottomRight"
-                        AutoToolTipFormat="{}{0} FPS"/>
+                        SelectedIndex="{Binding SelectedMutatorIndex}"/>
                 </GroupBox>
                 <GroupBox
                     Header="Matrix Resolution:"
                     Margin="{StaticResource UpControlsMargin}"
                     Padding="{StaticResource SingleControlPaddind}">
                     <Grid
-                        IsEnabled="{Binding CanResolutionChange}">
+                        IsEnabled="{Binding Facade.MatrixReadyToChange}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition Width="Auto"/>
@@ -71,31 +64,75 @@
                         </Grid.ColumnDefinitions>
                         <c:AcceptableTextBox
                             Grid.Column="0"
-                            Text="320"/>
+                            Text="{Binding Facade.GenerationWidth}"
+                            MaxWidth="48"
+                            MaxLength="4"/>
                         <TextBlock
-                            Grid.Row="1"
                             Grid.Column="1"
                             Text="x"
                             Margin="8,1,8,0"
                             Foreground="{DynamicResource
                             {x:Static SystemColors.GrayTextBrushKey}}"/>
                         <c:AcceptableTextBox
-                            Grid.Row="1"
                             Grid.Column="2"
-                            Text="200"/>
+                            Text="{Binding Facade.GenerationHeight}"
+                            MaxWidth="48"
+                            MaxLength="4"/>
                     </Grid>
                 </GroupBox>
-
+                <GroupBox
+                    Header="Mutation Speed:"
+                    Margin="{StaticResource UpControlsMargin}"
+                    Padding="{StaticResource SingleControlPaddind}"
+                    Visibility="{Binding Facade.MatrixReadyToMutate,
+                    Converter={StaticResource BooleanToVisibility}}">
+                    <c:FormattedSlider
+                        Grid.Row="1"
+                        Minimum="{Binding Facade.MinFPS}"
+                        Maximum="{Binding Facade.MaxFPS}"
+                        Value="{Binding Facade.FPS}"
+                        Ticks="{Binding Facade.FPSCollection}"
+                        IsSnapToTickEnabled="True"                        
+                        AutoToolTipPlacement="BottomRight"
+                        AutoToolTipFormat="{}{0} FPS"/>
+                </GroupBox>
+                <GroupBox
+                    Header="Seed Writer:"
+                    Margin="{StaticResource UpControlsMargin}">
+                    <StackPanel>
+                        <ComboBox
+                            ItemsSource="{Binding Writers}"
+                            SelectedIndex="{Binding SelectedWriterIndex}"
+                            Margin="{StaticResource SingleControlMargin}"
+                            IsEnabled="{Binding Facade.MatrixReadyToChange}"/>
+                        <Button
+                            Content="Write Now!"
+                            Margin="{StaticResource DownControlsMargin}"
+                            Command="{Binding Facade.WriteSeed}"
+                            Visibility="{Binding Facade.MatrixReadyToChange,
+                            Converter={StaticResource BooleanToVisibility}}"/>
+                    </StackPanel>
+                </GroupBox>
             </StackPanel>
-            <StackPanel
-                Grid.Row="1">
-                <Button
-                    Content="{Binding Controller.Start}"
-                    Command="{Binding Controller.Start}"/>
-                <Button
-                    Content="{Binding Controller.Stop}"
-                    Command="{Binding Controller.Stop}"/>
-            </StackPanel>
+            <GroupBox
+                Grid.Row="1"
+                Header="{Binding Facade.State}"
+                HeaderStringFormat="{}State: {0}"
+                Margin="{StaticResource SingleControlMargin}"
+                Visibility="{Binding Facade.MatrixReadyToMutate,
+                Converter={StaticResource BooleanToVisibility}}">
+                <StackPanel>
+                    <Button
+                        Content="{Binding Facade.Start}"
+                        Command="{Binding Facade.Start}"
+                        Margin="{StaticResource UpControlsMargin}"/>
+                    <Button
+                        Content="{Binding Facade.Stop}"
+                        Command="{Binding Facade.Stop}"
+                        Margin="{StaticResource SingleControlMargin}"/>
+                </StackPanel>
+            </GroupBox>
+            
         </Grid>
     </Grid>
 </Window>

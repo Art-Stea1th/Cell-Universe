@@ -78,14 +78,14 @@
   <ItemGroup>
     <Compile Include="Algorithms\RandomMixer.cs" />
     <Compile Include="Algorithms\TheGameOfLife.cs" />
-    <Compile Include="Controllers\ApplicationStateMachine.cs" />
+    <Compile Include="Controllers\GenerationStateMachine.cs" />
     <Compile Include="BindingExtensions\SettingsExtension.cs" />
-    <Compile Include="Extensions\Extensions.cs" />
-    <Compile Include="Interfaces\IFrameSequenceGenerator.cs" />
-    <Compile Include="Interfaces\IMatrix.cs" />
-    <Compile Include="Interfaces\IMatrixMutator.cs" />
-    <Compile Include="Interfaces\IMainController.cs" />
-    <Compile Include="Interfaces\IMatrixGenerator.cs" />
+    <Compile Include="DataProviders\UniformRandomDataProvider.cs" />
+    <Compile Include="Interfaces\IFPSGenerator.cs" />
+    <Compile Include="Interfaces\IMutationAlgorithm.cs" />
+    <Compile Include="Interfaces\IGenerationController.cs" />
+    <Compile Include="Interfaces\IApplicationFacade.cs" />
+    <Compile Include="Interfaces\ISeedGenerator.cs" />
     <Compile Include="MVVM\RelayCommand.cs" />
     <Compile Include="MVVM\BindableBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -96,8 +96,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Services\CryptoRandomService.cs" />
-    <Compile Include="Services\FrameGenerationService.cs" />
+    <Compile Include="SeedGenerators\UniformRandom.cs" />
+    <Compile Include="Services\FPSGenerationService.cs" />
+    <Compile Include="Services\ApplicationFacade.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\Settings.settings">

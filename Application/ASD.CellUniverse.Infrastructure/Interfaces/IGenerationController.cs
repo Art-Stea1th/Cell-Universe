@@ -6,13 +6,13 @@ namespace ASD.CellUniverse.Infrastructure.Interfaces {
 
     public enum State { Started, Paused, Stopped }
 
-    public interface IMainController : INotifyPropertyChanged {
+    internal interface IGenerationController : INotifyPropertyChanged {
 
-        event Action Started, Paused, Resumed, Stopped, Reseted;
+        State State { get; }
 
         event Action<State> StateChanged;
 
-        State State { get; }
+        event Action Started, Paused, Resumed, Stopped, Reseted;
 
         ICommand Start { get; }
         ICommand Stop { get; }

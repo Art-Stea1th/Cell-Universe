@@ -17,7 +17,7 @@ namespace ASD.CellUniverse.Resources.Helpers {
 
         public void Dispose() {
             if (rangeChanged) {
-                bitmap.AddDirtyRect(new Int32Rect(X.min, Y.min, X.max - X.min + 1, Y.max - Y.min + 1));
+                bitmap.AddDirtyRect(new Int32Rect(h.min, v.min, h.max - h.min + 1, v.max - v.min + 1));
             }
             bitmap.Unlock();
         }
@@ -79,11 +79,11 @@ namespace ASD.CellUniverse.Resources.Helpers {
         }
 
         private void UpdateRange(int nextX, int nextY) {
-            if (nextX > X.max) { X.max = nextX; }
-            else if (nextX < X.min) { X.min = nextX; }
+            if (nextX > h.max) { h.max = nextX; }
+            else if (nextX < h.min) { h.min = nextX; }
 
-            if (nextY > Y.max) { Y.max = nextY; }
-            else if (nextY < Y.min) { Y.min = nextY; }
+            if (nextY > v.max) { v.max = nextY; }
+            else if (nextY < v.min) { v.min = nextY; }
 
             rangeChanged = true;
         }
@@ -105,8 +105,8 @@ namespace ASD.CellUniverse.Resources.Helpers {
         // ---
         private bool rangeChanged = false;
 
-        private (int min, int max) X = (min: int.MaxValue, max: int.MinValue);
-        private (int min, int max) Y = (min: int.MaxValue, max: int.MinValue);
+        private (int min, int max) h = (min: int.MaxValue, max: int.MinValue);
+        private (int min, int max) v = (min: int.MaxValue, max: int.MinValue);
 
         private WriteableBitmap bitmap;
     }

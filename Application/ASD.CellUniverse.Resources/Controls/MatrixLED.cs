@@ -122,9 +122,9 @@ namespace ASD.CellUniverse.Resources.Controls {
             RepaintGridMask();
         }
 
-        private void NewLedsMask(bool force = false) {
+        private void NewLedsMask() {
             ledsBitmap = BitmapHelper.CreateWriteable(contentSize.X, contentSize.Y);
-            RepaintLedsMask(force);
+            RepaintLedsMask();
         }
 
         private void RepaintGridMask() {            
@@ -133,9 +133,9 @@ namespace ASD.CellUniverse.Resources.Controls {
             }
         }
 
-        private void RepaintLedsMask(bool force = false) {
+        private void RepaintLedsMask() {
             using (var context = new WriteableContext(ledsBitmap)) {
-                if (force) {
+                if (forceRepaint) {
                     context.WriteRectSequence(ledsNext.AsEnumerableIndexed()
                         .Select(l => (
                         x: thickness + l.x * thickness + l.x * cellSize,
@@ -151,8 +151,6 @@ namespace ASD.CellUniverse.Resources.Controls {
                         color: l.newValue == 0 ? emptyColor : solidColor)),
                         cellSize);
                 }
-
-                
             }
         }
 
@@ -211,7 +209,10 @@ namespace ASD.CellUniverse.Resources.Controls {
                 cellSize = newCellSize;
                 RecalculateMaskSize();
                 NewGridMask();
-                NewLedsMask(true);
+
+                forceRepaint = true;
+                NewLedsMask();
+                forceRepaint = false;
             }
 
             //Console.WriteLine($"{newCellSize}");
@@ -233,6 +234,8 @@ namespace ASD.CellUniverse.Resources.Controls {
         private byte[,] ledsNext;
 
         private IntPair contentSize;
+
+        private bool forceRepaint;
 
         private struct IntPair {
 
