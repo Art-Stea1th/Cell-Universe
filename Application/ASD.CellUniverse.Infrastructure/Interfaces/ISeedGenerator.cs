@@ -4,7 +4,7 @@
 
         string Name { get; }
 
-        byte[,] GenerateNew(int width, int height, object parameter = null);
+        uint[,] GenerateNew(int width, int height, object parameter = null);
 
     }
 }

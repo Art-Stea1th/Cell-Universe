@@ -16,9 +16,9 @@ namespace ASD.CellUniverse.Infrastructure.Algorithms {
 
         public RandomMixer() => random = new Random();
 
-        public byte[,] Mutate(byte[,] prev) {
+        public uint[,] Mutate(uint[,] prev) {
 
-            var next = new byte[prev.GetLength(0), prev.GetLength(1)];
+            var next = new uint[prev.GetLength(0), prev.GetLength(1)];
 
             var x = 0;
             foreach (var newX in RandomIndexesFrom(prev, 0)) {
@@ -32,7 +32,7 @@ namespace ASD.CellUniverse.Infrastructure.Algorithms {
             return next;
         }
 
-        private IEnumerable<int> RandomIndexesFrom(byte[,] field, int dimension) {
+        private IEnumerable<int> RandomIndexesFrom(uint[,] field, int dimension) {
             var columnsIndexes = new List<int>(Enumerable.Range(0, field.GetLength(dimension)));
             while (columnsIndexes.Count > 0) {
                 var i = random.Next(0, columnsIndexes.Count);

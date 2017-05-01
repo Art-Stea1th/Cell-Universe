@@ -1,54 +1,43 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace ASD.CellUniverse.Resources.Helpers {
 
-    using Extensions;
-
+    // Performance-Critical, Class is ultra optimized
     internal sealed class WriteableContext : IDisposable {
 
+        private WriteableBitmap bitmap;
+        private (int x, int y) size;
+
+        private long addressOfBackBuffer;
+        private long bytesWidth;
+        private long sizeOfPixel;
+
+        private unsafe uint this[int x, int y] {
+            get => *((uint*)(addressOfBackBuffer + bytesWidth * y + sizeOfPixel * x));
+            set => *((uint*)(addressOfBackBuffer + bytesWidth * y + sizeOfPixel * x)) = value;
+        }
+
         internal WriteableContext(WriteableBitmap bitmap) {
+
             this.bitmap = bitmap;
+            addressOfBackBuffer = bitmap.BackBuffer.ToInt64();
+
+            size.x = bitmap.PixelWidth;
+            size.y = bitmap.PixelHeight;
+            bytesWidth = bitmap.BackBufferStride;
+
+            sizeOfPixel = bytesWidth / size.x;
             bitmap.Lock();
         }
 
         public void Dispose() {
-            if (rangeChanged) {
-                bitmap.AddDirtyRect(new Int32Rect(h.min, v.min, h.max - h.min + 1, v.max - v.min + 1));
-            }
+            bitmap.AddDirtyRect(new Int32Rect(0, 0, size.x, size.y));
             bitmap.Unlock();
         }
 
-        internal unsafe Color this[int x, int y] {
-            get => ValueBy(PointerBy(AddressBy(x, y))).Argb32();
-            set {
-                if (x < 0 || x >= bitmap.PixelWidth) {
-                    throw new IndexOutOfRangeException($"{x}");
-                }
-                if (y < 0 || y >= bitmap.PixelHeight) {
-                    throw new IndexOutOfRangeException($"{y}");
-                }
-                RefBy(PointerBy(AddressBy(x, y))) = value.Bgra32();
-                UpdateRange(x, y);
-            }
-        }
-
-        internal unsafe void WritePixelSequence(IEnumerable<(int x, int y)> sequence, Color color) {
-            foreach (var pixel in sequence) {
-                this[pixel.x, pixel.y] = color;
-            }
-        }
-
-        internal unsafe void WritePixelSequence(IEnumerable<(int x, int y, Color color)> sequence) {
-            foreach (var pixel in sequence) {
-                this[pixel.x, pixel.y] = pixel.color;
-            }
-        }
-
-        internal unsafe void WriteRect(int posX, int posY, int width, int height, Color color) {
+        internal unsafe void WriteRect(int posX, int posY, int width, int height, uint color) {
             for (var y = posY; y < posY + height; ++y) {
                 for (var x = posX; x < posX + width; ++x) {
                     this[x, y] = color;
@@ -56,58 +45,15 @@ namespace ASD.CellUniverse.Resources.Helpers {
             }
         }
 
-        internal unsafe void WriteRectSequence(IEnumerable<(int x, int y)> sequence, int rectSize, Color color) {
-            foreach (var position in sequence) {
-                WriteRect(position.x, position.y, rectSize, rectSize, color);
-            }
-        }
-
-        internal unsafe void WriteRectSequence(IEnumerable<(int x, int y, Color color)> sequence, int rectSize) {
-            foreach (var position in sequence) {
-                WriteRect(position.x, position.y, rectSize, rectSize, position.color);
-            }
-        }
-
-        internal unsafe void WriteGrid(int cellSize, int lineThickness, Color color) {
-            for (var y = 0; y < bitmap.PixelHeight; ++y) {
-                for (var x = 0; x < bitmap.PixelWidth; ++x) {
-                    if (x % (cellSize + lineThickness) == 0 || y % (cellSize + lineThickness) == 0) {
+        internal unsafe void WriteGrid(int cellSize, int lineThickness, uint color) {
+            var step = cellSize + lineThickness;
+            for (var y = 0; y < size.y; ++y) {
+                for (var x = 0; x < size.x; ++x) {
+                    if (x % step == 0 || y % step == 0) {
                         this[x, y] = color;
                     }
                 }
             }
         }
-
-        private void UpdateRange(int nextX, int nextY) {
-            if (nextX > h.max) { h.max = nextX; }
-            else if (nextX < h.min) { h.min = nextX; }
-
-            if (nextY > v.max) { v.max = nextY; }
-            else if (nextY < v.min) { v.min = nextY; }
-
-            rangeChanged = true;
-        }
-
-        // --- int / uint (4-byte) color value by address
-        private unsafe uint ValueBy(uint* pointer) => *pointer;
-        private unsafe ref uint RefBy(uint* pointer) => ref *pointer;
-        private unsafe uint* PointerBy(long address) => (uint*)address;
-
-        // --- long address (8-Bytes) to x64 support
-        private long AddressBy(int x, int y) => bitmap.BackBuffer.ToInt64() + Offset(x, y);
-        //private long Offset(int x, int y) => (long)bitmap.BackBufferStride * y + (long)bitmap.PixelWidth * x;
-        private long Offset(int x, int y) => (long)bitmap.BackBufferStride * y + (long)PixelTypeSize * x;
-
-        // --- to support different PixelFormats
-        private int PixelTypeSize => bitmap.BackBufferStride / bitmap.PixelWidth;
-
-
-        // ---
-        private bool rangeChanged = false;
-
-        private (int min, int max) h = (min: int.MaxValue, max: int.MinValue);
-        private (int min, int max) v = (min: int.MaxValue, max: int.MinValue);
-
-        private WriteableBitmap bitmap;
     }
 }

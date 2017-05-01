@@ -1,0 +1,34 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+    
+    <s:Double x:Key="RightPanelMinWidth">152</s:Double>
+    <s:Double x:Key="ElementsMinHeight">28</s:Double>
+
+    <Thickness x:Key="DownControlsMargin">6,0,6,6</Thickness>
+    <Thickness x:Key="DownControlsPaddind">4,0,4,4</Thickness>
+
+    <Thickness x:Key="UpControlsMargin">6,6,6,0</Thickness>
+    <Thickness x:Key="UpControlsPaddind">4,4,4,0</Thickness>
+
+    <Thickness x:Key="SingleControlMargin">6</Thickness>
+    <Thickness x:Key="SingleControlPaddind">4</Thickness>
+
+    <BorderGapMaskConverter x:Key="BorderGapMaskConverter"/>
+
+    <LinearGradientBrush x:Key="RainbowBrush" StartPoint="0,1" EndPoint="1,0">
+        <GradientStop Color="#72eed2" Offset="0.0"/>
+        <GradientStop Color="#4b31f4" Offset="0.14"/>
+        <GradientStop Color="#f23752" Offset="0.43"/>
+        <GradientStop Color="#de5334" Offset="0.58"/>
+        <GradientStop Color="#cfd82f" Offset="0.74"/>
+        <GradientStop Color="#0ac92c" Offset="0.92"/>
+        <GradientStop Color="#72eed2" Offset="1.0"/>
+    </LinearGradientBrush>
+
+    <RadialGradientBrush x:Key="FireBrush">
+        <GradientStop Color="#FFFFFF" Offset="0.00"/>
+        <GradientStop Color="#F8B51B" Offset="0.85"/>
+        <GradientStop Color="#AD2B08" Offset="1.25"/>
+    </RadialGradientBrush>
+</ResourceDictionary>

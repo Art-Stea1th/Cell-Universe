@@ -11,7 +11,7 @@ namespace ASD.CellUniverse.Infrastructure.Services {
 
     public class ApplicationFacade : BindableBase, IApplicationFacade {
 
-        private byte[,] matrix;
+        private uint[,] matrix;
         private int generationWidth;
         private int generationHeight;
         private bool matrixReadyToChange;
@@ -24,7 +24,7 @@ namespace ASD.CellUniverse.Infrastructure.Services {
 
         private IMutationAlgorithm algorithm;
 
-        public byte[,] Matrix {
+        public uint[,] Matrix {
             get => matrix;
             private set => Set(ref matrix, value);
         }
@@ -88,8 +88,8 @@ namespace ASD.CellUniverse.Infrastructure.Services {
         public ApplicationFacade() {
             Initialize(new FPSGenerationService(), new GenerationStateMachine());
             MatrixReadyToChange = State == State.Stopped;
-            GenerationWidth = 320;
-            GenerationHeight = 200;
+            GenerationWidth = 400;
+            GenerationHeight = 250;
         }
 
         private void Initialize(IFPSGenerator fpsGenerator, IGenerationController controller) {
@@ -123,12 +123,12 @@ namespace ASD.CellUniverse.Infrastructure.Services {
         }
 
         private void ChangeResolution(int width, int height) {
-            Matrix = new byte[width, height];
+            Matrix = new uint[width, height];
             MatrixReadyToMutate = false;
         }
 
-        private int ValidWidth(int value) => Valid(value, 1, 320);
-        private int ValidHeight(int value) => Valid(value, 1, 240);
+        private int ValidWidth(int value) => Valid(value, 1, 800);
+        private int ValidHeight(int value) => Valid(value, 1, 500);
         private int Valid(int value, int min, int max) => value < min ? min : value > max ? max : value;
     }
 }

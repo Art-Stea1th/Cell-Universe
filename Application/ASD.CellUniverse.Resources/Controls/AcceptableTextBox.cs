@@ -14,8 +14,7 @@ namespace ASD.CellUniverse.Resources.Controls {
         }
 
         public static readonly DependencyProperty ToolTipInEditProperty = DependencyProperty.Register(
-            nameof(ToolTipInEdit), typeof(object), typeof(AcceptableTextBox), new FrameworkPropertyMetadata(
-                new object())); //  { Content = "Press \"Enter\" to accept input or \"Esc\" to deny" }
+            nameof(ToolTipInEdit), typeof(object), typeof(AcceptableTextBox), new FrameworkPropertyMetadata(new object()));
 
         public AcceptableTextBox() {
             AcceptsReturn = AcceptsTab = false;

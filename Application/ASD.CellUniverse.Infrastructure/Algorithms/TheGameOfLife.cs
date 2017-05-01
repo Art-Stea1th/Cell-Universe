@@ -1,28 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ASD.CellUniverse.Infrastructure.Algorithms {
+﻿namespace ASD.CellUniverse.Infrastructure.Algorithms {
 
     using Interfaces;
     using MVVM;
 
     public sealed class TheGameOfLife : BindableBase, IMutationAlgorithm {
 
-        private byte alive = 255, dead = 0;
+        private uint alive = (uint)255 << 24, dead = 0;
 
         public string Name => "The Game Of Life";
         public override string ToString() => Name;
 
-        public byte[,] Mutate(byte[,] prev) {
+        public uint[,] Mutate(uint[,] prev) {
             return NextGeneration(prev);
         }
 
-        public byte[,] NextGeneration(byte[,] cells) {
+        public uint[,] NextGeneration(uint[,] cells) {
 
-            var nextGeneration = new byte[cells.GetLength(0), cells.GetLength(1)];
+            var nextGeneration = new uint[cells.GetLength(0), cells.GetLength(1)];
 
             for (var x = 0; x < cells.GetLength(0); x++) {
                 for (var y = 0; y < cells.GetLength(1); y++) {
@@ -43,7 +37,7 @@ namespace ASD.CellUniverse.Infrastructure.Algorithms {
             return nextGeneration;
         }
 
-        private int CountNeighbours(byte[,] cells, int x, int y) {
+        private int CountNeighbours(uint[,] cells, int x, int y) {
 
             var counter = 0;
 
@@ -68,6 +62,6 @@ namespace ASD.CellUniverse.Infrastructure.Algorithms {
             return counter;
         }
 
-        private bool IsAlive(byte[,] cells, int x, int y) => cells[x, y] == alive ? true : false;
+        private bool IsAlive(uint[,] cells, int x, int y) => cells[x, y] == alive ? true : false;
     }
 }

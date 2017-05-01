@@ -4,7 +4,7 @@
 
         string Name { get; }
 
-        byte[,] Mutate(byte[,] prev);
+        uint[,] Mutate(uint[,] prev);
 
     }
 }

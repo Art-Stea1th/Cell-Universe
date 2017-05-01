@@ -6,7 +6,7 @@ namespace ASD.CellUniverse.Infrastructure.Interfaces {
 
     public interface IApplicationFacade : INotifyPropertyChanged {
 
-        byte[,] Matrix { get; }
+        uint[,] Matrix { get; }
 
         int GenerationWidth { get; set; }
         int GenerationHeight { get; set; }

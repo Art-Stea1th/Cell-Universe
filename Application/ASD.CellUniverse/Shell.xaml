@@ -10,11 +10,6 @@
         Height="{app:Settings ShellHeight}"
         Left="{app:Settings ShellLeft}"
         Top="{app:Settings ShellTop}">
-    <!-- TMP -->
-    <Window.DataContext>
-        <vm:ShellViewModel/>
-    </Window.DataContext>
-    <!-- TMP -->
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
     </Window.Resources>
@@ -26,12 +21,24 @@
 
         <Border
             Grid.Column="0"
-            Background="#FF000000">
+            Background="#FF000000"
+            BorderBrush="#FF111111"
+            BorderThickness="1">
             <c:MatrixLED
                 IntencitySource="{Binding Facade.Matrix}"
                 Foreground="{StaticResource RainbowBrush}"
                 GridBrush="#10FFFFFF"/>
         </Border>
+        <!--<Border
+            Grid.Column="0"
+            Background="#FFEEEEEE"
+            BorderBrush="#FFDDDDDD"
+            BorderThickness="1">
+            <c:MatrixLED
+                IntencitySource="{Binding Facade.Matrix}"
+                Foreground="#FF555555"
+                GridBrush="#FFFFFFFF"/>
+        </Border>-->
         <Grid
             Grid.Column="1"
             MinWidth="{StaticResource RightPanelMinWidth}">
@@ -40,17 +47,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <StackPanel
-                Grid.Row="0">                
-                <GroupBox
-                    Header="Matrix Mutator:"
-                    Margin="{StaticResource UpControlsMargin}"
-                    Padding="{StaticResource SingleControlPaddind}"
-                    Visibility="{Binding Facade.MatrixReadyToMutate,
-                    Converter={StaticResource BooleanToVisibility}}">
-                    <ComboBox
-                        ItemsSource="{Binding Mutators}"
-                        SelectedIndex="{Binding SelectedMutatorIndex}"/>
-                </GroupBox>
+                Grid.Row="0">
                 <GroupBox
                     Header="Matrix Resolution:"
                     Margin="{StaticResource UpControlsMargin}"
@@ -81,6 +78,16 @@
                     </Grid>
                 </GroupBox>
                 <GroupBox
+                    Header="Matrix Mutator:"
+                    Margin="{StaticResource UpControlsMargin}"
+                    Padding="{StaticResource SingleControlPaddind}"
+                    Visibility="{Binding Facade.MatrixReadyToMutate,
+                    Converter={StaticResource BooleanToVisibility}}">
+                    <ComboBox
+                        ItemsSource="{Binding Mutators}"
+                        SelectedIndex="{Binding SelectedMutatorIndex}"/>
+                </GroupBox>
+                <GroupBox
                     Header="Mutation Speed:"
                     Margin="{StaticResource UpControlsMargin}"
                     Padding="{StaticResource SingleControlPaddind}"
@@ -97,7 +104,7 @@
                         AutoToolTipFormat="{}{0} FPS"/>
                 </GroupBox>
                 <GroupBox
-                    Header="Seed Writer:"
+                    Header="Seed Generator:"
                     Margin="{StaticResource UpControlsMargin}">
                     <StackPanel>
                         <ComboBox
@@ -105,8 +112,8 @@
                             SelectedIndex="{Binding SelectedWriterIndex}"
                             Margin="{StaticResource SingleControlMargin}"
                             IsEnabled="{Binding Facade.MatrixReadyToChange}"/>
-                        <Button
-                            Content="Write Now!"
+                        <RepeatButton
+                            Content="Generate"
                             Margin="{StaticResource DownControlsMargin}"
                             Command="{Binding Facade.WriteSeed}"
                             Visibility="{Binding Facade.MatrixReadyToChange,
