@@ -44,12 +44,14 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Animators\FadeOutAnimator.cs" />
     <Compile Include="Controls\AcceptableTextBox.cs" />
     <Compile Include="Controls\FormattedSlider.cs" />
     <Compile Include="Controls\MatrixLED.cs" />
     <Compile Include="Helpers\BitmapHelper.cs" />
     <Compile Include="Helpers\MeasureArrangeHelper.cs" />
     <Compile Include="Helpers\WriteableContext.cs" />
+    <Compile Include="Interfaces\IMatrixAnimator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

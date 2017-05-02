@@ -88,8 +88,8 @@ namespace ASD.CellUniverse.Infrastructure.Services {
         public ApplicationFacade() {
             Initialize(new FPSGenerationService(), new GenerationStateMachine());
             MatrixReadyToChange = State == State.Stopped;
-            GenerationWidth = 400;
-            GenerationHeight = 250;
+            GenerationWidth = 480;
+            GenerationHeight = 270;
         }
 
         private void Initialize(IFPSGenerator fpsGenerator, IGenerationController controller) {
@@ -127,8 +127,8 @@ namespace ASD.CellUniverse.Infrastructure.Services {
             MatrixReadyToMutate = false;
         }
 
-        private int ValidWidth(int value) => Valid(value, 1, 800);
-        private int ValidHeight(int value) => Valid(value, 1, 500);
+        private int ValidWidth(int value) => Valid(value, 1, 640);
+        private int ValidHeight(int value) => Valid(value, 1, 360);
         private int Valid(int value, int min, int max) => value < min ? min : value > max ? max : value;
     }
 }

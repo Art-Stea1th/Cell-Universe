@@ -4,7 +4,7 @@ using System.Windows.Media.Imaging;
 
 namespace ASD.CellUniverse.Resources.Helpers {
 
-    // Performance-Critical, Class is ultra optimized
+    // Performance-Critical, Class is optimized
     internal sealed class WriteableContext : IDisposable {
 
         private WriteableBitmap bitmap;
@@ -37,10 +37,15 @@ namespace ASD.CellUniverse.Resources.Helpers {
             bitmap.Unlock();
         }
 
-        internal unsafe void WriteRect(int posX, int posY, int width, int height, uint color) {
-            for (var y = posY; y < posY + height; ++y) {
-                for (var x = posX; x < posX + width; ++x) {
-                    this[x, y] = color;
+        internal unsafe void WriteCells(uint[,] cellCollection, int cellSize, int lineThickness) {
+
+            var countX = cellCollection.GetLength(0);
+            var countY = cellCollection.GetLength(1);
+            var step = cellSize + lineThickness;
+
+            for (int cellX = 0, bitmapX = lineThickness; cellX < countX; ++cellX, bitmapX += step) {
+                for (int cellY = 0, bitmapY = lineThickness; cellY < countY; ++cellY, bitmapY += step) {
+                    WriteRect(bitmapX, bitmapY, cellSize, cellSize, cellCollection[cellX, cellY]);
                 }
             }
         }
@@ -52,6 +57,14 @@ namespace ASD.CellUniverse.Resources.Helpers {
                     if (x % step == 0 || y % step == 0) {
                         this[x, y] = color;
                     }
+                }
+            }
+        }
+
+        internal unsafe void WriteRect(int posX, int posY, int width, int height, uint color) {
+            for (var y = posY; y < posY + height; ++y) {
+                for (var x = posX; x < posX + width; ++x) {
+                    this[x, y] = color;
                 }
             }
         }

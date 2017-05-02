@@ -13,6 +13,9 @@
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
     </Window.Resources>
+    <Window.DataContext>
+        <vm:ShellViewModel/>
+    </Window.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -25,20 +28,15 @@
             BorderBrush="#FF111111"
             BorderThickness="1">
             <c:MatrixLED
-                IntencitySource="{Binding Facade.Matrix}"
-                Foreground="{StaticResource RainbowBrush}"
-                GridBrush="#10FFFFFF"/>
+                Name="MatrixLED"
+                Foreground="{StaticResource NearStarBrush}"
+                Matrix="{Binding Facade.Matrix}"
+                GridBrush="{StaticResource NearStarGridBrush}"
+                SnapsToDevicePixels="True"
+                ShowGrid="False"
+                ShowFade="True"
+                RenderOptions.BitmapScalingMode="{Binding SelectedScalingMode}"/>
         </Border>
-        <!--<Border
-            Grid.Column="0"
-            Background="#FFEEEEEE"
-            BorderBrush="#FFDDDDDD"
-            BorderThickness="1">
-            <c:MatrixLED
-                IntencitySource="{Binding Facade.Matrix}"
-                Foreground="#FF555555"
-                GridBrush="#FFFFFFFF"/>
-        </Border>-->
         <Grid
             Grid.Column="1"
             MinWidth="{StaticResource RightPanelMinWidth}">
@@ -51,7 +49,9 @@
                 <GroupBox
                     Header="Matrix Resolution:"
                     Margin="{StaticResource UpControlsMargin}"
-                    Padding="{StaticResource SingleControlPaddind}">
+                    Padding="{StaticResource SingleControlPaddind}"
+                    Visibility="{Binding Facade.MatrixReadyToChange,
+                    Converter={StaticResource BooleanToVisibility}}">
                     <Grid
                         IsEnabled="{Binding Facade.MatrixReadyToChange}">
                         <Grid.ColumnDefinitions>
@@ -101,11 +101,15 @@
                         Ticks="{Binding Facade.FPSCollection}"
                         IsSnapToTickEnabled="True"                        
                         AutoToolTipPlacement="BottomRight"
-                        AutoToolTipFormat="{}{0} FPS"/>
+                        AutoToolTipMinimumFormat="Minimum FPS"
+                        AutoToolTipFormat="{}{0} FPS"
+                        AutoToolTipMaximumFormat="No Limit &#8734; FPS"/>
                 </GroupBox>
                 <GroupBox
                     Header="Seed Generator:"
-                    Margin="{StaticResource UpControlsMargin}">
+                    Margin="{StaticResource UpControlsMargin}"
+                    Visibility="{Binding Facade.MatrixReadyToChange,
+                    Converter={StaticResource BooleanToVisibility}}">
                     <StackPanel>
                         <ComboBox
                             ItemsSource="{Binding Writers}"
@@ -115,11 +119,37 @@
                         <RepeatButton
                             Content="Generate"
                             Margin="{StaticResource DownControlsMargin}"
-                            Command="{Binding Facade.WriteSeed}"
-                            Visibility="{Binding Facade.MatrixReadyToChange,
-                            Converter={StaticResource BooleanToVisibility}}"/>
+                            Command="{Binding Facade.WriteSeed}"/>
                     </StackPanel>
                 </GroupBox>
+                <GroupBox
+                    Header="Viewport:"
+                    Margin="{StaticResource UpControlsMargin}">
+                    <StackPanel>
+                        <ComboBox
+                            ItemsSource="{Binding ScalingModes}"
+                            SelectedIndex="{Binding SelectedScalingIndex}"
+                            Margin="{StaticResource SingleControlMargin}"/>
+                        <CheckBox
+                            Content="Show Grid"
+                            IsChecked="{Binding ElementName=MatrixLED, Path=ShowGrid}"
+                            Margin="{StaticResource DownControlsMargin}"/>
+                        <CheckBox
+                            Content="Show Fade"
+                            IsChecked="{Binding ElementName=MatrixLED, Path=ShowFade}"
+                            Margin="{StaticResource DownControlsMargin}"/>
+                    </StackPanel>
+                </GroupBox>
+                <!--<Label
+                    Content="{Binding
+                    RelativeSource={RelativeSource Mode=FindAncestor,
+                    AncestorType={x:Type Window}}, Path=ActualWidth}"
+                    Margin="{StaticResource UpControlsMargin}"/>
+                <Label
+                    Content="{Binding
+                    RelativeSource={RelativeSource Mode=FindAncestor,
+                    AncestorType={x:Type Window}}, Path=ActualHeight}"
+                    Margin="{StaticResource SingleControlMargin}"/>-->
             </StackPanel>
             <GroupBox
                 Grid.Row="1"
@@ -128,7 +158,7 @@
                 Margin="{StaticResource SingleControlMargin}"
                 Visibility="{Binding Facade.MatrixReadyToMutate,
                 Converter={StaticResource BooleanToVisibility}}">
-                <StackPanel>
+                <StackPanel>                    
                     <Button
                         Content="{Binding Facade.Start}"
                         Command="{Binding Facade.Start}"
@@ -138,8 +168,7 @@
                         Command="{Binding Facade.Stop}"
                         Margin="{StaticResource SingleControlMargin}"/>
                 </StackPanel>
-            </GroupBox>
-            
+            </GroupBox>            
         </Grid>
     </Grid>
 </Window>

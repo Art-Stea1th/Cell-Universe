@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:s="clr-namespace:System;assembly=mscorlib">
     
-    <s:Double x:Key="RightPanelMinWidth">152</s:Double>
+    <s:Double x:Key="RightPanelMinWidth">160</s:Double>
     <s:Double x:Key="ElementsMinHeight">28</s:Double>
 
     <Thickness x:Key="DownControlsMargin">6,0,6,6</Thickness>
@@ -16,19 +16,25 @@
 
     <BorderGapMaskConverter x:Key="BorderGapMaskConverter"/>
 
-    <LinearGradientBrush x:Key="RainbowBrush" StartPoint="0,1" EndPoint="1,0">
-        <GradientStop Color="#72eed2" Offset="0.0"/>
-        <GradientStop Color="#4b31f4" Offset="0.14"/>
-        <GradientStop Color="#f23752" Offset="0.43"/>
-        <GradientStop Color="#de5334" Offset="0.58"/>
-        <GradientStop Color="#cfd82f" Offset="0.74"/>
-        <GradientStop Color="#0ac92c" Offset="0.92"/>
-        <GradientStop Color="#72eed2" Offset="1.0"/>
-    </LinearGradientBrush>
+    <GradientStopCollection x:Key="NearStar">
+        <GradientStop Color="#FF3000" Offset="0.0"/>
+        <GradientStop Color="#E78623" Offset="0.1"/>
+        <GradientStop Color="#CDFFB5" Offset="0.5"/>
+        <GradientStop Color="#00F1FF" Offset="0.8"/>
+        <GradientStop Color="#4091FF" Offset="1.0"/>
+        <GradientStop Color="#003CFF" Offset="1.1"/>
+    </GradientStopCollection>
 
-    <RadialGradientBrush x:Key="FireBrush">
-        <GradientStop Color="#FFFFFF" Offset="0.00"/>
-        <GradientStop Color="#F8B51B" Offset="0.85"/>
-        <GradientStop Color="#AD2B08" Offset="1.25"/>
-    </RadialGradientBrush>
+    <LinearGradientBrush
+        x:Key="NearStarBrush"
+        StartPoint="1,0"
+        EndPoint="0,0"
+        GradientStops="{StaticResource NearStar}"/>
+
+    <LinearGradientBrush
+        x:Key="NearStarGridBrush"
+        StartPoint="1,0"
+        EndPoint="0,0"
+        Opacity="0.2"
+        GradientStops="{StaticResource NearStar}"/>
 </ResourceDictionary>

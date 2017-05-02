@@ -13,10 +13,10 @@ namespace ASD.CellUniverse {
 
             IDisposable disposableViewModel = null;
 
-            Startup += (sender, args) => {
-                MainWindow = new Shell() { DataContext = new ShellViewModel() };
+            LoadCompleted += (s, e) => {
+                //MainWindow = new Shell() { DataContext = new ShellViewModel() };
                 disposableViewModel = MainWindow.DataContext as IDisposable;
-                MainWindow.Show();
+                //MainWindow.Show();
             };
 
             DispatcherUnhandledException += (s, e) => {

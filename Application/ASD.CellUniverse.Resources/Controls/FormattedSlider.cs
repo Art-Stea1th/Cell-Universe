@@ -9,6 +9,8 @@ namespace ASD.CellUniverse.Resources.Controls {
         private ToolTip autoToolTip;
 
         public string AutoToolTipFormat { get; set; }
+        public string AutoToolTipMaximumFormat { get; set; }
+        public string AutoToolTipMinimumFormat { get; set; }
 
         protected override void OnThumbDragStarted(DragStartedEventArgs e) {
             base.OnThumbDragStarted(e);
@@ -21,7 +23,13 @@ namespace ASD.CellUniverse.Resources.Controls {
         }
 
         private void FormatAutoToolTipContent() {
-            if (!string.IsNullOrEmpty(AutoToolTipFormat)) {
+            if (Value == Minimum && !string.IsNullOrEmpty(AutoToolTipMinimumFormat)) {
+                AutoToolTip.Content = string.Format(AutoToolTipMinimumFormat, AutoToolTip.Content);
+            }
+            else if (Value == Maximum && !string.IsNullOrEmpty(AutoToolTipMaximumFormat)) {
+                AutoToolTip.Content = string.Format(AutoToolTipMaximumFormat, AutoToolTip.Content);
+            }
+            else if (!string.IsNullOrEmpty(AutoToolTipFormat)) {
                 AutoToolTip.Content = string.Format(AutoToolTipFormat, AutoToolTip.Content);
             }
         }

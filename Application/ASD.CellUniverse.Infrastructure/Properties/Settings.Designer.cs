@@ -37,7 +37,7 @@ namespace ASD.CellUniverse.Infrastructure.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("974")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1054")]
         public double ShellWidth {
             get {
                 return ((double)(this["ShellWidth"]));
@@ -49,7 +49,7 @@ namespace ASD.CellUniverse.Infrastructure.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("540")]
+        [global::System.Configuration.DefaultSettingValueAttribute("534")]
         public double ShellHeight {
             get {
                 return ((double)(this["ShellHeight"]));

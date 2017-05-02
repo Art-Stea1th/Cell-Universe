@@ -1,14 +1,18 @@
-﻿namespace ASD.CellUniverse.Infrastructure.Algorithms {
+﻿using System;
+
+namespace ASD.CellUniverse.Infrastructure.Algorithms {
 
     using Interfaces;
     using MVVM;
 
     public sealed class TheGameOfLife : BindableBase, IMutationAlgorithm {
 
-        private uint alive = (uint)255 << 24, dead = 0;
+        private uint threshold = (uint)190 << 24;
 
         public string Name => "The Game Of Life";
         public override string ToString() => Name;
+
+        private Random random = new Random();
 
         public uint[,] Mutate(uint[,] prev) {
             return NextGeneration(prev);
@@ -24,18 +28,24 @@
                     var neighbours = CountNeighbours(cells, x, y);
 
                     if ((neighbours == 2 || neighbours == 3) && IsAlive(cells, x, y)) {
-                        nextGeneration[x, y] = alive;
+                        nextGeneration[x, y] = GetAlive();
                     }
-                    if ((neighbours < 2 || neighbours > 3) && IsAlive(cells, x, y)) {
-                        nextGeneration[x, y] = dead;
+                    else if ((neighbours < 2 || neighbours > 3) && IsAlive(cells, x, y)) {
+                        nextGeneration[x, y] = GetDead();
                     }
-                    if (neighbours == 3 && !IsAlive(cells, x, y)) {
-                        nextGeneration[x, y] = alive;
+                    else if (neighbours == 3 && !IsAlive(cells, x, y)) {
+                        nextGeneration[x, y] = GetAlive();
+                    }
+                    else {
+                        nextGeneration[x, y] = GetDead();
                     }
                 }
             }
             return nextGeneration;
         }
+
+        private uint GetDead() => (uint)(random.Next() % 24 + 16) << 24;
+        private uint GetAlive() => (uint)(random.Next() % 64 + 190) << 24;
 
         private int CountNeighbours(uint[,] cells, int x, int y) {
 
@@ -62,6 +72,6 @@
             return counter;
         }
 
-        private bool IsAlive(uint[,] cells, int x, int y) => cells[x, y] == alive ? true : false;
+        private bool IsAlive(uint[,] cells, int x, int y) => cells[x, y] >= threshold ? true : false;
     }
 }
