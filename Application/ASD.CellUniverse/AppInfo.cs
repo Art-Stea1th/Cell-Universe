@@ -11,6 +11,8 @@ namespace ASD.CellUniverse {
         public static readonly string Build;
         public static readonly string Revision;
 
+        public static string ResultString => ToString();
+
         static AppInfo() {
 
             var assembly = Assembly.GetExecutingAssembly();

@@ -22,10 +22,6 @@ namespace ASD.CellUniverse.ViewModels {
 
         private IApplicationFacade facade;
 
-
-
-        public string Title => AppInfo.ToString();
-
         public IEnumerable<IMutationAlgorithm> Mutators => matrixMutators;
         public IEnumerable<ISeedGenerator> Writers => seedWriters;
         public IEnumerable<BitmapScalingMode> ScalingModes => scalingModes;

@@ -30,11 +30,5 @@
         StartPoint="1,0"
         EndPoint="0,0"
         GradientStops="{StaticResource NearStar}"/>
-
-    <LinearGradientBrush
-        x:Key="NearStarGridBrush"
-        StartPoint="1,0"
-        EndPoint="0,0"
-        Opacity="0.2"
-        GradientStops="{StaticResource NearStar}"/>
+    
 </ResourceDictionary>

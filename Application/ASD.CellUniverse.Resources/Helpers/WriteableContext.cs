@@ -37,26 +37,14 @@ namespace ASD.CellUniverse.Resources.Helpers {
             bitmap.Unlock();
         }
 
-        internal unsafe void WriteCells(uint[,] cellCollection, int cellSize, int lineThickness) {
-
+        internal unsafe void WriteCells(uint[,] cellCollection, int cellSize, int spacing) {
             var countX = cellCollection.GetLength(0);
             var countY = cellCollection.GetLength(1);
-            var step = cellSize + lineThickness;
+            var step = cellSize + spacing;
 
-            for (int cellX = 0, bitmapX = lineThickness; cellX < countX; ++cellX, bitmapX += step) {
-                for (int cellY = 0, bitmapY = lineThickness; cellY < countY; ++cellY, bitmapY += step) {
+            for (int cellX = 0, bitmapX = spacing; cellX < countX; ++cellX, bitmapX += step) {
+                for (int cellY = 0, bitmapY = spacing; cellY < countY; ++cellY, bitmapY += step) {
                     WriteRect(bitmapX, bitmapY, cellSize, cellSize, cellCollection[cellX, cellY]);
-                }
-            }
-        }
-
-        internal unsafe void WriteGrid(int cellSize, int lineThickness, uint color) {
-            var step = cellSize + lineThickness;
-            for (var y = 0; y < size.y; ++y) {
-                for (var x = 0; x < size.x; ++x) {
-                    if (x % step == 0 || y % step == 0) {
-                        this[x, y] = color;
-                    }
                 }
             }
         }

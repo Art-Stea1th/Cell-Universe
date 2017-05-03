@@ -4,7 +4,8 @@
         xmlns:c="clr-namespace:ASD.CellUniverse.Resources.Controls;assembly=ASD.CellUniverse.Resources"
         xmlns:vm="clr-namespace:ASD.CellUniverse.ViewModels"
         xmlns:app="clr-namespace:ASD.CellUniverse.Infrastructure.BindingExtensions;assembly=ASD.CellUniverse.Infrastructure"
-        Title="{Binding Title, Mode=OneTime}"
+        xmlns:local="clr-namespace:ASD.CellUniverse"
+        Title="{Binding Source={x:Static local:AppInfo.ResultString}}"
         WindowState="{app:Settings ShellState}"
         Width="{app:Settings ShellWidth}"
         Height="{app:Settings ShellHeight}"
@@ -29,12 +30,9 @@
             BorderThickness="1">
             <c:MatrixLED
                 Name="MatrixLED"
-                Foreground="{StaticResource NearStarBrush}"
                 Matrix="{Binding Facade.Matrix}"
-                GridBrush="{StaticResource NearStarGridBrush}"
-                SnapsToDevicePixels="True"
-                ShowGrid="False"
-                ShowFade="True"
+                Foreground="{StaticResource NearStarBrush}"
+                SplitCells="True"
                 RenderOptions.BitmapScalingMode="{Binding SelectedScalingMode}"/>
         </Border>
         <Grid
@@ -131,25 +129,11 @@
                             SelectedIndex="{Binding SelectedScalingIndex}"
                             Margin="{StaticResource SingleControlMargin}"/>
                         <CheckBox
-                            Content="Show Grid"
-                            IsChecked="{Binding ElementName=MatrixLED, Path=ShowGrid}"
-                            Margin="{StaticResource DownControlsMargin}"/>
-                        <CheckBox
-                            Content="Show Fade"
-                            IsChecked="{Binding ElementName=MatrixLED, Path=ShowFade}"
+                            Content="Split Cells"
+                            IsChecked="{Binding ElementName=MatrixLED, Path=SplitCells}"
                             Margin="{StaticResource DownControlsMargin}"/>
                     </StackPanel>
                 </GroupBox>
-                <!--<Label
-                    Content="{Binding
-                    RelativeSource={RelativeSource Mode=FindAncestor,
-                    AncestorType={x:Type Window}}, Path=ActualWidth}"
-                    Margin="{StaticResource UpControlsMargin}"/>
-                <Label
-                    Content="{Binding
-                    RelativeSource={RelativeSource Mode=FindAncestor,
-                    AncestorType={x:Type Window}}, Path=ActualHeight}"
-                    Margin="{StaticResource SingleControlMargin}"/>-->
             </StackPanel>
             <GroupBox
                 Grid.Row="1"

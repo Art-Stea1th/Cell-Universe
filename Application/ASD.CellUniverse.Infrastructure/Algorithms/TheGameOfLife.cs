@@ -7,7 +7,7 @@ namespace ASD.CellUniverse.Infrastructure.Algorithms {
 
     public sealed class TheGameOfLife : BindableBase, IMutationAlgorithm {
 
-        private uint threshold = (uint)190 << 24;
+        private uint threshold = (uint)191 << 24;
 
         public string Name => "The Game Of Life";
         public override string ToString() => Name;
@@ -45,7 +45,7 @@ namespace ASD.CellUniverse.Infrastructure.Algorithms {
         }
 
         private uint GetDead() => (uint)(random.Next() % 24 + 16) << 24;
-        private uint GetAlive() => (uint)(random.Next() % 64 + 190) << 24;
+        private uint GetAlive() => (uint)(random.Next() % 64 + 191) << 24;
 
         private int CountNeighbours(uint[,] cells, int x, int y) {
 
