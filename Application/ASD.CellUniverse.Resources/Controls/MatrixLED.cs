@@ -11,13 +11,10 @@ namespace ASD.CellUniverse.Resources.Controls {
 
     public class MatrixLED : FrameworkElement {
 
-        private uint[,] ledsBuffer;
-
         private Grid grid;
-
         private WriteableBitmap mask;
 
-        public uint[,] Matrix { get => (uint[,])GetValue(MatrixProperty); set => SetValue(MatrixProperty, value); }
+        public uint[,] Source { get => (uint[,])GetValue(SourceProperty); set => SetValue(SourceProperty, value); }
 
         public Brush Background { get => (Brush)GetValue(BackgroundProperty); set => SetValue(BackgroundProperty, value); }
         public Brush Foreground { get => (Brush)GetValue(ForegroundProperty); set => SetValue(ForegroundProperty, value); }
@@ -25,8 +22,8 @@ namespace ASD.CellUniverse.Resources.Controls {
         public bool SplitCells { get => (bool)GetValue(SplitCellsProperty); set => SetValue(SplitCellsProperty, value); }
 
 
-        public static readonly DependencyProperty MatrixProperty = DependencyProperty.Register(nameof(
-            Matrix), typeof(uint[,]), typeof(MatrixLED), new FrameworkPropertyMetadata(
+        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(nameof(
+            Source), typeof(uint[,]), typeof(MatrixLED), new FrameworkPropertyMetadata(
                 null, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender, OnMatrixChanged));
 
         public static readonly DependencyProperty BackgroundProperty =
@@ -55,22 +52,21 @@ namespace ASD.CellUniverse.Resources.Controls {
 
         private static void OnMatrixChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             var matrix = d as MatrixLED;
-            var newBuffer = e.NewValue as uint[,];
+            var newSource = e.NewValue as uint[,];
 
-            matrix.ledsBuffer = newBuffer;
-
-            if (newBuffer == null || newBuffer.Length < 1) {
+            if (newSource == null || newSource.Length < 1) {
                 matrix.grid.RecalculateContentSize(1, 1);
             }
             else {
-                matrix.grid.RecalculateContentSize(newBuffer.GetLength(0), newBuffer.GetLength(1));
+                matrix.grid.RecalculateContentSize(newSource.GetLength(0), newSource.GetLength(1));
+                matrix.grid.RecalculateCellSize(matrix.RenderSize);
             }
             matrix.RepaintLedsMask();
         }
 
         private static void OnSplitCellsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             var matrix = (d as MatrixLED);
-            if (matrix.ledsBuffer == null || matrix.ledsBuffer.Length < 1) {
+            if (matrix.Source == null || matrix.Source.Length < 1) {
                 return;
             }
             matrix.mask = null;
@@ -81,12 +77,12 @@ namespace ASD.CellUniverse.Resources.Controls {
             mask = BitmapHelper.Valid(mask, grid.ContentSize);
             if (SplitCells) {
                 using (var context = new WriteableContext(mask)) {
-                    context.WriteCells(ledsBuffer, grid.CellSize, grid.Spacing);
+                    context.WriteCells(Source, grid.CellSize, grid.Spacing);
                 }
             }
             else {
                 using (var context = new WriteableContext(mask)) {
-                    context.WriteCells(ledsBuffer, grid.CellSize + grid.Spacing, 0);
+                    context.WriteCells(Source, grid.CellSize + grid.Spacing, 0);
                 }
             }            
         }
@@ -97,14 +93,11 @@ namespace ASD.CellUniverse.Resources.Controls {
             dc.DrawRectangle(Foreground, null, new Rect(new Point(), RenderSize));
         }
 
-        protected override Size MeasureOverride(Size constraint) {
-            return MeasureArrangeHelper.ComputeSize(constraint, grid.ContentSize);
-        }
+        protected override Size MeasureOverride(Size constraint)
+            => MeasureArrangeHelper.ComputeSize(constraint, grid.ContentSize);
 
-        protected override Size ArrangeOverride(Size arrangeSize) {
-            grid.RecalculateCellSize(new Size(ActualWidth, ActualHeight));
-            return MeasureArrangeHelper.ComputeSize(arrangeSize, grid.ContentSize);
-        }
+        protected override Size ArrangeOverride(Size arrangeSize)
+            => MeasureArrangeHelper.ComputeSize(arrangeSize, grid.ContentSize);
 
         private sealed class Grid {
 
