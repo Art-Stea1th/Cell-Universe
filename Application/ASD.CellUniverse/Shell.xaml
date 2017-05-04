@@ -30,7 +30,7 @@
             BorderThickness="1">
             <c:MatrixLED
                 Name="MatrixLED"
-                Matrix="{Binding Facade.Matrix}"
+                Source="{Binding Facade.Matrix}"
                 Foreground="{StaticResource NearStarBrush}"
                 SplitCells="True"
                 RenderOptions.BitmapScalingMode="{Binding SelectedScalingMode}"/>
