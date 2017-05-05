@@ -88,8 +88,8 @@ namespace ASD.CellUniverse.Infrastructure.Services {
         public ApplicationFacade() {
             Initialize(new MPSGenerationService(), new GenerationStateMachine());
             MatrixReadyToChange = State == State.Stopped;
-            GenerationWidth = 960;
-            GenerationHeight = 540;
+            GenerationWidth = 320;
+            GenerationHeight = 180;
         }
 
         private void Initialize(IMPSGenerator fpsGenerator, IGenerationController controller) {

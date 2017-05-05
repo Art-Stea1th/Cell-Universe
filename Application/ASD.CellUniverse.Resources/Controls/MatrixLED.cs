@@ -71,7 +71,9 @@ namespace ASD.CellUniverse.Resources.Controls {
         private void RepaintLedsMask() {
             mask = BitmapHelper.Valid(mask, contentSize);
             using (var context = new WriteableContext(mask)) {
-                context.WriteCells(Source, cellSize);
+
+                if (cellSize == 1) { context.WritePixels(Source); }
+                else { context.WriteCells(Source, cellSize); }
             }
         }
     }

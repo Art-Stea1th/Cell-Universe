@@ -4,7 +4,7 @@ using System.Windows.Media.Imaging;
 
 namespace ASD.CellUniverse.Resources.Helpers {
 
-    // Performance-Critical, Class is optimized
+    // Performance-Critical
     internal sealed class WriteableContext : IDisposable {
 
         private WriteableBitmap bitmap;
@@ -26,9 +26,10 @@ namespace ASD.CellUniverse.Resources.Helpers {
 
             size.x = bitmap.PixelWidth;
             size.y = bitmap.PixelHeight;
-            bytesWidth = bitmap.BackBufferStride;
 
+            bytesWidth = bitmap.BackBufferStride;
             sizeOfPixel = bytesWidth / size.x;
+
             bitmap.Lock();
         }
 
@@ -37,22 +38,37 @@ namespace ASD.CellUniverse.Resources.Helpers {
             bitmap.Unlock();
         }
 
-        internal unsafe void WriteCells(uint[,] cellCollection, int cellSize) {
+        internal void WriteCells(uint[,] cellCollection, int cellSize) {
 
             var countX = cellCollection.GetLength(0);
             var countY = cellCollection.GetLength(1);
 
+            var opacity = cellSize < 5 ? (byte)(255 - (cellSize - 1) * 64) : (byte)0;
+
             for (int cellX = 0, bitmapX = 0; cellX < countX; ++cellX, bitmapX += cellSize) {
                 for (int cellY = 0, bitmapY = 0; cellY < countY; ++cellY, bitmapY += cellSize) {
-                    WriteRect(bitmapX, bitmapY, cellSize, cellSize, cellCollection[cellX, cellY]);
+                    WriteCellWithBorder(bitmapX, bitmapY, cellSize, cellCollection[cellX, cellY], opacity);
                 }
             }
         }
 
-        internal unsafe void WriteRect(int posX, int posY, int width, int height, uint color) {
-            for (var y = posY; y < posY + height; ++y) {
-                for (var x = posX; x < posX + width; ++x) {
-                    this[x, y] = color;
+        internal void WritePixels(uint[,] pixels) {
+            for (var y = 0; y < pixels.GetLength(1); ++y) {
+                for (var x = 0; x < pixels.GetLength(0); ++x) {
+                    this[x, y] = pixels[x, y];
+                }
+            }
+        }
+
+        private void WriteCellWithBorder(int posX, int posY, int size, uint color, byte borderOpacity) {
+
+            var borderColor = color & 0x00FFFFFF | (color >> 24 & borderOpacity) << 24;
+
+            for (var y = posY; y < posY + size; ++y) {
+                for (var x = posX; x < posX + size; ++x) {
+                    this[x, y] = x < posX + size - 1 && y < posY + size - 1
+                        ? color
+                        : borderColor;
                 }
             }
         }
