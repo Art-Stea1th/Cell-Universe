@@ -5,34 +5,26 @@ namespace ASD.CellUniverse.Resources.Helpers {
     internal static class MeasureArrangeHelper {
 
         public static Size ComputeSize(Size availableSize, Size contentSize) {
-            Size scaleFactor = ComputeScaleFactor(availableSize, contentSize);
-            return new Size(contentSize.Width * scaleFactor.Width, contentSize.Height * scaleFactor.Height);
+            var scaleFactor = ComputeScaleFactor(availableSize, contentSize);
+            return new Size(contentSize.Width * scaleFactor, contentSize.Height * scaleFactor);
         }
 
-        private static Size ComputeScaleFactor(Size availableSize, Size contentSize) {
-
-            double scaleX = 1.0, scaleY = 1.0;
+        public static double ComputeScaleFactor(Size availableSize, Size contentSize) {
 
             var isConstrainedWidth = !double.IsPositiveInfinity(availableSize.Width);
             var isConstrainedHeight = !double.IsPositiveInfinity(availableSize.Height);
 
             if (isConstrainedWidth || isConstrainedHeight) {
 
-                scaleX = contentSize.Width == 0.0 ? 0.0 : availableSize.Width / contentSize.Width;
-                scaleY = contentSize.Height == 0.0 ? 0.0 : availableSize.Height / contentSize.Height;
+                var scaleX = contentSize.Width == 0.0 ? 0.0 : availableSize.Width / contentSize.Width;
+                var scaleY = contentSize.Height == 0.0 ? 0.0 : availableSize.Height / contentSize.Height;
 
-                if (!isConstrainedWidth) {
-                    scaleX = scaleY;
-                }
-                else if (!isConstrainedHeight) {
-                    scaleY = scaleX;
-                }
-                else {
-                    var minscale = scaleX < scaleY ? scaleX : scaleY;
-                    scaleX = scaleY = minscale;
-                }
+                if (!isConstrainedWidth) { return scaleY; }
+                if (!isConstrainedHeight) { return scaleX; }
+
+                return scaleX < scaleY ? scaleX : scaleY;
             }
-            return new Size(scaleX, scaleY);
+            return 1.0;
         }
     }
 }

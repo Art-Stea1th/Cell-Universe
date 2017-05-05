@@ -32,7 +32,6 @@
                 Name="MatrixLED"
                 Source="{Binding Facade.Matrix}"
                 Foreground="{StaticResource NearStarBrush}"
-                SplitCells="True"
                 RenderOptions.BitmapScalingMode="{Binding SelectedScalingMode}"/>
         </Border>
         <Grid
@@ -86,22 +85,23 @@
                         SelectedIndex="{Binding SelectedMutatorIndex}"/>
                 </GroupBox>
                 <GroupBox
-                    Header="Mutation Speed:"
+                    Header="Mutations Per Second:"
                     Margin="{StaticResource UpControlsMargin}"
                     Padding="{StaticResource SingleControlPaddind}"
                     Visibility="{Binding Facade.MatrixReadyToMutate,
                     Converter={StaticResource BooleanToVisibility}}">
                     <c:FormattedSlider
                         Grid.Row="1"
-                        Minimum="{Binding Facade.MinFPS}"
-                        Maximum="{Binding Facade.MaxFPS}"
-                        Value="{Binding Facade.FPS}"
-                        Ticks="{Binding Facade.FPSCollection}"
-                        IsSnapToTickEnabled="True"                        
+                        Minimum="{Binding Facade.MinMPS}"
+                        Maximum="{Binding Facade.MaxMPS}"
+                        Value="{Binding Facade.MPS}"
+                        Ticks="{Binding Facade.MPSCollection}"
+                        IsSnapToTickEnabled="True"
+                        TickPlacement="TopLeft"
                         AutoToolTipPlacement="BottomRight"
-                        AutoToolTipMinimumFormat="Minimum FPS"
-                        AutoToolTipFormat="{}{0} FPS"
-                        AutoToolTipMaximumFormat="No Limit &#8734; FPS"/>
+                        AutoToolTipMinimumFormat="Minimum MPS"
+                        AutoToolTipFormat="{}{0} MPS"
+                        AutoToolTipMaximumFormat="No Limit &#8734; MPS"/>
                 </GroupBox>
                 <GroupBox
                     Header="Seed Generator:"
@@ -120,7 +120,7 @@
                             Command="{Binding Facade.WriteSeed}"/>
                     </StackPanel>
                 </GroupBox>
-                <GroupBox
+                <!--<GroupBox
                     Header="Viewport:"
                     Margin="{StaticResource UpControlsMargin}">
                     <StackPanel>
@@ -133,7 +133,7 @@
                             IsChecked="{Binding ElementName=MatrixLED, Path=SplitCells}"
                             Margin="{StaticResource DownControlsMargin}"/>
                     </StackPanel>
-                </GroupBox>
+                </GroupBox>-->
             </StackPanel>
             <GroupBox
                 Grid.Row="1"
@@ -142,7 +142,7 @@
                 Margin="{StaticResource SingleControlMargin}"
                 Visibility="{Binding Facade.MatrixReadyToMutate,
                 Converter={StaticResource BooleanToVisibility}}">
-                <StackPanel>                    
+                <StackPanel>
                     <Button
                         Content="{Binding Facade.Start}"
                         Command="{Binding Facade.Start}"
@@ -152,7 +152,7 @@
                         Command="{Binding Facade.Stop}"
                         Margin="{StaticResource SingleControlMargin}"/>
                 </StackPanel>
-            </GroupBox>            
+            </GroupBox>
         </Grid>
     </Grid>
 </Window>

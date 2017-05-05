@@ -11,7 +11,8 @@ namespace ASD.CellUniverse.Resources.Controls {
 
     public class MatrixLED : FrameworkElement {
 
-        private Grid grid;
+        private int cellSize;
+        private Size contentSize;
         private WriteableBitmap mask;
 
         public uint[,] Source { get => (uint[,])GetValue(SourceProperty); set => SetValue(SourceProperty, value); }
@@ -19,12 +20,10 @@ namespace ASD.CellUniverse.Resources.Controls {
         public Brush Background { get => (Brush)GetValue(BackgroundProperty); set => SetValue(BackgroundProperty, value); }
         public Brush Foreground { get => (Brush)GetValue(ForegroundProperty); set => SetValue(ForegroundProperty, value); }
 
-        public bool SplitCells { get => (bool)GetValue(SplitCellsProperty); set => SetValue(SplitCellsProperty, value); }
-
 
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(nameof(
             Source), typeof(uint[,]), typeof(MatrixLED), new FrameworkPropertyMetadata(
-                null, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender, OnMatrixChanged));
+                null, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender));
 
         public static readonly DependencyProperty BackgroundProperty =
             Panel.BackgroundProperty.AddOwner(typeof(MatrixLED), new FrameworkPropertyMetadata(
@@ -34,13 +33,7 @@ namespace ASD.CellUniverse.Resources.Controls {
             TextElement.ForegroundProperty.AddOwner(typeof(MatrixLED), new FrameworkPropertyMetadata(
                 SystemColors.ControlTextBrush, FrameworkPropertyMetadataOptions.Inherits | FrameworkPropertyMetadataOptions.SubPropertiesDoNotAffectRender));
 
-        public static readonly DependencyProperty SplitCellsProperty = DependencyProperty.Register(nameof(
-            SplitCells), typeof(bool), typeof(MatrixLED), new FrameworkPropertyMetadata(
-                false, FrameworkPropertyMetadataOptions.AffectsRender, OnSplitCellsChanged));
-
-        static MatrixLED() {
-            StyleProperty.OverrideMetadata(typeof(MatrixLED), new FrameworkPropertyMetadata(CreateStyle()));
-        }
+        static MatrixLED() => StyleProperty.OverrideMetadata(typeof(MatrixLED), new FrameworkPropertyMetadata(CreateStyle()));
 
         private static Style CreateStyle() {
             var style = new Style(typeof(MatrixLED), null);
@@ -48,111 +41,38 @@ namespace ASD.CellUniverse.Resources.Controls {
             style.Seal(); return style;
         }
 
-        public MatrixLED() => grid = new Grid();
+        protected override Size MeasureOverride(Size constraint) {
 
-        private static void OnMatrixChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-            var matrix = d as MatrixLED;
-            var newSource = e.NewValue as uint[,];
+            var count = Source == null || Source.Length < 1
+                ? (x: 1, y: 1)
+                : (x: Source.GetLength(0), y: Source.GetLength(1));
 
-            if (newSource == null || newSource.Length < 1) {
-                matrix.grid.RecalculateContentSize(1, 1);
-            }
-            else {
-                matrix.grid.RecalculateContentSize(newSource.GetLength(0), newSource.GetLength(1));
-                matrix.grid.RecalculateCellSize(matrix.RenderSize);
-            }
-            matrix.RepaintLedsMask();
+            var scaleFactor = MeasureArrangeHelper.ComputeScaleFactor(constraint, new Size(count.x, count.y));
+
+            cellSize = scaleFactor > 1.0 ? (int)Math.Round(scaleFactor) : 1;
+            contentSize = new Size(count.x * cellSize, count.y * cellSize);
+
+            return MeasureArrangeHelper.ComputeSize(constraint, contentSize);
         }
 
-        private static void OnSplitCellsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-            var matrix = (d as MatrixLED);
-            if (matrix.Source == null || matrix.Source.Length < 1) {
-                return;
-            }
-            matrix.mask = null;
-            matrix.RepaintLedsMask();
-        }
-
-        private void RepaintLedsMask() {
-            mask = BitmapHelper.Valid(mask, grid.ContentSize);
-            if (SplitCells) {
-                using (var context = new WriteableContext(mask)) {
-                    context.WriteCells(Source, grid.CellSize, grid.Spacing);
-                }
-            }
-            else {
-                using (var context = new WriteableContext(mask)) {
-                    context.WriteCells(Source, grid.CellSize + grid.Spacing, 0);
-                }
-            }            
+        protected override Size ArrangeOverride(Size arrangeSize) {
+            return MeasureArrangeHelper.ComputeSize(arrangeSize, contentSize);
         }
 
         protected override void OnRender(DrawingContext dc) {
+
+            RepaintLedsMask();
+
             dc.DrawRectangle(Background, null, new Rect(new Point(), RenderSize));
             dc.PushOpacityMask(new ImageBrush(mask));
             dc.DrawRectangle(Foreground, null, new Rect(new Point(), RenderSize));
         }
 
-        protected override Size MeasureOverride(Size constraint)
-            => MeasureArrangeHelper.ComputeSize(constraint, grid.ContentSize);
-
-        protected override Size ArrangeOverride(Size arrangeSize)
-            => MeasureArrangeHelper.ComputeSize(arrangeSize, grid.ContentSize);
-
-        private sealed class Grid {
-
-            private static readonly (int spacing, int cellSize) min;
-
-            public int Spacing { get; private set; }
-            public int CellSize { get; private set; }
-
-            public int CountX { get; private set; }
-            public int CountY { get; private set; }
-
-            public Size ContentSize { get; private set; }
-
-            public event Action Invalidate;
-
-            static Grid() => min = (spacing: 1, cellSize: 4);
-            public Grid() {
-                Spacing = min.spacing;
-                CellSize = min.cellSize;
-                RecalculateContentSize(1, 1);
+        private void RepaintLedsMask() {
+            mask = BitmapHelper.Valid(mask, contentSize);
+            using (var context = new WriteableContext(mask)) {
+                context.WriteCells(Source, cellSize);
             }
-
-            public void RecalculateContentSize(int newCountX, int newCountY) {
-                if (CountX == newCountX && CountY == newCountY) {
-                    return;
-                }
-                CountX = newCountX;
-                CountY = newCountY;
-                RecalculateContentSize();
-                Invalidate?.Invoke();
-            }
-
-            public void RecalculateCellSize(Size available) {
-
-                var minWidth = CalculateSideLength(CountX, min.cellSize, min.spacing);
-                var scaleFactor = (int)Math.Round(available.Width / minWidth);
-
-                var newCellSize = min.cellSize * scaleFactor;
-
-                if (newCellSize < min.cellSize) {
-                    newCellSize = min.cellSize;
-                }
-                if (newCellSize != CellSize) {
-                    CellSize = newCellSize/* * 4*/;
-                    RecalculateContentSize();
-                }
-            }
-
-            private void RecalculateContentSize()
-                => ContentSize = new Size(
-                    CalculateSideLength(CountX, CellSize, Spacing),
-                    CalculateSideLength(CountY, CellSize, Spacing));
-
-            private int CalculateSideLength(int cellsCount, int cellSize, int spacing)
-                => spacing + (cellSize + spacing) * cellsCount;
         }
     }
 }

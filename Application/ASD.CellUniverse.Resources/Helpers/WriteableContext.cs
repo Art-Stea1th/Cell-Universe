@@ -37,13 +37,13 @@ namespace ASD.CellUniverse.Resources.Helpers {
             bitmap.Unlock();
         }
 
-        internal unsafe void WriteCells(uint[,] cellCollection, int cellSize, int spacing) {
+        internal unsafe void WriteCells(uint[,] cellCollection, int cellSize) {
+
             var countX = cellCollection.GetLength(0);
             var countY = cellCollection.GetLength(1);
-            var step = cellSize + spacing;
 
-            for (int cellX = 0, bitmapX = spacing; cellX < countX; ++cellX, bitmapX += step) {
-                for (int cellY = 0, bitmapY = spacing; cellY < countY; ++cellY, bitmapY += step) {
+            for (int cellX = 0, bitmapX = 0; cellX < countX; ++cellX, bitmapX += cellSize) {
+                for (int cellY = 0, bitmapY = 0; cellY < countY; ++cellY, bitmapY += cellSize) {
                     WriteRect(bitmapX, bitmapY, cellSize, cellSize, cellCollection[cellX, cellY]);
                 }
             }
