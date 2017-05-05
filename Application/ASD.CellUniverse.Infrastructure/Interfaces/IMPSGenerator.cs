@@ -3,11 +3,11 @@ using System.Windows.Media;
 
 namespace ASD.CellUniverse.Infrastructure.Interfaces {
 
-    internal interface IFPSGenerator {
+    internal interface IMPSGenerator {
 
-        DoubleCollection FPSCollection { get; }
+        DoubleCollection MPSCollection { get; }
 
-        double FPS { get; set; }
+        double MPS { get; set; }
 
         event Action NextFrameTime;
         void Start();

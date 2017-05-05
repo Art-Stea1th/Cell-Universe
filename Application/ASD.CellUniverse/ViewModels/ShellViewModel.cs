@@ -55,11 +55,11 @@ namespace ASD.CellUniverse.ViewModels {
 
 
         public ShellViewModel() {
-            matrixMutators = new List<IMutationAlgorithm> { new TheGameOfLife(), new RandomMixer() };
+            matrixMutators = new List<IMutationAlgorithm> { new RandomMixer(), new TheGameOfLife() };
             seedWriters = new List<ISeedGenerator> { new UniformRandom() };
             scalingModes = new List<BitmapScalingMode> { BitmapScalingMode.HighQuality, BitmapScalingMode.LowQuality, BitmapScalingMode.NearestNeighbor };
             facade = new ApplicationFacade();
-            SelectedMutatorIndex = 0;
+            SelectedMutatorIndex = 1;
             SelectedWriterIndex = 0;
             SelectedScalingIndex = 0;
         }        

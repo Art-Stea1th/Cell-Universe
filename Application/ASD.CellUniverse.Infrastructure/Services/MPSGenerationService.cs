@@ -7,7 +7,7 @@ namespace ASD.CellUniverse.Infrastructure.Services {
 
     using Interfaces;
 
-    public class FPSGenerationService : IFPSGenerator {
+    public class MPSGenerationService : IMPSGenerator {
 
         private DispatcherTimer timer;
 
@@ -16,19 +16,20 @@ namespace ASD.CellUniverse.Infrastructure.Services {
         private double MaxFPS => fpsCollection.Last();
         private double fps;        
         
-        public DoubleCollection FPSCollection => fpsCollection;
-        public double FPS { get => fps; set { fps = ValidFps(value); UpdateTimerInterval(); } }
+        public DoubleCollection MPSCollection => fpsCollection;
+        public double MPS { get => fps; set { fps = ValidFps(value); UpdateTimerInterval(); } }
 
 
         public event Action NextFrameTime;
         public void Start() => timer.Start();
         public void Stop() => timer.Stop();
 
-        internal FPSGenerationService() {
-            fpsCollection = new DoubleCollection { 1.0, 2.0, 3.0, 5.0, 10.0, 15.0, 20.0, 25.0, 30.0, 50.0, 60.0, 80.0 };
+        internal MPSGenerationService() {
+            fpsCollection = new DoubleCollection { 1.0, 2.0, 3.0, 5.0, 15.0, 30.0, 60.0, 120.0, 125.0 };
             timer = new DispatcherTimer();
             timer.Tick += (s, e) => NextFrameTime?.Invoke();
-            FPS = fpsCollection/*.TakeWhile(f => f < fpsCollection.Max())*/.Max();
+            //MPS = fpsCollection.TakeWhile(f => f < 60.0).Max();
+            MPS = fpsCollection/*.TakeWhile(f => f < fpsCollection.Max())*/.Max();
         }
 
         private double ValidFps(double fps) => fps < MinFPS ? MinFPS : fps > MaxFPS ? MaxFPS : fps;

@@ -18,7 +18,7 @@ namespace ASD.CellUniverse.Infrastructure.Services {
         private bool matrixReadyToMutate;
 
         private IGenerationController controller;
-        private IFPSGenerator fpsGenerator;
+        private IMPSGenerator fpsGenerator;
 
         private ISeedGenerator seedWriter;
 
@@ -76,28 +76,28 @@ namespace ASD.CellUniverse.Infrastructure.Services {
             set => Set(ref algorithm, value);
         }
 
-        public DoubleCollection FPSCollection => fpsGenerator.FPSCollection;
-        public double MinFPS => fpsGenerator.FPSCollection.First();
-        public double MaxFPS => fpsGenerator.FPSCollection.Last();
-        public double FPS { get => fpsGenerator.FPS; set => fpsGenerator.FPS = value; }
+        public DoubleCollection MPSCollection => fpsGenerator.MPSCollection;
+        public double MinMPS => fpsGenerator.MPSCollection.First();
+        public double MaxMPS => fpsGenerator.MPSCollection.Last();
+        public double MPS { get => fpsGenerator.MPS; set => fpsGenerator.MPS = value; }
 
         public State State => controller.State;
         public ICommand Start => controller.Start;
         public ICommand Stop => controller.Stop;
 
         public ApplicationFacade() {
-            Initialize(new FPSGenerationService(), new GenerationStateMachine());
+            Initialize(new MPSGenerationService(), new GenerationStateMachine());
             MatrixReadyToChange = State == State.Stopped;
-            GenerationWidth = 480;
-            GenerationHeight = 270;
+            GenerationWidth = 960;
+            GenerationHeight = 540;
         }
 
-        private void Initialize(IFPSGenerator fpsGenerator, IGenerationController controller) {
+        private void Initialize(IMPSGenerator fpsGenerator, IGenerationController controller) {
             ConfigureFPSGenerator(this.fpsGenerator = fpsGenerator);
             ConfigureController(this.controller = controller);
         }
 
-        private void ConfigureFPSGenerator(IFPSGenerator fpsGenerator) {
+        private void ConfigureFPSGenerator(IMPSGenerator fpsGenerator) {
             fpsGenerator.NextFrameTime += () => Matrix = algorithm.Mutate(matrix);
         }
 
@@ -127,8 +127,8 @@ namespace ASD.CellUniverse.Infrastructure.Services {
             MatrixReadyToMutate = false;
         }
 
-        private int ValidWidth(int value) => Valid(value, 1, 640);
-        private int ValidHeight(int value) => Valid(value, 1, 360);
+        private int ValidWidth(int value) => Valid(value, 1, 1920);
+        private int ValidHeight(int value) => Valid(value, 1, 1080);
         private int Valid(int value, int min, int max) => value < min ? min : value > max ? max : value;
     }
 }

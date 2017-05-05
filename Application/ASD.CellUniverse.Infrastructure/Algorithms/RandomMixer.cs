@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace ASD.CellUniverse.Infrastructure.Algorithms {
-
+    using System.Threading.Tasks;
     using Interfaces;
     using MVVM;
 
@@ -20,15 +20,26 @@ namespace ASD.CellUniverse.Infrastructure.Algorithms {
 
             var next = new uint[prev.GetLength(0), prev.GetLength(1)];
 
+            //var x = 0;
+            //foreach (var newX in RandomIndexesFrom(prev, 0)) {
+            //    var y = 0;
+            //    foreach (var newY in RandomIndexesFrom(prev, 1)) {
+            //        next[newX, newY] = prev[x, y];
+            //        ++y;
+            //    }
+            //    ++x;
+            //}
+
             var x = 0;
-            foreach (var newX in RandomIndexesFrom(prev, 0)) {
+            Parallel.ForEach(RandomIndexesFrom(prev, 0), (newX) => {
                 var y = 0;
-                foreach (var newY in RandomIndexesFrom(prev, 1)) {
+                Parallel.ForEach(RandomIndexesFrom(prev, 1), (newY) => {
                     next[newX, newY] = prev[x, y];
                     ++y;
-                }
+                });
                 ++x;
-            }
+            });
+
             return next;
         }
 
