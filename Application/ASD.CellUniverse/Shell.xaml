@@ -32,7 +32,8 @@
                 Name="MatrixLED"
                 Source="{Binding Facade.Matrix}"
                 Foreground="{StaticResource NearStarBrush}"
-                RenderOptions.BitmapScalingMode="{Binding SelectedScalingMode}"/>
+                RenderOptions.BitmapScalingMode="{Binding SelectedScalingMode}"
+                ShowFade="False"/>
         </Border>
         <Grid
             Grid.Column="1"
@@ -120,20 +121,16 @@
                             Command="{Binding Facade.WriteSeed}"/>
                     </StackPanel>
                 </GroupBox>
-                <!--<GroupBox
-                    Header="Viewport:"
+                <GroupBox
+                    Header="Experimental:"
                     Margin="{StaticResource UpControlsMargin}">
                     <StackPanel>
-                        <ComboBox
-                            ItemsSource="{Binding ScalingModes}"
-                            SelectedIndex="{Binding SelectedScalingIndex}"
-                            Margin="{StaticResource SingleControlMargin}"/>
                         <CheckBox
-                            Content="Split Cells"
-                            IsChecked="{Binding ElementName=MatrixLED, Path=SplitCells}"
-                            Margin="{StaticResource DownControlsMargin}"/>
+                            Content="Show Fade"
+                            IsChecked="{Binding ElementName=MatrixLED, Path=ShowFade}"
+                            Margin="{StaticResource SingleControlMargin}"/>
                     </StackPanel>
-                </GroupBox>-->
+                </GroupBox>
             </StackPanel>
             <GroupBox
                 Grid.Row="1"
