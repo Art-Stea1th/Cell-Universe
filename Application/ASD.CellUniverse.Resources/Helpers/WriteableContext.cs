@@ -43,7 +43,7 @@ namespace ASD.CellUniverse.Resources.Helpers {
             var countX = cellCollection.GetLength(0);
             var countY = cellCollection.GetLength(1);
 
-            var opacity = cellSize < 5 ? (byte)(255 - (cellSize - 1) * 64) : (byte)0;
+            var opacity = cellSize < 5 ? 1.0f - (0.25f * (cellSize - 1)) : 0.0f;
 
             for (int cellX = 0, bitmapX = 0; cellX < countX; ++cellX, bitmapX += cellSize) {
                 for (int cellY = 0, bitmapY = 0; cellY < countY; ++cellY, bitmapY += cellSize) {
@@ -60,9 +60,9 @@ namespace ASD.CellUniverse.Resources.Helpers {
             }
         }
 
-        private void WriteCellWithBorder(int posX, int posY, int size, uint color, byte borderOpacity) {
+        private void WriteCellWithBorder(int posX, int posY, int size, uint color, float borderOpacity) {
 
-            var borderColor = color & 0x00FFFFFF | (color >> 24 & borderOpacity) << 24;
+            var borderColor = color & 0x00FFFFFF | (uint)((color >> 24) * borderOpacity) << 24;
 
             for (var y = posY; y < posY + size; ++y) {
                 for (var x = posX; x < posX + size; ++x) {
