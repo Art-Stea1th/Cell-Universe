@@ -30,7 +30,7 @@ namespace ASD.CellUniverse.Infrastructure.Services {
         }
 
         public int GenerationWidth {
-            get => matrix.GetLength(0);
+            get => generationWidth;
             set {
                 if (matrixReadyToChange) {
                     Set(ref generationWidth, ValidWidth(value));
@@ -40,7 +40,7 @@ namespace ASD.CellUniverse.Infrastructure.Services {
         }
 
         public int GenerationHeight {
-            get => matrix.GetLength(1);
+            get => generationHeight;
             set {
                 if (matrixReadyToChange) {
                     Set(ref generationHeight, ValidHeight(value));
@@ -115,8 +115,9 @@ namespace ASD.CellUniverse.Infrastructure.Services {
 
         private Task OnStop() { // tmp
             fpsGenerator.Stop();
+            Matrix = null;
             var resultTask = new Task(() => {
-                ChangeResolution(matrix.GetLength(0), matrix.GetLength(1));
+                ChangeResolution(GenerationWidth, GenerationHeight);
             });
             resultTask.Start();
             return resultTask;

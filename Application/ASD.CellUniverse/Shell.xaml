@@ -33,7 +33,7 @@
                 Source="{Binding Facade.Matrix}"
                 Foreground="{StaticResource NearStarBrush}"
                 RenderOptions.BitmapScalingMode="{Binding SelectedScalingMode}"
-                ShowFade="False"/>
+                ShowFade="True"/>
         </Border>
         <Grid
             Grid.Column="1"

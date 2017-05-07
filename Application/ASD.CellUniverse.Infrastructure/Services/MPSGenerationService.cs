@@ -28,7 +28,7 @@ namespace ASD.CellUniverse.Infrastructure.Services {
             fpsCollection = new DoubleCollection { 1.0, 2.0, 3.0, 5.0, 15.0, 30.0, 60.0, 120.0, 125.0 };
             timer = new DispatcherTimer();
             timer.Tick += (s, e) => NextFrameTime?.Invoke();
-            MPS = fpsCollection.TakeWhile(f => f < 120.0).Last();
+            MPS = fpsCollection.TakeWhile(f => f < 60.0).Last();
         }
 
         private double ValidFps(double fps) => fps < MinFPS ? MinFPS : fps > MaxFPS ? MaxFPS : fps;
