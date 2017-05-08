@@ -1,6 +1,6 @@
 ﻿namespace ASD.CellUniverse.Infrastructure.Interfaces {
 
-    public interface IMutationAlgorithm {
+    public interface IEvolutionAlgorithm {
 
         string Name { get; }
 

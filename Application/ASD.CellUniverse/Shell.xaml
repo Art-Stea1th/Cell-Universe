@@ -76,14 +76,14 @@
                     </Grid>
                 </GroupBox>
                 <GroupBox
-                    Header="Matrix Mutator:"
+                    Header="Matrix Evolution:"
                     Margin="{StaticResource UpControlsMargin}"
                     Padding="{StaticResource SingleControlPaddind}"
                     Visibility="{Binding Facade.MatrixReadyToMutate,
                     Converter={StaticResource BooleanToVisibility}}">
                     <ComboBox
-                        ItemsSource="{Binding Mutators}"
-                        SelectedIndex="{Binding SelectedMutatorIndex}"/>
+                        ItemsSource="{Binding EvolutionAlgorithms}"
+                        SelectedIndex="{Binding SelectedAlgorithmIndex}"/>
                 </GroupBox>
                 <GroupBox
                     Header="Mutations Per Second:"
@@ -126,7 +126,7 @@
                     Margin="{StaticResource UpControlsMargin}">
                     <StackPanel>
                         <CheckBox
-                            Content="Show Fade"
+                            Content="Drawing History"
                             IsChecked="{Binding ElementName=MatrixLED, Path=ShowFade}"
                             Margin="{StaticResource SingleControlMargin}"/>
                     </StackPanel>

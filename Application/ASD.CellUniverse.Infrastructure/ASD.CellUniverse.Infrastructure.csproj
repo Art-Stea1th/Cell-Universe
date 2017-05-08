@@ -76,13 +76,13 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algorithms\RandomMixer.cs" />
-    <Compile Include="Algorithms\TheGameOfLife.cs" />
+    <Compile Include="Algorithms\Fredkin.cs" />
+    <Compile Include="Algorithms\Conway.cs" />
     <Compile Include="Controllers\GenerationStateMachine.cs" />
     <Compile Include="BindingExtensions\SettingsExtension.cs" />
     <Compile Include="DataProviders\UniformRandomDataProvider.cs" />
     <Compile Include="Interfaces\IMPSGenerator.cs" />
-    <Compile Include="Interfaces\IMutationAlgorithm.cs" />
+    <Compile Include="Interfaces\IEvolutionAlgorithm.cs" />
     <Compile Include="Interfaces\IGenerationController.cs" />
     <Compile Include="Interfaces\IApplicationFacade.cs" />
     <Compile Include="Interfaces\ISeedGenerator.cs" />

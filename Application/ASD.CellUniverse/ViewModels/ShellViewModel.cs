@@ -11,8 +11,8 @@ namespace ASD.CellUniverse.ViewModels {
 
     public sealed class ShellViewModel : BindableBase {
 
-        private List<IMutationAlgorithm> matrixMutators;
-        private int selectedMutatorIndex;
+        private List<IEvolutionAlgorithm> evolutionAlgorithms;
+        private int selectedEvolutionIndex;
 
         private List<ISeedGenerator> seedWriters;
         private int selectedWriterIndex;
@@ -22,18 +22,18 @@ namespace ASD.CellUniverse.ViewModels {
 
         private IApplicationFacade facade;
 
-        public IEnumerable<IMutationAlgorithm> Mutators => matrixMutators;
+        public IEnumerable<IEvolutionAlgorithm> EvolutionAlgorithms => evolutionAlgorithms;
         public IEnumerable<ISeedGenerator> Writers => seedWriters;
         public IEnumerable<BitmapScalingMode> ScalingModes => scalingModes;
         public BitmapScalingMode SelectedScalingMode => scalingModes[selectedScalingIndex];
 
         public IApplicationFacade Facade => facade;
 
-        public int SelectedMutatorIndex {
-            get => selectedMutatorIndex;
+        public int SelectedAlgorithmIndex {
+            get => selectedEvolutionIndex;
             set {
-                Set(ref selectedMutatorIndex, value);
-                Facade.Algorithm = matrixMutators[selectedMutatorIndex];
+                Set(ref selectedEvolutionIndex, value);
+                Facade.Algorithm = evolutionAlgorithms[selectedEvolutionIndex];
             }
         }
 
@@ -55,11 +55,11 @@ namespace ASD.CellUniverse.ViewModels {
 
 
         public ShellViewModel() {
-            matrixMutators = new List<IMutationAlgorithm> { new RandomMixer(), new TheGameOfLife() };
+            evolutionAlgorithms = new List<IEvolutionAlgorithm> { new Conway(), new Fredkin() };
             seedWriters = new List<ISeedGenerator> { new UniformRandom() };
             scalingModes = new List<BitmapScalingMode> { BitmapScalingMode.HighQuality, BitmapScalingMode.LowQuality, BitmapScalingMode.NearestNeighbor };
             facade = new ApplicationFacade();
-            SelectedMutatorIndex = 1;
+            SelectedAlgorithmIndex = 0;
             SelectedWriterIndex = 0;
             SelectedScalingIndex = 0;
         }        

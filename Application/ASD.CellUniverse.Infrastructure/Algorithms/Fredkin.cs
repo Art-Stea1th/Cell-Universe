@@ -5,11 +5,11 @@ namespace ASD.CellUniverse.Infrastructure.Algorithms {
     using Interfaces;
     using MVVM;
 
-    public sealed class TheGameOfLife : BindableBase, IMutationAlgorithm {
+    public sealed class Fredkin : BindableBase, IEvolutionAlgorithm {
 
         private uint dead = 0, alive = (uint)255 << 24;
 
-        public string Name => "Game Of Life";
+        public string Name => "Edward Fredkin";
         public override string ToString() => Name;
 
         public uint[,] Mutate(uint[,] prev) {
@@ -21,15 +21,13 @@ namespace ASD.CellUniverse.Infrastructure.Algorithms {
 
                     var neighbours = CountNeighbours(prev, x, y);
 
-                    if ((neighbours == 2 || neighbours == 3) && prev[x, y] == alive) {
-                        next[x, y] = alive;
-                    }
-                    else if ((neighbours < 2 || neighbours > 3) && prev[x, y] == alive) {
+                    if (neighbours % 2 == 0) {
                         next[x, y] = dead;
                     }
-                    else if (neighbours == 3 && prev[x, y] == dead) {
+                    else {
                         next[x, y] = alive;
                     }
+
                 });
             });
             return next;

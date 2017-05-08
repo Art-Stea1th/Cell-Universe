@@ -15,7 +15,7 @@ namespace ASD.CellUniverse.Infrastructure.Interfaces {
 
         ISeedGenerator SeedWriter { get; set; }
         ICommand WriteSeed { get; }
-        IMutationAlgorithm Algorithm { get; set; }
+        IEvolutionAlgorithm Algorithm { get; set; }
 
         DoubleCollection MPSCollection { get; }
         double MinMPS { get; }

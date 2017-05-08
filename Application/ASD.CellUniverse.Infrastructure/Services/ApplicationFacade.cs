@@ -22,7 +22,7 @@ namespace ASD.CellUniverse.Infrastructure.Services {
 
         private ISeedGenerator seedWriter;
 
-        private IMutationAlgorithm algorithm;
+        private IEvolutionAlgorithm algorithm;
 
         public uint[,] Matrix {
             get => matrix;
@@ -71,7 +71,7 @@ namespace ASD.CellUniverse.Infrastructure.Services {
             },
             (o) => MatrixReadyToChange);
 
-        public IMutationAlgorithm Algorithm {
+        public IEvolutionAlgorithm Algorithm {
             get => algorithm;
             set => Set(ref algorithm, value);
         }

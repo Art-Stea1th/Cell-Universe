@@ -1,24 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 
 namespace ASD.CellUniverse.Resources.Controls {
-    using System.Windows.Media.Animation;
+
     using Helpers;
 
     public class MatrixLED : FrameworkElement {
 
         private int cellSize;
         private Size contentSize;
-        private Fade fade = new Fade(64);
 
-        private WriteableBitmap mask;
+        private History history = new History(historySize);
+        private const int historySize = 64;
+
+        private WriteableBitmap ledsMask;
         private WriteableBitmap fadeMask;
 
         public uint[,] Source { get => (uint[,])GetValue(SourceProperty); set => SetValue(SourceProperty, value); }
@@ -53,10 +55,10 @@ namespace ASD.CellUniverse.Resources.Controls {
 
         private static void OnShowFadeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             if ((bool)e.NewValue) {
-                (d as MatrixLED).fade = new Fade(64);
+                (d as MatrixLED).history = new History(historySize);
             }
             else {
-                (d as MatrixLED).fade = null;
+                (d as MatrixLED).history = null;
             }
         }
 
@@ -78,118 +80,125 @@ namespace ASD.CellUniverse.Resources.Controls {
             return MeasureArrangeHelper.ComputeSize(arrangeSize, contentSize);
         }
 
-
-        
-
         protected override void OnRender(DrawingContext dc) {
 
             dc.DrawRectangle(Background, null, new Rect(new Point(), RenderSize));
 
             if (ShowFade) {
 
-                fade.Add(Source);
-                RepaintFadeMask();
+                if (history == null) { history = new History(historySize); }
+
+                history.Add(Source);
+                RepaintMask(history, ref fadeMask);
 
                 //dc.PushOpacity(0.0, new DoubleAnimation(1.0, 0.0, TimeSpan.FromMilliseconds(1000)).CreateClock());
                 dc.PushOpacityMask(new ImageBrush(fadeMask));
                 dc.DrawRectangle(Foreground, null, new Rect(new Point(), RenderSize));
                 dc.Pop();
                 //dc.Pop();
-            }            
+            }
 
-            RepaintLedsMask();
+            RepaintMask(Source, ref ledsMask);
 
-            dc.PushOpacityMask(new ImageBrush(mask));
+            dc.PushOpacityMask(new ImageBrush(ledsMask));
             dc.DrawRectangle(Foreground, null, new Rect(new Point(), RenderSize));
 
         }
 
-        private void RepaintFadeMask() {
-            fadeMask = BitmapHelper.Valid(fadeMask, contentSize);
-            if (fade != null && fade.Length > 0) {
-                using (var context = new WriteableContext(fadeMask)) {
-
-                    if (cellSize == 1) { context.WritePixels(fade); }
-                    else { context.WriteCells(fade, cellSize); }
-                }
-            }
-        }
-
-        private void RepaintLedsMask() {
+        private void RepaintMask(uint[,] buffer, ref WriteableBitmap mask) {
             mask = BitmapHelper.Valid(mask, contentSize);
-            if (Source != null && Source.Length > 0) {
+            if (buffer != null && buffer.Length > 0) {
                 using (var context = new WriteableContext(mask)) {
 
-                    if (cellSize == 1) { context.WritePixels(Source); }
-                    else { context.WriteCells(Source, cellSize); }
+                    if (cellSize == 1) { context.WritePixels(buffer); }
+                    else { context.WriteCells(buffer, cellSize); }
                 }
             }
         }
 
-        private class Fade {
+        private class History {
+
+            private int maximumCount;
+            private int currentCount;
 
             private Queue<uint[,]> history;
-            private int historySize;
+            private float[,] a/*, r, g, b*/;
 
-            private uint[,] data;
-            public int Length => data.Length;
+            private uint[,] resultData;
 
-            public static implicit operator uint[,](Fade fade) => fade.data;
+            public int Length => resultData.Length;
 
-            public Fade(int historySize) {
-                this.historySize = historySize > 0 ? historySize : 1;
-                history = new Queue<uint[,]>(historySize);
-                data = new uint[1, 1];
+            public static implicit operator uint[,] (History history) => history.resultData;
+
+            public History(int historyCount) {
+                maximumCount = historyCount < 1 ? 1 : historyCount;
+                Initialize(1, 1);
             }
 
-            public void Add(uint[,] source) {
-                if (source == null || source.Length < 1) {
-                    Clear();
+            public void Add(uint[,] next) {
+                if (next == null || next.Length < 1) {
+                    Initialize(1, 1);
                     return;
                 }
-                if (history.Count > 0 &&
-                    (history.First().GetLength(0) != source.GetLength(0) ||
-                    history.First().GetLength(1) != source.GetLength(1))) {
-                    Clear();
+                if (resultData.GetLength(0) != next.GetLength(0) || resultData.GetLength(1) != next.GetLength(1)) {
+                    Initialize(next.GetLength(0), next.GetLength(1));
                 }
-                history.Enqueue(source);
-
-                while (history.Count > historySize) {
-                    history.Dequeue();
+                Enqueue(next);
+                if (currentCount > maximumCount) {
+                    Dequeue();
                 }
-                if (history.Count > 0) {
-                    data = Merge(history);
-                }
+                RecalculateResult();
             }
 
-            public void Clear() {
-                history = new Queue<uint[,]>(historySize);
-                data = new uint[1, 1];
+            public void Initialize(int width, int height) {
+                resultData = new uint[width, height];
+                history = new Queue<uint[,]>(maximumCount);
+                a = new float[width, height];
+                //r = new float[width, height];
+                //g = new float[width, height];
+                //b = new float[width, height];
+                currentCount = 0;
             }
 
-            private uint[,] Merge(IEnumerable<uint[,]> layers) {
-
-                var sumAlpha = new uint[layers.First().GetLength(0), layers.First().GetLength(1)];
-
-                Parallel.ForEach(layers, (layer) => {
-                    for (var y = 0; y < layer.GetLength(1); ++y) {
-                        for (var x = 0; x < layer.GetLength(0); ++x) {
-                            sumAlpha[x, y] += (layer[x, y] >> 24);
-                        }
-                    }
+            private void Enqueue(uint[,] next) {
+                history.Enqueue(next);
+                Parallel.For(0, resultData.GetLength(1), (y) => {
+                    Parallel.For(0, resultData.GetLength(0), (x) => {
+                        a[x, y] += next[x, y] >> 24;
+                        //r[x, y] += next[x, y] >> 16 & 0x000000FF;
+                        //g[x, y] += next[x, y] >> 8 & 0x000000FF;
+                        //b[x, y] += next[x, y] & 0x000000FF;
+                    });
                 });
-
-
-                var alpha = new uint[sumAlpha.GetLength(0), sumAlpha.GetLength(1)];
-
-                for (var y = 0; y < sumAlpha.GetLength(1); ++y) {
-                    for (var x = 0; x < sumAlpha.GetLength(0); ++x) {
-                        alpha[x, y] = (sumAlpha[x, y] / (uint)historySize) << 24;
-                    }
-                }
-
-                return alpha;
+                ++currentCount;
             }
+
+            private void Dequeue() {
+                var last = history.Dequeue();
+                Parallel.For(0, resultData.GetLength(1), (y) => {
+                    Parallel.For(0, resultData.GetLength(0), (x) => {
+                        a[x, y] -= last[x, y] >> 24;
+                        //r[x, y] -= last[x, y] >> 16 & 0x000000FF;
+                        //g[x, y] -= last[x, y] >> 8 & 0x000000FF;
+                        //b[x, y] -= last[x, y] & 0x000000FF;
+                    });
+                });
+                --currentCount;
+            }
+
+            private void RecalculateResult() {
+                Parallel.For(0, resultData.GetLength(1), (y) => {
+                    Parallel.For(0, resultData.GetLength(0), (x) => {
+                        resultData[x, y] =
+                        (uint)Limit(a[x, y] / maximumCount) << 24/* |
+                        (uint)Limit(r[x, y] / maximumCount) << 16 |
+                        (uint)Limit(g[x, y] / maximumCount) << 8 |
+                        (uint)Limit(b[x, y] / maximumCount)*/;
+                    });
+                });
+            }
+
+            private byte Limit(float value) => value < 0 ? (byte)0 : value > 255 ? (byte)255 : (byte)value;
         }
     }
 }
