@@ -81,7 +81,7 @@
     <Compile Include="Controllers\GenerationStateMachine.cs" />
     <Compile Include="BindingExtensions\SettingsExtension.cs" />
     <Compile Include="DataProviders\UniformRandomDataProvider.cs" />
-    <Compile Include="Interfaces\IMPSGenerator.cs" />
+    <Compile Include="Interfaces\IEPSGenerator.cs" />
     <Compile Include="Interfaces\IEvolutionAlgorithm.cs" />
     <Compile Include="Interfaces\IGenerationController.cs" />
     <Compile Include="Interfaces\IApplicationFacade.cs" />
@@ -97,7 +97,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="SeedGenerators\UniformRandom.cs" />
-    <Compile Include="Services\MPSGenerationService.cs" />
+    <Compile Include="Services\EPSGenerationService.cs" />
     <Compile Include="Services\ApplicationFacade.cs" />
   </ItemGroup>
   <ItemGroup>

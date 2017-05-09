@@ -17,8 +17,8 @@ namespace ASD.CellUniverse.Infrastructure.DataProviders {
 
         public uint NextUint() {
             var next = new byte[4];
-            crypto.GetBytes(next);
-            return (uint)next[0] << 24 | (uint)next[1] << 16 | (uint)next[2] << 8 | next[3];
+            crypto.GetBytes(next);            
+            return BitConverter.ToUInt32(next, 0);
         }
 
         public void Dispose() => crypto?.Dispose();

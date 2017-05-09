@@ -17,10 +17,10 @@ namespace ASD.CellUniverse.Infrastructure.Interfaces {
         ICommand WriteSeed { get; }
         IEvolutionAlgorithm Algorithm { get; set; }
 
-        DoubleCollection MPSCollection { get; }
-        double MinMPS { get; }
-        double MaxMPS { get; }
-        double MPS { get; set; }
+        DoubleCollection EPSCollection { get; }
+        double MinEPS { get; }
+        double MaxEPS { get; }
+        double EPS { get; set; }
 
         State State { get; }
         ICommand Start { get; }

@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 
 namespace ASD.CellUniverse.Resources.Controls {
@@ -82,27 +81,27 @@ namespace ASD.CellUniverse.Resources.Controls {
 
         protected override void OnRender(DrawingContext dc) {
 
-            dc.DrawRectangle(Background, null, new Rect(new Point(), RenderSize));
+            if (Background != null) {
+                dc.DrawRectangle(Background, null, new Rect(new Point(), RenderSize));
+            }
 
             if (ShowFade) {
 
-                if (history == null) { history = new History(historySize); }
-
+                if (history == null) {
+                    history = new History(historySize);
+                }
                 history.Add(Source);
                 RepaintMask(history, ref fadeMask);
 
-                //dc.PushOpacity(0.0, new DoubleAnimation(1.0, 0.0, TimeSpan.FromMilliseconds(1000)).CreateClock());
                 dc.PushOpacityMask(new ImageBrush(fadeMask));
                 dc.DrawRectangle(Foreground, null, new Rect(new Point(), RenderSize));
                 dc.Pop();
-                //dc.Pop();
             }
 
             RepaintMask(Source, ref ledsMask);
 
             dc.PushOpacityMask(new ImageBrush(ledsMask));
             dc.DrawRectangle(Foreground, null, new Rect(new Point(), RenderSize));
-
         }
 
         private void RepaintMask(uint[,] buffer, ref WriteableBitmap mask) {
@@ -116,10 +115,9 @@ namespace ASD.CellUniverse.Resources.Controls {
             }
         }
 
-        private class History {
+        private class History { // tmp. alpha only (OnRender not using RGB)
 
             private int maximumCount;
-            private int currentCount;
 
             private Queue<uint[,]> history;
             private float[,] a/*, r, g, b*/;
@@ -144,7 +142,7 @@ namespace ASD.CellUniverse.Resources.Controls {
                     Initialize(next.GetLength(0), next.GetLength(1));
                 }
                 Enqueue(next);
-                if (currentCount > maximumCount) {
+                if (history.Count > maximumCount) {
                     Dequeue();
                 }
                 RecalculateResult();
@@ -157,7 +155,6 @@ namespace ASD.CellUniverse.Resources.Controls {
                 //r = new float[width, height];
                 //g = new float[width, height];
                 //b = new float[width, height];
-                currentCount = 0;
             }
 
             private void Enqueue(uint[,] next) {
@@ -170,7 +167,6 @@ namespace ASD.CellUniverse.Resources.Controls {
                         //b[x, y] += next[x, y] & 0x000000FF;
                     });
                 });
-                ++currentCount;
             }
 
             private void Dequeue() {
@@ -183,7 +179,6 @@ namespace ASD.CellUniverse.Resources.Controls {
                         //b[x, y] -= last[x, y] & 0x000000FF;
                     });
                 });
-                --currentCount;
             }
 
             private void RecalculateResult() {
@@ -198,7 +193,7 @@ namespace ASD.CellUniverse.Resources.Controls {
                 });
             }
 
-            private byte Limit(float value) => value < 0 ? (byte)0 : value > 255 ? (byte)255 : (byte)value;
+            private byte Limit(float value) => value < 0 ? (byte)0 : value > 255 ? (byte)255 : (byte)Math.Round(value);
         }
     }
 }

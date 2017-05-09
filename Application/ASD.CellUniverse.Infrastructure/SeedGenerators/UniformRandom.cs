@@ -14,7 +14,7 @@
             using (var random = new UniformRandomDataProvider()) {
                 for (var x = 0; x < width; ++x) {
                     for (var y = 0; y < height; ++y) {
-                        result[x, y] = random.NextByte() % 2 == 1 ? (uint)255 << 24 : 0;
+                        result[x, y] = random.NextByte() % 4 == 1 ? (uint)255 << 24 : 0;
                     }
                 }
             }

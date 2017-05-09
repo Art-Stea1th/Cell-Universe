@@ -6,7 +6,7 @@
       <Value Profile="(Default)">Normal</Value>
     </Setting>
     <Setting Name="ShellWidth" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">1054</Value>
+      <Value Profile="(Default)">1044</Value>
     </Setting>
     <Setting Name="ShellHeight" Type="System.Double" Scope="User">
       <Value Profile="(Default)">534</Value>

@@ -3,11 +3,11 @@ using System.Windows.Media;
 
 namespace ASD.CellUniverse.Infrastructure.Interfaces {
 
-    internal interface IMPSGenerator {
+    internal interface IEPSGenerator {
 
-        DoubleCollection MPSCollection { get; }
+        DoubleCollection EPSCollection { get; }
 
-        double MPS { get; set; }
+        double EPS { get; set; }
 
         event Action NextFrameTime;
         void Start();

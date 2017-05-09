@@ -18,7 +18,7 @@ namespace ASD.CellUniverse.Infrastructure.Services {
         private bool matrixReadyToMutate;
 
         private IGenerationController controller;
-        private IMPSGenerator fpsGenerator;
+        private IEPSGenerator fpsGenerator;
 
         private ISeedGenerator seedWriter;
 
@@ -76,28 +76,28 @@ namespace ASD.CellUniverse.Infrastructure.Services {
             set => Set(ref algorithm, value);
         }
 
-        public DoubleCollection MPSCollection => fpsGenerator.MPSCollection;
-        public double MinMPS => fpsGenerator.MPSCollection.First();
-        public double MaxMPS => fpsGenerator.MPSCollection.Last();
-        public double MPS { get => fpsGenerator.MPS; set => fpsGenerator.MPS = value; }
+        public DoubleCollection EPSCollection => fpsGenerator.EPSCollection;
+        public double MinEPS => fpsGenerator.EPSCollection.First();
+        public double MaxEPS => fpsGenerator.EPSCollection.Last();
+        public double EPS { get => fpsGenerator.EPS; set => fpsGenerator.EPS = value; }
 
         public State State => controller.State;
         public ICommand Start => controller.Start;
         public ICommand Stop => controller.Stop;
 
         public ApplicationFacade() {
-            Initialize(new MPSGenerationService(), new GenerationStateMachine());
+            Initialize(new EPSGenerationService(), new GenerationStateMachine());
             MatrixReadyToChange = State == State.Stopped;
             GenerationWidth = 320;
             GenerationHeight = 180;
         }
 
-        private void Initialize(IMPSGenerator fpsGenerator, IGenerationController controller) {
+        private void Initialize(IEPSGenerator fpsGenerator, IGenerationController controller) {
             ConfigureFPSGenerator(this.fpsGenerator = fpsGenerator);
             ConfigureController(this.controller = controller);
         }
 
-        private void ConfigureFPSGenerator(IMPSGenerator fpsGenerator) {
+        private void ConfigureFPSGenerator(IEPSGenerator fpsGenerator) {
             fpsGenerator.NextFrameTime += () => Matrix = algorithm.Mutate(matrix);
         }
 

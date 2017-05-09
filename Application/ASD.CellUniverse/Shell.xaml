@@ -10,13 +10,11 @@
         Width="{app:Settings ShellWidth}"
         Height="{app:Settings ShellHeight}"
         Left="{app:Settings ShellLeft}"
-        Top="{app:Settings ShellTop}">
-    <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
-    </Window.Resources>
-    <Window.DataContext>
-        <vm:ShellViewModel/>
-    </Window.DataContext>
+        Top="{app:Settings ShellTop}"
+        Style="{StaticResource WindowBase}"
+        Background="{StaticResource WindowBackgroundBrush}"
+        BorderBrush="{StaticResource NearStarBorderBrush}">
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -25,19 +23,18 @@
 
         <Border
             Grid.Column="0"
-            Background="#FF000000"
-            BorderBrush="#FF111111"
-            BorderThickness="1">
+            Background="{StaticResource NearStarBackgroundBrush}">
             <c:MatrixLED
                 Name="MatrixLED"
                 Source="{Binding Facade.Matrix}"
                 Foreground="{StaticResource NearStarBrush}"
-                RenderOptions.BitmapScalingMode="{Binding SelectedScalingMode}"
                 ShowFade="True"/>
         </Border>
         <Grid
             Grid.Column="1"
-            MinWidth="{StaticResource RightPanelMinWidth}">
+            MinWidth="{StaticResource RightPanelMinWidth}"
+            HorizontalAlignment="Right"
+            Background="{StaticResource ControlDarkBrush}">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition Height="Auto"/>
@@ -65,9 +62,8 @@
                         <TextBlock
                             Grid.Column="1"
                             Text="x"
-                            Margin="8,1,8,0"
-                            Foreground="{DynamicResource
-                            {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            Margin="8,4,8,0"
+                            Foreground="{StaticResource TextBrush}"/>
                         <c:AcceptableTextBox
                             Grid.Column="2"
                             Text="{Binding Facade.GenerationHeight}"
@@ -86,23 +82,23 @@
                         SelectedIndex="{Binding SelectedAlgorithmIndex}"/>
                 </GroupBox>
                 <GroupBox
-                    Header="Mutations Per Second:"
+                    Header="Evolutions Per Second:"
                     Margin="{StaticResource UpControlsMargin}"
                     Padding="{StaticResource SingleControlPaddind}"
                     Visibility="{Binding Facade.MatrixReadyToMutate,
                     Converter={StaticResource BooleanToVisibility}}">
                     <c:FormattedSlider
                         Grid.Row="1"
-                        Minimum="{Binding Facade.MinMPS}"
-                        Maximum="{Binding Facade.MaxMPS}"
-                        Value="{Binding Facade.MPS}"
-                        Ticks="{Binding Facade.MPSCollection}"
+                        Minimum="{Binding Facade.MinEPS}"
+                        Maximum="{Binding Facade.MaxEPS}"
+                        Value="{Binding Facade.EPS}"
+                        Ticks="{Binding Facade.EPSCollection}"
                         IsSnapToTickEnabled="True"
                         TickPlacement="TopLeft"
                         AutoToolTipPlacement="BottomRight"
-                        AutoToolTipMinimumFormat="Minimum MPS"
-                        AutoToolTipFormat="{}{0} MPS"
-                        AutoToolTipMaximumFormat="No Limit &#8734; MPS"/>
+                        AutoToolTipMinimumFormat="Minimum EPS"
+                        AutoToolTipFormat="{}{0} EPS"
+                        AutoToolTipMaximumFormat="No Limit &#8734; EPS"/>
                 </GroupBox>
                 <GroupBox
                     Header="Seed Generator:"
