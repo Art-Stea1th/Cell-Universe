@@ -47,7 +47,7 @@
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisualStyle}"/>
-        <Setter Property="Background" Value="{StaticResource ControlDarkBrush}"/>
+        <Setter Property="Background" Value="{StaticResource ControlBrush}"/>
         <Setter Property="MinWidth" Value="120"/>
         <Setter Property="MinHeight" Value="{StaticResource ElementsMinHeight}"/>
         <Setter Property="Template">
@@ -106,9 +106,9 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Foreground" Value="{StaticResource TextLightBrush}"/>
                         </Trigger>
-                        <Trigger Property="IsDropDownOpen" Value="True">
+                        <!--<Trigger Property="IsDropDownOpen" Value="True">
                             <Setter TargetName="ToggleButton" Property="Background" Value="{StaticResource ControlDarkBrush}"/>
-                        </Trigger>
+                        </Trigger>-->
                         <Trigger Property="IsGrouping" Value="True">
                             <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
                         </Trigger>

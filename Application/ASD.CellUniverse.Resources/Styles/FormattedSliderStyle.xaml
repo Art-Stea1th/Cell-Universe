@@ -11,7 +11,7 @@
         <Setter Property="Stylus.IsPressAndHoldEnabled" Value="False"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource ControlLightBrush}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type c:FormattedSlider}">
@@ -112,26 +112,26 @@
                                                     <Path
                                                         x:Name="grip"
                                                         Data="M0,0C0,0 11,0 11,0 11,0 11,18 11,18 11,18 0,18 0,18 0,18 0,0 0,0z"
-                                                        Fill="{StaticResource ControlBrush}"
+                                                        Fill="{StaticResource ControlLightBrush}"
+                                                        Stroke="{StaticResource BorderLightBrush}"
                                                         Stretch="Fill"
                                                         SnapsToDevicePixels="True"
-                                                        Stroke="{StaticResource BorderBrush}"
                                                         StrokeThickness="1"
                                                         UseLayoutRounding="True"
                                                         VerticalAlignment="Center"/>
                                                 </Grid>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlLightBrush}"/>
-                                                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderLightBrush}"/>
+                                                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlLightLightBrush}"/>
+                                                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderLightLightBrush}"/>
                                                     </Trigger>
                                                     <Trigger Property="IsDragging" Value="True">
-                                                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlDarkBrush}"/>
-                                                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderDarkBrush}"/>
+                                                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlLightLightBrush}"/>
+                                                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderLightLightBrush}"/>
                                                     </Trigger>
                                                     <Trigger Property="IsEnabled" Value="False">
-                                                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlDarkBrush}"/>
-                                                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderDarkBrush}"/>
+                                                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlBrush}"/>
+                                                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderBrush}"/>
                                                     </Trigger>
                                                 </ControlTemplate.Triggers>
                                             </ControlTemplate>
@@ -151,26 +151,26 @@
                                             <Path
                                                 x:Name="grip"
                                                 Data="M0,6C0,6 5.5,0 5.5,0 5.5,0 11,6 11,6 11,6 11,18 11,18 11,18 0,18 0,18 0,18 0,6 0,6z"
-                                                Fill="{StaticResource ControlBrush}"
+                                                Fill="{StaticResource ControlLightBrush}"
+                                                Stroke="{StaticResource BorderLightBrush}"
                                                 Stretch="Fill"
                                                 SnapsToDevicePixels="True"
-                                                Stroke="{StaticResource BorderBrush}"
                                                 StrokeThickness="1"
                                                 UseLayoutRounding="True"
                                                 VerticalAlignment="Center"/>
                                         </Grid>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlLightBrush}"/>
-                                                <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderLightBrush}"/>
+                                                <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlLightLightBrush}"/>
+                                                <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderLightLightBrush}"/>
                                             </Trigger>
                                             <Trigger Property="IsDragging" Value="True">
-                                                <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlDarkBrush}"/>
-                                                <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderDarkBrush}"/>
+                                                <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlLightLightBrush}"/>
+                                                <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderLightLightBrush}"/>
                                             </Trigger>
                                             <Trigger Property="IsEnabled" Value="False">
-                                                <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlDarkBrush}"/>
-                                                <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderDarkBrush}"/>
+                                                <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlBrush}"/>
+                                                <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderBrush}"/>
                                             </Trigger>
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>
@@ -187,26 +187,26 @@
                                             <Path
                                                 x:Name="grip"
                                                 Data="M0,12C0,12 5.5,18 5.5,18 5.5,18 11,12 11,12 11,12 11,0 11,0 11,0 0,0 0,0 0,0 0,12 0,12z"
-                                                Fill="{StaticResource ControlBrush}"
+                                                Fill="{StaticResource ControlLightBrush}"
+                                                Stroke="{StaticResource BorderLightBrush}"
                                                 Stretch="Fill"
                                                 SnapsToDevicePixels="True"
-                                                Stroke="{StaticResource BorderBrush}"
                                                 StrokeThickness="1"
                                                 UseLayoutRounding="True"
                                                 VerticalAlignment="Center"/>
                                         </Grid>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlLightBrush}"/>
-                                                <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderLightBrush}"/>
+                                                <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlLightLightBrush}"/>
+                                                <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderLightLightBrush}"/>
                                             </Trigger>
                                             <Trigger Property="IsDragging" Value="True">
-                                                <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlDarkBrush}"/>
-                                                <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderDarkBrush}"/>
+                                                <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlLightLightBrush}"/>
+                                                <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderLightLightBrush}"/>
                                             </Trigger>
                                             <Trigger Property="IsEnabled" Value="False">
-                                                <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlDarkBrush}"/>
-                                                <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderDarkBrush}"/>
+                                                <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlBrush}"/>
+                                                <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderBrush}"/>
                                             </Trigger>
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>
@@ -331,22 +331,22 @@
                                                             <Path
                                                                 x:Name="grip"
                                                                 Data="M0.5,0.5L18.5,0.5 18.5,11.5 0.5,11.5z"
-                                                                Fill="{StaticResource ControlBrush}"
-                                                                Stretch="Fill"
-                                                                Stroke="{StaticResource BorderBrush}"/>
+                                                                Fill="{StaticResource ControlLightBrush}"
+                                                                Stroke="{StaticResource BorderLightBrush}"
+                                                                Stretch="Fill"/>
                                                         </Grid>
                                                         <ControlTemplate.Triggers>
                                                             <Trigger Property="IsMouseOver" Value="True">
-                                                                <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlLightBrush}"/>
-                                                                <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderLightBrush}"/>
+                                                                <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlLightLightBrush}"/>
+                                                                <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderLightLightBrush}"/>
                                                             </Trigger>
                                                             <Trigger Property="IsDragging" Value="True">
-                                                                <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlDarkBrush}"/>
-                                                                <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderDarkBrush}"/>
+                                                                <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlLightLightBrush}"/>
+                                                                <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderLightLightBrush}"/>
                                                             </Trigger>
                                                             <Trigger Property="IsEnabled" Value="False">
-                                                                <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlDarkBrush}"/>
-                                                                <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderDarkBrush}"/>
+                                                                <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlBrush}"/>
+                                                                <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderBrush}"/>
                                                             </Trigger>
                                                         </ControlTemplate.Triggers>
                                                     </ControlTemplate>
@@ -366,22 +366,22 @@
                                                     <Path
                                                         x:Name="grip"
                                                         Data="M6,11C6,11 0,5.5 0,5.5 0,5.5 6,0 6,0 6,0 18,0 18,0 18,0 18,11 18,11 18,11 6,11 6,11z"
-                                                        Fill="{StaticResource ControlBrush}"
-                                                        Stretch="Fill"
-                                                        Stroke="{StaticResource BorderBrush}"/>
+                                                        Fill="{StaticResource ControlLightBrush}"
+                                                        Stroke="{StaticResource BorderLightBrush}"
+                                                        Stretch="Fill"/>
                                                 </Grid>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlLightBrush}"/>
-                                                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderLightBrush}"/>
+                                                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlLightLightBrush}"/>
+                                                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderLightLightBrush}"/>
                                                     </Trigger>
                                                     <Trigger Property="IsDragging" Value="True">
-                                                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlDarkBrush}"/>
-                                                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderDarkBrush}"/>
+                                                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlLightLightBrush}"/>
+                                                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderLightLightBrush}"/>
                                                     </Trigger>
                                                     <Trigger Property="IsEnabled" Value="False">
-                                                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlDarkBrush}"/>
-                                                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderDarkBrush}"/>
+                                                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlBrush}"/>
+                                                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderBrush}"/>
                                                     </Trigger>
                                                 </ControlTemplate.Triggers>
                                             </ControlTemplate>
@@ -398,22 +398,22 @@
                                                     <Path
                                                         x:Name="grip"
                                                         Data="M12,11C12,11 18,5.5 18,5.5 18,5.5 12,0 12,0 12,0 0,0 0,0 0,0 0,11 0,11 0,11 12,11 12,11z"
-                                                        Fill="{StaticResource ControlBrush}"
-                                                        Stretch="Fill"
-                                                        Stroke="{StaticResource BorderBrush}"/>
+                                                        Fill="{StaticResource ControlLightBrush}"
+                                                        Stroke="{StaticResource BorderLightBrush}"
+                                                        Stretch="Fill"/>
                                                 </Grid>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlLightBrush}"/>
-                                                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderLightBrush}"/>
+                                                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlLightLightBrush}"/>
+                                                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderLightLightBrush}"/>
                                                     </Trigger>
                                                     <Trigger Property="IsDragging" Value="True">
-                                                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlDarkBrush}"/>
-                                                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderDarkBrush}"/>
+                                                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlLightLightBrush}"/>
+                                                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderLightLightBrush}"/>
                                                     </Trigger>
                                                     <Trigger Property="IsEnabled" Value="False">
-                                                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlDarkBrush}"/>
-                                                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderDarkBrush}"/>
+                                                        <Setter Property="Fill" TargetName="grip" Value="{StaticResource ControlBrush}"/>
+                                                        <Setter Property="Stroke" TargetName="grip" Value="{StaticResource BorderBrush}"/>
                                                     </Trigger>
                                                 </ControlTemplate.Triggers>
                                             </ControlTemplate>

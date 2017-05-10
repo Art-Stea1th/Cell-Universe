@@ -6,12 +6,11 @@
         <ResourceDictionary Source="Shared.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <ControlTemplate x:Key="ButtonBaseTemplate" TargetType="{x:Type ButtonBase}">
-        
+    <ControlTemplate x:Key="ButtonBaseTemplate" TargetType="{x:Type ButtonBase}">        
         <Border
             x:Name="Border"
-            BorderThickness="1"
-            BorderBrush="{StaticResource BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            BorderBrush="{TemplateBinding BorderBrush}"
             Background="{TemplateBinding Background}"
             SnapsToDevicePixels="True">
             <ContentPresenter
@@ -29,54 +28,65 @@
 
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="Border" Property="Background"
-                        Value="{StaticResource ControlLightBrush}"/>
-                <Setter TargetName="Border" Property="BorderBrush"
-                        Value="{StaticResource BorderLightBrush}"/>
-                <Setter TargetName="ContentPresenter" Property="TextElement.Foreground"
-                        Value="{StaticResource TextLightBrush}"/>
+                <Setter
+                    TargetName="Border"
+                    Property="Background"
+                    Value="{StaticResource ControlLightBrush}"/>
+                <Setter
+                    TargetName="Border"
+                    Property="BorderBrush"
+                    Value="{StaticResource BorderLightBrush}"/>
+                <Setter
+                    TargetName="ContentPresenter"
+                    Property="TextElement.Foreground"
+                    Value="{StaticResource TextLightBrush}"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter TargetName="Border" Property="Background"
-                        Value="{StaticResource ControlDarkBrush}"/>
+                <Setter
+                    TargetName="Border"
+                    Property="Background"
+                    Value="{StaticResource ControlDarkBrush}"/>
+                <Setter
+                    TargetName="Border"
+                    Property="BorderBrush"
+                    Value="{StaticResource BorderDarkBrush}"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter TargetName="ContentPresenter" Property="TextElement.Foreground"
-                        Value="{StaticResource TextDarkBrush}"/>
+                <Setter
+                    TargetName="ContentPresenter"
+                    Property="TextElement.Foreground"
+                    Value="{StaticResource TextDarkBrush}"/>
             </Trigger>
         </ControlTemplate.Triggers>
-    </ControlTemplate>
-
-    
+    </ControlTemplate>    
 
     <Style x:Key="{x:Type Button}" TargetType="{x:Type Button}">
         <Setter Property="Template" Value="{StaticResource ButtonBaseTemplate}"/>
         <Setter Property="Background" Value="{StaticResource ControlBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
-        <Setter Property="FocusVisualStyle" Value="{DynamicResource FocusVisualStyle}"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="MinHeight" Value="{StaticResource ElementsMinHeight}"/>
     </Style>
 
     <Style x:Key="{x:Type RepeatButton}" TargetType="{x:Type RepeatButton}">
         <Setter Property="Template" Value="{StaticResource ButtonBaseTemplate}"/>
         <Setter Property="Background" Value="{StaticResource ControlBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
-        <Setter Property="FocusVisualStyle" Value="{DynamicResource FocusVisualStyle}"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="MinHeight" Value="{StaticResource ElementsMinHeight}"/>
     </Style>
-    
+
     <Style x:Key="WindowButton" TargetType="{x:Type Button}">
         <Setter Property="Template" Value="{StaticResource ButtonBaseTemplate}"/>
         <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="MinWidth" Value="40"/>
     </Style>
-
-    <!--<Style x:Key="WindowCloseButton" TargetType="{x:Type Button}">
-        <Setter Property="Template" Value="{StaticResource WindowHeaderCloseButtonBaseTemplate}"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-        <Setter Property="MinWidth" Value="40"/>
-    </Style>-->
 
 </ResourceDictionary>

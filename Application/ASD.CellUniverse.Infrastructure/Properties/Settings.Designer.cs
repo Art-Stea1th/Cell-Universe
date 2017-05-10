@@ -35,27 +35,21 @@ namespace ASD.CellUniverse.Infrastructure.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1044")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1136")]
         public double ShellWidth {
             get {
                 return ((double)(this["ShellWidth"]));
             }
-            set {
-                this["ShellWidth"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("534")]
+        [global::System.Configuration.DefaultSettingValueAttribute("587")]
         public double ShellHeight {
             get {
                 return ((double)(this["ShellHeight"]));
-            }
-            set {
-                this["ShellHeight"] = value;
             }
         }
         

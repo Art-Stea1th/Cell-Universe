@@ -7,8 +7,8 @@
         xmlns:local="clr-namespace:ASD.CellUniverse"
         Title="{Binding Source={x:Static local:AppInfo.ResultString}}"
         WindowState="{app:Settings ShellState}"
-        Width="{app:Settings ShellWidth}"
-        Height="{app:Settings ShellHeight}"
+        Width="{app:Settings ShellWidth, Mode=OneTime}"
+        Height="{app:Settings ShellHeight, Mode=OneTime}"
         Left="{app:Settings ShellLeft}"
         Top="{app:Settings ShellTop}"
         Style="{StaticResource WindowBase}"
@@ -23,7 +23,9 @@
 
         <Border
             Grid.Column="0"
-            Background="{StaticResource NearStarBackgroundBrush}">
+            Background="{StaticResource NearStarBackgroundBrush}"
+            Visibility="{Binding Facade.MatrixReadyToMutate,
+            Converter={StaticResource BooleanToVisibility}}">
             <c:MatrixLED
                 Name="MatrixLED"
                 Source="{Binding Facade.Matrix}"
@@ -34,7 +36,7 @@
             Grid.Column="1"
             MinWidth="{StaticResource RightPanelMinWidth}"
             HorizontalAlignment="Right"
-            Background="{StaticResource ControlDarkBrush}">
+            Background="{StaticResource ControlDarkDarkBrush}">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition Height="Auto"/>
@@ -63,7 +65,7 @@
                             Grid.Column="1"
                             Text="x"
                             Margin="8,4,8,0"
-                            Foreground="{StaticResource TextBrush}"/>
+                            Foreground="{StaticResource TextDarkBrush}"/>
                         <c:AcceptableTextBox
                             Grid.Column="2"
                             Text="{Binding Facade.GenerationHeight}"
@@ -82,7 +84,7 @@
                         SelectedIndex="{Binding SelectedAlgorithmIndex}"/>
                 </GroupBox>
                 <GroupBox
-                    Header="Evolutions Per Second:"
+                    Header="Evolution Per Second:"
                     Margin="{StaticResource UpControlsMargin}"
                     Padding="{StaticResource SingleControlPaddind}"
                     Visibility="{Binding Facade.MatrixReadyToMutate,
@@ -94,7 +96,6 @@
                         Value="{Binding Facade.EPS}"
                         Ticks="{Binding Facade.EPSCollection}"
                         IsSnapToTickEnabled="True"
-                        TickPlacement="TopLeft"
                         AutoToolTipPlacement="BottomRight"
                         AutoToolTipMinimumFormat="Minimum EPS"
                         AutoToolTipFormat="{}{0} EPS"
@@ -118,13 +119,18 @@
                     </StackPanel>
                 </GroupBox>
                 <GroupBox
-                    Header="Experimental:"
-                    Margin="{StaticResource UpControlsMargin}">
+                    Header="Viewport:"
+                    Margin="{StaticResource UpControlsMargin}"
+                    Visibility="{Binding Facade.MatrixReadyToMutate,
+                    Converter={StaticResource BooleanToVisibility}}">
                     <StackPanel>
                         <CheckBox
                             Content="Drawing History"
-                            IsChecked="{Binding ElementName=MatrixLED, Path=ShowFade}"
-                            Margin="{StaticResource SingleControlMargin}"/>
+                            IsChecked="{Binding
+                            ElementName=MatrixLED,
+                            Path=ShowFade}"
+                            Margin="{StaticResource SingleControlMargin}"
+                            ToolTip="Enable for visualize 64 layers the history of drawing&#10;Disable for maximum performance"/>
                     </StackPanel>
                 </GroupBox>
             </StackPanel>

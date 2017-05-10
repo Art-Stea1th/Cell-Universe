@@ -20,28 +20,30 @@
     <!-- Colors -->
     
     <!-- Window Colors -->
-    <Color x:Key="WindowSurfaceBackdroundColor" A="255" R="15" G="15" B="15"/>
-    <Color x:Key="WindowBackdroundColor" A="255" R="15" G="15" B="15"/>
-    <Color x:Key="WindowHeaderColor" A="255" R="23" G="23" B="23"/>
-    <Color x:Key="WindowActiveBorderColor" A="255" R="255" G="255" B="255"/>
-    <Color x:Key="WindowInactiveBorderColor" A="255" R="255" G="255" B="255"/>
+    <Color x:Key="WindowSurfaceBackdroundColor" A="255" R="7" G="7" B="8"/>
+    <Color x:Key="WindowBackdroundColor" A="255" R="7" G="7" B="8"/>
+    <Color x:Key="WindowHeaderColor" A="255" R="15" G="15" B="16"/>
+    <Color x:Key="WindowActiveBorderColor" A="255" R="253" G="253" B="255"/>
+    <Color x:Key="WindowInactiveBorderColor" A="255" R="253" G="253" B="255"/>
 
     <!-- Controls Colors -->
-    <Color x:Key="ControlLightLightColor" A="255" R="127" G="127" B="127"/>
-    <Color x:Key="ControlLightColor" A="255" R="31" G="31" B="31"/>
-    <Color x:Key="ControlColor" A="255" R="23" G="23" B="23"/>
-    <Color x:Key="ControlDarkColor" A="255" R="15" G="15" B="15"/>
-    <Color x:Key="ControlDarkDarkColor" A="255" R="7" G="7" B="7"/>
+    <Color x:Key="ControlLightLightColor" A="255" R="39" G="39" B="41"/>
+    <Color x:Key="ControlLightColor" A="255" R="31" G="31" B="33"/>
+    <Color x:Key="ControlColor" A="255" R="23" G="23" B="25"/>
+    <Color x:Key="ControlDarkColor" A="255" R="19" G="19" B="20"/>
+    <Color x:Key="ControlDarkDarkColor" A="255" R="15" G="15" B="16"/>
     
     <!-- Text Colors -->
-    <Color x:Key="TextLightColor" A="255" R="191" G="191" B="191"/>
-    <Color x:Key="TextColor" A="255" R="159" G="159" B="159"/>
-    <Color x:Key="TextDarkColor" A="255" R="95" G="95" B="95"/>
+    <Color x:Key="TextLightColor" A="255" R="223" G="223" B="225"/>
+    <Color x:Key="TextColor" A="255" R="175" G="175" B="177"/>
+    <Color x:Key="TextDarkColor" A="255" R="127" G="127" B="129"/>
 
     <!-- Border Colors -->
-    <Color x:Key="BorderLightColor" A="255" R="47" G="47" B="47"/>
-    <Color x:Key="BorderColor" A="255" R="31" G="31" B="31"/>
-    <Color x:Key="BorderDarkColor" A="255" R="23" G="23" B="23"/>
+    <Color x:Key="BorderLightLightColor" A="255" R="43" G="43" B="45"/>
+    <Color x:Key="BorderLightColor" A="255" R="35" G="35" B="37"/>
+    <Color x:Key="BorderColor" A="255" R="27" G="27" B="29"/>
+    <Color x:Key="BorderDarkColor" A="255" R="23" G="23" B="24"/>
+    <Color x:Key="BorderDarkDarkColor" A="255" R="19" G="19" B="20"/>
 
     <!-- Other Colors -->
     
@@ -85,9 +87,11 @@
     <SolidColorBrush x:Key="TextBrush" Color="{StaticResource TextColor}"/>
     <SolidColorBrush x:Key="TextDarkBrush" Color="{StaticResource TextDarkColor}"/>
 
+    <SolidColorBrush x:Key="BorderLightLightBrush" Color="{StaticResource BorderLightLightColor}"/>
     <SolidColorBrush x:Key="BorderLightBrush" Color="{StaticResource BorderLightColor}"/>
     <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}"/>
     <SolidColorBrush x:Key="BorderDarkBrush" Color="{StaticResource BorderDarkColor}"/>
+    <SolidColorBrush x:Key="BorderDarkDarkBrush" Color="{StaticResource BorderDarkDarkColor}"/>
 
     <SolidColorBrush x:Key="ControlLightLightBrush" Color="{StaticResource ControlLightLightColor}"/>
     <SolidColorBrush x:Key="ControlLightBrush" Color="{StaticResource ControlLightColor}"/>
@@ -107,7 +111,7 @@
         x:Key="NearStarBorderBrush"
         StartPoint="1,0"
         EndPoint="0,0"
-        GradientStops="{StaticResource NearStar}" Opacity="0.75"/>
+        GradientStops="{StaticResource NearStar}" Opacity="0.67"/>
     
     <LinearGradientBrush
         x:Key="NearStarBackgroundBrush"
@@ -156,29 +160,13 @@
     
     
 
-    <!-- SimpleStyles -->
-
-    <Style x:Key="FocusVisualStyle">
-        <Setter Property="Control.Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <Border Padding="1">
-                        <Rectangle
-                            StrokeThickness="2"
-                            Stroke="{StaticResource BorderLightBrush}"
-                            SnapsToDevicePixels="True"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+    <!-- SimpleStyles -->    
 
     <Style TargetType="{x:Type ToolTip}">
         <Setter Property="Background" Value="{StaticResource ControlLightBrush}"/>
         <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
         <Setter Property="BorderBrush" Value="{StaticResource BorderLightBrush}"/>
     </Style>
-    
 
     <!-- Converters -->
     
