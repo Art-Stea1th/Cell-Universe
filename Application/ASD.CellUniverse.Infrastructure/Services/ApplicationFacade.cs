@@ -18,7 +18,7 @@ namespace ASD.CellUniverse.Infrastructure.Services {
         private bool matrixReadyToMutate;
 
         private IGenerationController controller;
-        private IEPSGenerator fpsGenerator;
+        private IEPSGenerator epsGenerator;
 
         private ISeedGenerator seedWriter;
 
@@ -76,10 +76,10 @@ namespace ASD.CellUniverse.Infrastructure.Services {
             set => Set(ref algorithm, value);
         }
 
-        public DoubleCollection EPSCollection => fpsGenerator.EPSCollection;
-        public double MinEPS => fpsGenerator.EPSCollection.First();
-        public double MaxEPS => fpsGenerator.EPSCollection.Last();
-        public double EPS { get => fpsGenerator.EPS; set => fpsGenerator.EPS = value; }
+        public DoubleCollection EPSCollection => epsGenerator.EPSCollection;
+        public double MinEPS => epsGenerator.EPSCollection.First();
+        public double MaxEPS => epsGenerator.EPSCollection.Last();
+        public double EPS { get => epsGenerator.EPS; set => epsGenerator.EPS = value; }
 
         public State State => controller.State;
         public ICommand Start => controller.Start;
@@ -88,17 +88,17 @@ namespace ASD.CellUniverse.Infrastructure.Services {
         public ApplicationFacade() {
             Initialize(new EPSGenerationService(), new GenerationStateMachine());
             MatrixReadyToChange = State == State.Stopped;
-            GenerationWidth = 960;
-            GenerationHeight = 540;
+            GenerationWidth = 320;
+            GenerationHeight = 180;
         }
 
-        private void Initialize(IEPSGenerator fpsGenerator, IGenerationController controller) {
-            ConfigureFPSGenerator(this.fpsGenerator = fpsGenerator);
+        private void Initialize(IEPSGenerator epsGenerator, IGenerationController controller) {
+            ConfigureFPSGenerator(this.epsGenerator = epsGenerator);
             ConfigureController(this.controller = controller);
         }
 
-        private void ConfigureFPSGenerator(IEPSGenerator fpsGenerator) {
-            fpsGenerator.NextFrameTime += () => Matrix = algorithm.Mutate(matrix);
+        private void ConfigureFPSGenerator(IEPSGenerator epsGenerator) {
+            epsGenerator.NextFrameTime += () => Matrix = algorithm.Mutate(matrix);
         }
 
         private void ConfigureController(IGenerationController controller) {
@@ -106,15 +106,15 @@ namespace ASD.CellUniverse.Infrastructure.Services {
                 RaisePropertyChanged(e.PropertyName);
                 MatrixReadyToChange = State == State.Stopped;
             };
-            controller.Started += fpsGenerator.Start;
-            controller.Paused += fpsGenerator.Stop;
-            controller.Resumed += fpsGenerator.Start;
+            controller.Started += epsGenerator.Start;
+            controller.Paused += epsGenerator.Stop;
+            controller.Resumed += epsGenerator.Start;
             controller.Stopped += async () => await OnStop(); // tmp
             controller.Reseted += async () => await OnStop(); // tmp
         }
 
         private Task OnStop() { // tmp
-            fpsGenerator.Stop();
+            epsGenerator.Stop();
             Matrix = null;
             var resultTask = new Task(() => {
                 ChangeResolution(GenerationWidth, GenerationHeight);

@@ -1,6 +1,6 @@
-﻿namespace ASD.CellUniverse {
-    using System.Windows;
-    using Resources.Controls;
+﻿using System.Windows;
+
+namespace ASD.CellUniverse {
 
     public partial class Shell : Window {
         public Shell() => InitializeComponent();
