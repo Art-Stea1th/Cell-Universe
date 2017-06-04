@@ -26,7 +26,7 @@ namespace ASD.CellUniverse.Infrastructure.Services {
 
         internal EPSGenerationService() {
             epsCollection = new DoubleCollection { 1.0, 2.0, 3.0, 5.0, 15.0, 30.0, 60.0, 120.0, 125.0 }; // Last = NoLimit
-            timer = new DispatcherTimer();
+            timer = new DispatcherTimer(DispatcherPriority.Input);
             timer.Tick += (s, e) => NextFrameTime?.Invoke();
             EPS = epsCollection.TakeWhile(f => f < epsCollection.Last()).Last();
         }
