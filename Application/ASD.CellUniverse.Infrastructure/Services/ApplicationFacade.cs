@@ -88,8 +88,8 @@ namespace ASD.CellUniverse.Infrastructure.Services {
         public ApplicationFacade() {
             Initialize(new EPSGenerationService(), new GenerationStateMachine());
             MatrixReadyToChange = State == State.Stopped;
-            GenerationWidth = 320;
-            GenerationHeight = 180;
+            GenerationWidth = 160;
+            GenerationHeight = 90;
         }
 
         private void Initialize(IEPSGenerator epsGenerator, IGenerationController controller) {

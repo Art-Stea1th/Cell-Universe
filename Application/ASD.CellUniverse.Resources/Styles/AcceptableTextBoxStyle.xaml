@@ -9,7 +9,7 @@
     <Style x:Key="{x:Type c:AcceptableTextBox}" TargetType="{x:Type c:AcceptableTextBox}">
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="Cursor" Value="Arrow"/>
-        <Setter Property="ToolTip" Value="Double click to edit the matrix resolution&#10;Recommended: 160x90, 320x180, 480x270, 960x540, 1920x1080"/>
+        <Setter Property="ToolTip" Value="Double click to edit the matrix resolution&#10;Recommended: 160x90, 240x135, 320x180, 480x270, 960x540, 1920x1080"/>
         <Setter Property="ToolTipInEdit" Value="Press &#34;Enter&#34; to accept input or &#34;Esc&#34; to deny"/>
         <Setter Property="ToolTipService.InitialShowDelay" Value="0"/>
         <Setter Property="MinHeight" Value="{StaticResource ElementsMinHeight}"/>
@@ -54,14 +54,6 @@
                             <Setter
                                 Property="Foreground"
                                 Value="{StaticResource TextDarkBrush}"/>
-                            <!--<Setter
-                                TargetName="Border"
-                                Property="BorderBrush"
-                                Value="{DynamicResource {x:Static SystemColors.InactiveCaptionBrushKey}}"/>
-                            <Setter
-                                TargetName="Border"
-                                Property="Background"
-                                Value="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}"/>-->
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
