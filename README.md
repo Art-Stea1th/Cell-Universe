@@ -17,7 +17,6 @@
 
 > It is recommended to start with the John Conway algorithm. Switching to the Edward Fredkin algorithm is recommended after John Conway's algorithm, at the stage when most of the cells "die out". Preliminarily reduce the speed to a minimum, otherwise you will not have time to see the replicants, which quickly fill the entire space :)
 
-### [Releases:](https://github.com/Art-Stea1th/Cell-Universe/releases)
-* Latest: [0.5 build 6339 rev. 25755](https://github.com/Art-Stea1th/Cell-Universe/releases/tag/0.5.6339.25755)
+[![Releases](https://img.shields.io/badge/Releases-All-green.svg?style=flat-square&colorB=9FB861)](https://github.com/Art-Stea1th/Cell-Universe/releases) [![v 0.5 build 6339 rev. 25755](https://img.shields.io/badge/v%200.5%20build%206339%20rev.%2025755-Latest-green.svg?style=flat-square&colorB=9FB861)](https://github.com/Art-Stea1th/Cell-Universe/releases/tag/0.5.6339.25755)
 
 > If your system does not have the latest .NET Framework 4.7 installed, there is also a release for the .NET Framework 4.5.
